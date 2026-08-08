@@ -60,6 +60,14 @@ call() {
 }
 has() { printf '%s' "$1" | grep -q "$2" && echo 1 || echo 0; }
 
+# Every tool result is assigned to a variable before it is examined.
+#
+# Not style. `check "..." "$(has "$(call tool "{\"a\":\"$v\"}")" 'x')"` nests
+# command substitution three deep with escaped quotes inside, and bash mangles
+# the innermost argument — the call goes out malformed, the assertion fails,
+# and the failure looks like a broken feature rather than a broken check. That
+# cost a real debugging session; one variable per call costs nothing.
+
 say "mcp protocol"
 anon=$(code -X POST "$BASE/mcp" -H 'Content-Type: application/json' -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}')
 check "anonymous call is refused" "$([ "$anon" = "401" ] && echo 1 || echo 0)" "got $anon"
@@ -81,31 +89,43 @@ name="Probe $(date +%H%M%S)"
 adopt=$(call ichi_adopt "{\"archetype\":\"hunter\",\"name\":\"$name\"}")
 check "ichi_adopt births one" "$(has "$adopt" "$name")" "$(printf '%.110s' "$adopt")"
 
-slug=$(printf '%s' "$adopt" | sed -n 's/.*slug `\([a-z0-9-]*\)`.*/\1/p' | head -1)
-[ -z "$slug" ] && slug=$(printf '%s' "$name" | tr 'A-Z ' 'a-z-')
+# Ask for the slug rather than deriving it from the name. Guessing here made
+# the check lie once already: a wrong slug turns every later step into "no
+# such ichi", which reads as a broken feature rather than a broken check.
+listing=$(call ichi_list '{}')
+check "ichi_list shows it" "$(has "$listing" "$name")" "not listed"
+slug=$(printf '%s' "$listing" | tr ',' '\n' | grep -F "$name" -A1 | sed -n 's/.*slug `\([a-z0-9-]*\)`.*/\1/p' | head -1)
+[ -z "$slug" ] && slug=$(printf '%s' "$listing" | sed -n "s/.*\*\*$name\*\* (slug \`\([a-z0-9-]*\)\`.*/\1/p" | head -1)
+check "found its slug" "$([ -n "$slug" ] && echo 1 || echo 0)" "could not read a slug from ichi_list"
+brief=$(call ichi_brief "{\"ichi\":\"$slug\"}")
+check "ichi_brief carries the tone rule" "$(has "$brief" 'RULE 1')" "no tone rule"
+check "ichi_brief carries the standards rule" "$(has "$brief" 'RULE 2')" "no standards rule"
 
-check "ichi_list shows it"        "$(has "$(call ichi_list '{}')" "$name")" "not listed"
-check "ichi_brief carries the rules" "$(has "$(call ichi_brief "{\"ichi\":\"$slug\"}")" 'RULE 1')" "no tone rule"
-check "ichi_brief carries standards rule" "$(has "$(call ichi_brief "{\"ichi\":\"$slug\"}")" 'RULE 2')" "no standards rule"
-check "ichi_state reports Big Five" "$(has "$(call ichi_state "{\"ichi\":\"$slug\"}")" 'openness')" "no traits"
+state=$(call ichi_state "{\"ichi\":\"$slug\"}")
+check "ichi_state reports Big Five" "$(has "$state" 'openness')" "no traits"
 
 scold=$(call ichi_feedback "{\"ichi\":\"$slug\",\"kind\":\"scold\",\"reason\":\"prod check\"}")
 check "ichi_feedback lands a scolding" "$(has "$scold" 'bond')" "$(printf '%.90s' "$scold")"
 
-check "ichi_remember saves a standard" \
-  "$(has "$(call ichi_remember "{\"ichi\":\"$slug\",\"text\":\"always run the tests first\",\"kind\":\"standard\"}")" 'standard')" "not saved"
-check "the standard rides in the brief" \
-  "$(has "$(call ichi_brief "{\"ichi\":\"$slug\"}")" 'always run the tests first')" "standard missing from brief"
-check "ichi_recall finds it" \
-  "$(has "$(call ichi_recall "{\"ichi\":\"$slug\",\"query\":\"tests\"}")" 'tests')" "not recalled"
-check "ichi_why explains the mood" \
-  "$(has "$(call ichi_why "{\"ichi\":\"$slug\"}")" 'scolded')" "no reason given"
+remembered=$(call ichi_remember "{\"ichi\":\"$slug\",\"text\":\"always run the tests first\",\"kind\":\"standard\"}")
+check "ichi_remember keeps the kind it was given" "$(has "$remembered" '(standard,')" "downgraded the kind"
+
+briefed=$(call ichi_brief "{\"ichi\":\"$slug\"}")
+check "the standard rides in the brief" "$(has "$briefed" 'always run the tests first')" "standard missing from brief"
+check "and under its own heading" "$(has "$briefed" 'Standards this person works by')" "no standards section"
+
+recalled=$(call ichi_recall "{\"ichi\":\"$slug\",\"query\":\"tests\"}")
+check "ichi_recall finds it" "$(has "$recalled" 'tests')" "not recalled"
+
+why=$(call ichi_why "{\"ichi\":\"$slug\"}")
+check "ichi_why explains the mood" "$(has "$why" 'scolded')" "no reason given"
 
 say "guards"
-check "a missing ichi is an error, not a crash" \
-  "$(has "$(call ichi_brief '{"ichi":"definitely-not-a-real-slug"}')" 'No ichi named')" "wrong message"
-check "feedback without a reason is refused" \
-  "$(has "$(call ichi_feedback "{\"ichi\":\"$slug\",\"kind\":\"praise\"}")" 'needs kind')" "accepted a bad call"
+missing=$(call ichi_brief '{"ichi":"definitely-not-a-real-slug"}')
+check "a missing ichi is an error, not a crash" "$(has "$missing" 'No ichi named')" "wrong message"
+
+bad_feedback=$(call ichi_feedback "{\"ichi\":\"$slug\",\"kind\":\"praise\"}")
+check "feedback without a reason is refused" "$(has "$bad_feedback" 'needs kind')" "accepted a bad call"
 
 printf '\n\033[1m%d passed, %d failed\033[0m\n' "$pass" "$fail"
 [ "$fail" -eq 0 ] || exit 1

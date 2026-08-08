@@ -18,7 +18,8 @@
     "token": "tsx --env-file-if-exists=.env scripts/token.ts",
     "test": "tsx --test src/lib/*.test.ts src/worker/*.test.ts",
     "check:mcp": "tsx --env-file-if-exists=.env scripts/check-mcp.ts",
-    "check:team": "tsx --env-file-if-exists=.env scripts/check-team.ts"
+    "check:team": "tsx --env-file-if-exists=.env scripts/check-team.ts",
+    "check:prod": "./scripts/check-prod.sh"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.115.0",
