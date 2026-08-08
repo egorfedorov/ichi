@@ -13,6 +13,14 @@ export const pool =
     connectionString: env.DATABASE_URL,
     max: 10,
     idleTimeoutMillis: 30_000,
+    // Set per connection rather than per query: pg hands out pooled
+    // connections, so a search_path set once at startup would apply to
+    // whichever connection happened to run that statement and to no other.
+    //
+    // `<schema>, public` and not the reverse — ichi's own tables must win over
+    // anything of the same name in the shared namespace, while `user` and
+    // `session` still resolve to the shared ones.
+    options: `-c search_path=${env.DB_SCHEMA},public`,
   });
 
 if (process.env.NODE_ENV !== "production") globalForDb._ichiPool = pool;

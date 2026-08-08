@@ -1,3 +1,11 @@
+-- Skipped entirely when ichi is sharing a database (DB_SCHEMA is not public).
+--
+-- Identity is single-owner by definition: two products cannot each keep their
+-- own "user" table and still call it one account. When ichi runs in its own
+-- schema alongside a sibling, the sibling owns user/session/account in public
+-- and ichi resolves them through the search_path.
+do $do$ begin if current_schema() <> 'public' then return; end if;
+
 -- ═══════════════════════════════════════════════════════════════════════════
 -- 0000 — identity tables (better-auth schema)
 --
@@ -62,3 +70,5 @@ create table if not exists verification (
 );
 
 create index if not exists verification_identifier_idx on verification (identifier);
+
+end $do$;

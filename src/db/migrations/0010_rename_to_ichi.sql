@@ -16,16 +16,16 @@
 
 do $$
 begin
-  if to_regclass('public.ichchi') is not null then
+  if to_regclass('ichchi') is not null then
     alter table ichchi rename to ichi;
   end if;
-  if to_regclass('public.ichchi_events') is not null then
+  if to_regclass('ichchi_events') is not null then
     alter table ichchi_events rename to ichi_events;
   end if;
-  if to_regclass('public.ichchi_tokens') is not null then
+  if to_regclass('ichchi_tokens') is not null then
     alter table ichchi_tokens rename to ichi_tokens;
   end if;
-  if to_regclass('public.ichchi_members') is not null then
+  if to_regclass('ichchi_members') is not null then
     alter table ichchi_members rename to ichi_members;
   end if;
 end $$;
@@ -37,7 +37,7 @@ begin
   foreach t in array array['bonds', 'memories', 'ichi_events', 'ichi_members'] loop
     if exists (
       select 1 from information_schema.columns
-       where table_schema = 'public' and table_name = t and column_name = 'ichchi_id'
+       where table_schema = current_schema() and table_name = t and column_name = 'ichchi_id'
     ) then
       execute format('alter table %I rename column ichchi_id to ichi_id', t);
     end if;
@@ -45,7 +45,7 @@ begin
 
   if exists (
     select 1 from information_schema.columns
-     where table_schema = 'public' and table_name = 'letters' and column_name = 'ichchi_id'
+     where table_schema = current_schema() and table_name = 'letters' and column_name = 'ichchi_id'
   ) then
     alter table letters rename column ichchi_id to ichi_id;
   end if;
@@ -55,28 +55,28 @@ end $$;
 -- documentation, and half-renamed documentation lies.
 do $$
 begin
-  if to_regclass('public.ichchi_public_slug_idx') is not null then
+  if to_regclass('ichchi_public_slug_idx') is not null then
     alter index ichchi_public_slug_idx rename to ichi_public_slug_idx;
   end if;
-  if to_regclass('public.ichchi_join_code_idx') is not null then
+  if to_regclass('ichchi_join_code_idx') is not null then
     alter index ichchi_join_code_idx rename to ichi_join_code_idx;
   end if;
-  if to_regclass('public.ichchi_living_idx') is not null then
+  if to_regclass('ichchi_living_idx') is not null then
     alter index ichchi_living_idx rename to ichi_living_idx;
   end if;
-  if to_regclass('public.ichchi_parent_idx') is not null then
+  if to_regclass('ichchi_parent_idx') is not null then
     alter index ichchi_parent_idx rename to ichi_parent_idx;
   end if;
-  if to_regclass('public.ichchi_members_user_idx') is not null then
+  if to_regclass('ichchi_members_user_idx') is not null then
     alter index ichchi_members_user_idx rename to ichi_members_user_idx;
   end if;
-  if to_regclass('public.ichchi_events_ichchi_idx') is not null then
+  if to_regclass('ichchi_events_ichchi_idx') is not null then
     alter index ichchi_events_ichchi_idx rename to ichi_events_ichi_idx;
   end if;
-  if to_regclass('public.ichchi_tokens_user_idx') is not null then
+  if to_regclass('ichchi_tokens_user_idx') is not null then
     alter index ichchi_tokens_user_idx rename to ichi_tokens_user_idx;
   end if;
-  if to_regclass('public.memories_ichchi_idx') is not null then
+  if to_regclass('memories_ichchi_idx') is not null then
     alter index memories_ichchi_idx rename to memories_ichi_idx;
   end if;
 

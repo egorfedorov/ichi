@@ -15,6 +15,18 @@ const defaulted = <T extends z.ZodTypeAny>(schema: T) =>
 const schema = z.object({
   DATABASE_URL: z.string().min(1),
 
+  // The Postgres schema ichi's own tables live in.
+  //
+  // "public" by default, which is what every existing install and the current
+  // production database use — this must stay a no-op until someone opts in.
+  //
+  // Set it to "ichi" to share a database with a sibling product: ichi's tables
+  // move into their own namespace while the shared identity tables (user,
+  // session, account) stay in public, owned by whoever migrates them. The
+  // search_path is `<schema>, public`, so a name resolves locally first and
+  // falls through to the shared ones.
+  DB_SCHEMA: defaulted(z.string().regex(/^[a-z_][a-z0-9_]*$/).default("public")),
+
   ANTHROPIC_API_KEY: z.string().min(1).optional(),
   // Any Anthropic-compatible endpoint. Lets the app run through a reseller
   // (apimart, OpenRouter, …) when a card for console.anthropic.com is not an

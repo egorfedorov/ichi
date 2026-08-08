@@ -15,13 +15,13 @@
 
 do $$
 begin
-  if to_regclass('public.souls') is not null then
+  if to_regclass('souls') is not null then
     alter table souls rename to ichchi;
   end if;
-  if to_regclass('public.soul_events') is not null then
+  if to_regclass('soul_events') is not null then
     alter table soul_events rename to ichchi_events;
   end if;
-  if to_regclass('public.soul_tokens') is not null then
+  if to_regclass('soul_tokens') is not null then
     alter table soul_tokens rename to ichchi_tokens;
   end if;
 end $$;
@@ -32,21 +32,21 @@ do $$
 begin
   if exists (
     select 1 from information_schema.columns
-     where table_schema = 'public' and table_name = 'bonds' and column_name = 'soul_id'
+     where table_schema = current_schema() and table_name = 'bonds' and column_name = 'soul_id'
   ) then
     alter table bonds rename column soul_id to ichchi_id;
   end if;
 
   if exists (
     select 1 from information_schema.columns
-     where table_schema = 'public' and table_name = 'memories' and column_name = 'soul_id'
+     where table_schema = current_schema() and table_name = 'memories' and column_name = 'soul_id'
   ) then
     alter table memories rename column soul_id to ichchi_id;
   end if;
 
   if exists (
     select 1 from information_schema.columns
-     where table_schema = 'public' and table_name = 'ichchi_events' and column_name = 'soul_id'
+     where table_schema = current_schema() and table_name = 'ichchi_events' and column_name = 'soul_id'
   ) then
     alter table ichchi_events rename column soul_id to ichchi_id;
   end if;
@@ -56,13 +56,13 @@ end $$;
 -- but a schema dump is documentation and half-renamed documentation lies.
 do $$
 begin
-  if to_regclass('public.memories_soul_idx') is not null then
+  if to_regclass('memories_soul_idx') is not null then
     alter index memories_soul_idx rename to memories_ichchi_idx;
   end if;
-  if to_regclass('public.soul_events_soul_idx') is not null then
+  if to_regclass('soul_events_soul_idx') is not null then
     alter index soul_events_soul_idx rename to ichchi_events_ichchi_idx;
   end if;
-  if to_regclass('public.soul_tokens_user_idx') is not null then
+  if to_regclass('soul_tokens_user_idx') is not null then
     alter index soul_tokens_user_idx rename to ichchi_tokens_user_idx;
   end if;
 

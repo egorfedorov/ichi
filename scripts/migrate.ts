@@ -19,6 +19,19 @@ const migrationsDir = join(here, "..", "src", "db", "migrations");
 const DATABASE_URL =
   process.env.DATABASE_URL ?? "postgres://ichi:ichi@localhost:5433/ichi";
 
+/**
+ * The schema ichi's tables and its own migration ledger live in.
+ *
+ * The ledger has to move with the tables. Two products sharing a database each
+ * keep a `_migrations` table, and in one namespace they would read each
+ * other's rows — every migration would look already-applied, and the schema
+ * would silently never move.
+ */
+const SCHEMA = process.env.DB_SCHEMA ?? "public";
+if (!/^[a-z_][a-z0-9_]*$/.test(SCHEMA)) {
+  throw new Error(`DB_SCHEMA must be a bare identifier, got "${SCHEMA}"`);
+}
+
 async function main() {
   const reset = process.argv.includes("--reset");
   const client = new Client({ connectionString: DATABASE_URL });
@@ -26,9 +39,15 @@ async function main() {
 
   try {
     if (reset) {
-      console.log("⚠  dropping schema public");
-      await client.query("drop schema public cascade; create schema public;");
+      console.log(`⚠  dropping schema ${SCHEMA}`);
+      await client.query(`drop schema if exists ${SCHEMA} cascade`);
     }
+
+    await client.query(`create schema if not exists ${SCHEMA}`);
+    // Every statement below, and every statement inside the migration files,
+    // resolves against this. public stays on the path so a migration can still
+    // reference the shared identity tables it does not own.
+    await client.query(`set search_path to ${SCHEMA}, public`);
 
     await client.query(`
       create table if not exists _migrations (
