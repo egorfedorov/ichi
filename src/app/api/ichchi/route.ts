@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { query } from "@/db";
 import { requireUser } from "@/lib/session";
 import { adoptIchchi, archetypeById, setJoinCode, setPublic } from "@/lib/ichchi";
 
@@ -53,18 +54,29 @@ export async function PATCH(req: Request) {
     slug?: string;
     public?: boolean;
     shared?: boolean;
+    mortal?: boolean;
   };
   if (typeof body.slug !== "string") {
     return NextResponse.json({ error: "slug required" }, { status: 400 });
   }
 
   try {
-    const out: { publicSlug?: string | null; joinCode?: string | null } = {};
+    const out: { publicSlug?: string | null; joinCode?: string | null; mortal?: boolean } = {};
     if (typeof body.public === "boolean") {
       out.publicSlug = await setPublic(user.id, body.slug, body.public);
     }
     if (typeof body.shared === "boolean") {
       out.joinCode = await setJoinCode(user.id, body.slug, body.shared);
+    }
+    if (typeof body.mortal === "boolean") {
+      // Scoped by owner_id, and refuses to touch an ichchi that has already
+      // departed — there is nothing to toggle once it is gone.
+      await query(
+        `update ichchi set mortal = $3
+          where owner_id = $1 and slug = $2 and departed_at is null`,
+        [user.id, body.slug, body.mortal],
+      );
+      out.mortal = body.mortal;
     }
     return NextResponse.json(out);
   } catch {

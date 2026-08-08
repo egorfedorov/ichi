@@ -41,6 +41,12 @@ export interface Ichchi {
   public_slug: string | null;
   /** Invitation code for teammates, or null while the ichchi is solo. */
   join_code: string | null;
+  /** The ichchi this one descends from, if it was not born from an archetype. */
+  parent_id: string | null;
+  /** Opt-in: a neglected mortal ichchi eventually departs. Off by default. */
+  mortal: boolean;
+  /** Set once, never cleared. A departed ichchi is readable but unreachable. */
+  departed_at: Date | null;
   created_at: Date;
   updated_at: Date;
 }

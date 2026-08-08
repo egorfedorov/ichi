@@ -44,12 +44,25 @@ const RETAIN_DAYS: Record<string, number> = {
   reflect: 365,
 };
 
+/**
+ * Days of total silence before a mortal ichchi departs.
+ *
+ * Long on purpose. A holiday, a hospital stay, a project between phases — all
+ * of those are shorter than this, and an ichchi that leaves because someone
+ * took August off is not poignant, it is a bug that reads as cruelty. Ninety
+ * days is "this person is not coming back", not "this person is busy".
+ *
+ * Only ever applies to ichchi whose keeper opted in (`mortal`).
+ */
+const DEPART_AFTER_DAYS = 90;
+
 export interface DecayReport {
   ichchi: number;
   moodsAdjusted: number;
   bondsDecayed: number;
   memoriesDecayed: number;
   eventsPruned: number;
+  departed: number;
 }
 
 function moodOf(ichchi: Ichchi): Mood {
@@ -172,11 +185,40 @@ export async function runDecay(): Promise<DecayReport> {
       returning e.id`,
   );
 
+  // Departure. Opt-in only, measured from the last time anybody touched the
+  // ichchi — not from updated_at, which this very job moves every six hours
+  // and would therefore keep resetting the clock forever.
+  const departed = await query<{ id: string; name: string }>(
+    `update ichchi i
+        set departed_at = now()
+      where i.mortal
+        and i.departed_at is null
+        and coalesce(
+              (select max(b.last_interaction_at) from bonds b where b.ichchi_id = i.id),
+              i.created_at
+            ) < now() - interval '${DEPART_AFTER_DAYS} days'
+     returning i.id, i.name`,
+  );
+
+  for (const d of departed) {
+    // The last line in its own log, so the page can say when and why.
+    await query(
+      `insert into ichchi_events (ichchi_id, kind, text, delta) values ($1, 'decay', $2, $3)`,
+      [
+        d.id,
+        `${d.name} departed after ${DEPART_AFTER_DAYS} days of silence`,
+        JSON.stringify({ departed: true, afterDays: DEPART_AFTER_DAYS }),
+      ],
+    );
+    console.log(`[decay] ${d.name} (${d.id}) departed`);
+  }
+
   return {
     ichchi: rows.length,
     moodsAdjusted,
     bondsDecayed: bonds.length,
     memoriesDecayed: memories.length,
     eventsPruned: pruned.length,
+    departed: departed.length,
   };
 }

@@ -139,15 +139,29 @@ export default async function PublicIchchiPage({ params }: Props) {
       </section>
 
       <div className="mt-14 border-t border-rule-paper pt-8">
-        <p className="text-base text-ink-2">
-          Every agent can have one.{" "}
+        <h2 className="text-2xl font-bold tracking-tight">
+          Take a descendant of {ichchi.name}
+        </h2>
+        <p className="mt-2 max-w-xl text-base leading-relaxed text-ink-2">
+          A descendant starts from the character {ichchi.name} has actually
+          grown into — these traits, this voice — rather than from an
+          archetype&apos;s factory settings. It arrives knowing nothing about
+          you and nothing about {ichchi.name}&apos;s keeper: temperament is
+          inherited, memory is not.
+        </p>
+        <Link href={`/descend/${ichchi.public_slug}`} className="btn mt-6">
+          Take a descendant
+        </Link>
+
+        <p className="mt-8 text-sm text-ink-3">
+          Or{" "}
           <Link
             href="/"
             className="underline decoration-riso-red decoration-2 underline-offset-4 hover:text-ink"
           >
-            Summon your own ichchi
-          </Link>
-          .
+            summon one of your own
+          </Link>{" "}
+          from an archetype.
         </p>
       </div>
     </main>

@@ -116,6 +116,7 @@ export default async function IchchiPage({ params }: Props) {
           slug={ichchi.slug}
           initialPublicSlug={ichchi.public_slug}
           initialJoinCode={ichchi.join_code}
+          initialMortal={ichchi.mortal}
           appUrl={env.NEXT_PUBLIC_APP_URL}
         />
       </div>

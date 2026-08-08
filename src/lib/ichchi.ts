@@ -205,8 +205,11 @@ export async function getIchchi(ownerId: string, slug: string): Promise<Ichchi |
  * ichchi after being removed from it.
  */
 const ACCESSIBLE = `(
-  i.owner_id = $1
-  or exists (select 1 from ichchi_members m where m.ichchi_id = i.id and m.user_id = $1)
+  i.departed_at is null
+  and (
+    i.owner_id = $1
+    or exists (select 1 from ichchi_members m where m.ichchi_id = i.id and m.user_id = $1)
+  )
 )`;
 
 /** By slug, for anyone with access — owner or member. */
@@ -322,6 +325,83 @@ export async function bondFor(ichchiId: string, userId: string): Promise<Bond> {
     `select * from bonds where ichchi_id = $1 and user_id = $2`,
     [ichchiId, userId],
   );
+}
+
+/**
+ * Birth an ichchi from a living one rather than from an archetype.
+ *
+ * The descendant starts from the parent's *current* traits and voice — the
+ * character someone actually shaped, not the archetype's factory settings.
+ * That is the whole appeal: a Hunter that has been scolded into carefulness
+ * for a month passes on the carefulness.
+ *
+ * What is deliberately NOT inherited: memories, bond, mood, standards. A
+ * descendant meets its new keeper as a stranger with an inherited
+ * temperament. Copying the memories would hand a stranger the parent keeper's
+ * project notes, which is exactly the leak migration 0005 exists to prevent —
+ * the same mistake through a different door.
+ */
+export async function descendFrom(
+  parentPublicSlug: string,
+  ownerId: string,
+  name: string,
+): Promise<Ichchi> {
+  const parent = await maybeOne<Ichchi>(
+    `select * from ichchi where public_slug = $1 and departed_at is null`,
+    [parentPublicSlug],
+  );
+  if (!parent) throw new Error("no such ichchi");
+
+  return tx(async (client) => {
+    let slug = slugify(name);
+    for (let i = 1; i < 20; i++) {
+      const clash = await client.query(
+        `select 1 from ichchi where owner_id = $1 and slug = $2`,
+        [ownerId, slug],
+      );
+      if (clash.rowCount === 0) break;
+      slug = `${slugify(name)}-${i}`;
+    }
+
+    // The mood starts at the child's own baseline, derived from the inherited
+    // traits: it is born feeling like itself, not carrying its parent's day.
+    const mood = moodBaseline(traitsOf(parent));
+
+    const child = (
+      await client.query<Ichchi>(
+        `insert into ichchi (
+           owner_id, slug, name, archetype, parent_id,
+           openness, conscientiousness, extraversion, agreeableness, neuroticism,
+           mood_valence, mood_arousal, stress, energy, voice_notes
+         ) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)
+         returning *`,
+        [
+          ownerId,
+          slug,
+          name,
+          parent.archetype,
+          parent.id,
+          parent.openness,
+          parent.conscientiousness,
+          parent.extraversion,
+          parent.agreeableness,
+          parent.neuroticism,
+          mood.valence,
+          mood.arousal,
+          mood.stress,
+          mood.energy,
+          parent.voice_notes,
+        ],
+      )
+    ).rows[0];
+
+    await client.query(`insert into bonds (ichchi_id, user_id) values ($1, $2)`, [
+      child.id,
+      ownerId,
+    ]);
+
+    return child;
+  });
 }
 
 /**

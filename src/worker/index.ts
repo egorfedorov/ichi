@@ -53,7 +53,8 @@ async function main() {
       const r = await runDecay();
       console.log(
         `[decay] ichchi=${r.ichchi} moods=${r.moodsAdjusted} ` +
-          `bonds=${r.bondsDecayed} memories=${r.memoriesDecayed} ${Date.now() - started}ms`,
+          `bonds=${r.bondsDecayed} memories=${r.memoriesDecayed} ` +
+          `pruned=${r.eventsPruned} departed=${r.departed} ${Date.now() - started}ms`,
       );
     } catch (err) {
       console.error(
