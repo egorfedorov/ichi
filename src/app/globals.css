@@ -897,3 +897,22 @@ body {
     animation: none;
   }
 }
+
+/* The spirit bobs. Slow and shallow — it is hovering, not bouncing. */
+.core-float {
+  animation: core-float 6s ease-in-out infinite;
+}
+@keyframes core-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .core-float {
+    animation: none;
+  }
+}

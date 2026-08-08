@@ -1,7 +1,7 @@
 "use client";
 
 import { useId } from "react";
-import { DEMO_TRAITS, type MoodKey } from "@/components/landing/useIchiEngine";
+import type { MoodKey } from "@/components/landing/useIchiEngine";
 import { useReducedMotion } from "@/components/landing/useReducedMotion";
 
 /**
@@ -62,34 +62,37 @@ function pace(valence: number): number {
 }
 
 /**
- * Where each trait's vertex sits. Angles start at the top and go clockwise,
- * radius scales with the trait — a strong trait pushes its corner out.
- *
- * Computed at module scope because the demo ichi's traits never change; a
- * real one would take them as a prop and the maths would be identical.
+ * The silhouette: a rounded hood over a wisped hem. Drawn once as a constant
+ * because it never changes — only its colour and its eyes do.
  */
-const TRAIT_ORDER = [
-  "openness",
-  "conscientiousness",
-  "extraversion",
-  "agreeableness",
-  "neuroticism",
-] as const;
+const SPIRIT_PATH = (() => {
+  const { x: cx, y: cy } = CORE;
+  const w = 56;
+  return [
+    `M ${cx - w} ${cy + 30}`,
+    `C ${cx - w} ${cy - 72}, ${cx + w} ${cy - 72}, ${cx + w} ${cy + 30}`,
+    `L ${cx + w} ${cy + 42}`,
+    `Q ${cx + w * 0.62} ${cy + 70}, ${cx + w * 0.3} ${cy + 44}`,
+    `Q ${cx} ${cy + 72}, ${cx - w * 0.3} ${cy + 44}`,
+    `Q ${cx - w * 0.62} ${cy + 70}, ${cx - w} ${cy + 42}`,
+    "Z",
+  ].join(" ");
+})();
 
-const R_MIN = 22;
-const R_SPAN = 30;
-
-const TRAIT_VERTICES = TRAIT_ORDER.map((key, i) => {
-  const angle = -Math.PI / 2 + (i / TRAIT_ORDER.length) * Math.PI * 2;
-  const r = R_MIN + (DEMO_TRAITS[key] / 100) * R_SPAN;
-  return {
-    key,
-    x: CORE.x + Math.cos(angle) * r,
-    y: CORE.y + Math.sin(angle) * r,
-  };
-});
-
-const traitPoints = TRAIT_VERTICES.map((v) => `${v.x.toFixed(1)},${v.y.toFixed(1)}`).join(" ");
+/**
+ * The face, by mood. This is the whole reason the core is a creature rather
+ * than a chart: an expression is read before a number is.
+ */
+const EYE_SHAPE: Record<MoodKey, { rx: number; ry: number; drop: number; brow: boolean }> = {
+  // Wide and bright.
+  delighted: { rx: 8, ry: 10, drop: 0, brow: false },
+  // Ordinary open eyes.
+  steady: { rx: 7, ry: 8.5, drop: 0, brow: false },
+  // Narrowed, brows down: stung.
+  stung: { rx: 8, ry: 4, drop: 2, brow: true },
+  // Half-lidded and looking away — sulking, not glaring.
+  sulking: { rx: 6, ry: 3, drop: 5, brow: true },
+};
 
 export default function IchiCore({
   mood,
@@ -107,6 +110,7 @@ export default function IchiCore({
   const uid = useId().replace(/:/g, "");
   const ink = MOOD_INK[mood];
   const dur = pace(valence);
+  const EYES = EYE_SHAPE[mood];
   const bondArc = (Math.max(0, Math.min(100, bond)) / 100) * 2 * Math.PI * 60;
 
   // Spread edge to edge with a margin, so the wires reach rather than huddle.
@@ -281,61 +285,67 @@ export default function IchiCore({
           />
 
           {/*
-            The character, drawn.
+            The mascot.
 
-            A glowing ball is what every AI product puts on its landing page,
-            and it says nothing: two different ichi would look identical.
-            This is the Big Five as a five-pointed figure — each vertex pushed
-            out by one trait — so the SHAPE is the personality. A Hunter
-            (extraversion 85, conscientiousness 45) is visibly lopsided next
-            to a Steward (35/95). You can tell them apart across the room.
+            This was a five-pointed trait figure, and it read as a lopsided
+            house — because it was a chart, and a chart is not a character.
+            The Big Five already has a proper home in the rail beside it, so
+            the core is freed to be the one thing a landing actually needs:
+            somebody to meet.
 
-            It turns slowly, so the figure is read as a solid rather than as a
-            chart, and the whole thing is grouped under .core-body because
-            that is what the praise flare and the scold recoil already scale.
+            A hearth spirit, then. Rounded hood, wisped hem, two eyes. The
+            eyes are the product: their shape is the mood, so the thing you
+            are looking at is visibly delighted or visibly hurt before you
+            have read a single number. Scold it and it looks away.
           */}
           <g className="core-body">
-            <g className={reduced ? undefined : "core-spin"}>
-              {/*
-                A constellation, not a solid.
-
-                Filled, the five-pointed figure read as a lopsided house —
-                an arbitrary shape rather than a structure. The information is
-                in the VERTICES, so those are what carry the light: the field
-                between them is barely there, and the frame is one thin line.
-                Spokes are gone; they drew a kite.
-              */}
-              <polygon
-                points={traitPoints}
+            <g className={reduced ? undefined : "core-float"}>
+              <path
+                d={SPIRIT_PATH}
                 fill={`url(#body${uid})`}
-                fillOpacity="0.16"
                 stroke={ink}
-                strokeOpacity="0.55"
-                strokeWidth="1"
+                strokeOpacity="0.65"
+                strokeWidth="1.5"
                 strokeLinejoin="round"
                 vectorEffect="non-scaling-stroke"
-                style={{ transition: "all 900ms cubic-bezier(.22,1,.36,1)" }}
               />
-              {TRAIT_VERTICES.map(({ x, y, key }, i) => (
-                <g key={key}>
-                  {/* Each trait is a lit node. The halo behind it is what makes
-                      five dots read as something alive rather than as a chart. */}
-                  <circle cx={x} cy={y} r="9" fill={ink} fillOpacity="0.18" />
-                  <circle
-                    className={reduced ? undefined : "core-node"}
-                    cx={x}
-                    cy={y}
-                    r="3.6"
-                    fill="#ffffff"
-                    fillOpacity="0.92"
-                    style={{ animationDelay: `${i * 0.42}s` }}
-                  />
-                </g>
+
+              {/* Eyes. rx/ry carry the expression; the transition means a mood
+                  change is watched rather than cut to. */}
+              {[-1, 1].map((side) => (
+                <ellipse
+                  key={side}
+                  cx={CORE.x + side * 19}
+                  cy={CORE.y - 4 + EYES.drop}
+                  rx={EYES.rx}
+                  ry={EYES.ry}
+                  fill="#ffffff"
+                  fillOpacity="0.96"
+                  style={{ transition: "all 520ms cubic-bezier(.22,1,.36,1)" }}
+                />
               ))}
+
+              {/* A brow only when it is unhappy: a neutral face with brows
+                  reads as cross, which would make "steady" look like "cross". */}
+              {EYES.brow && (
+                <>
+                  {[-1, 1].map((side) => (
+                    <line
+                      key={side}
+                      x1={CORE.x + side * 30}
+                      y1={CORE.y - 20 + (side < 0 ? 0 : 4)}
+                      x2={CORE.x + side * 9}
+                      y2={CORE.y - 16 + (side < 0 ? 4 : 0)}
+                      stroke={ink}
+                      strokeOpacity="0.85"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      vectorEffect="non-scaling-stroke"
+                    />
+                  ))}
+                </>
+              )}
             </g>
-            {/* The still centre. Everything turns around it. */}
-            <circle cx={CORE.x} cy={CORE.y} r="5" fill="#ffffff" fillOpacity="0.95" />
-            <circle cx={CORE.x} cy={CORE.y} r="11" fill={ink} fillOpacity="0.35" />
           </g>
         </g>
       </svg>
