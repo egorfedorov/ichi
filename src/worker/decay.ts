@@ -24,11 +24,32 @@ const MOOD_EPSILON = 0.005;
 /** The cron interval in days — the fixed step bonds and memories decay by. */
 const STEP_DAYS = 0.25;
 
+/**
+ * How long each kind of event is kept.
+ *
+ * The log grows on every tool call and on every decay pass — four rows a day
+ * per ichchi from the cron alone, before anyone does anything. Left alone it
+ * is the fastest-growing table in the schema and the least re-read.
+ *
+ * The split is by what the row is for. A 'call' is routine traffic and a
+ * 'decay' row is the cron talking to itself; both matter for a few weeks at
+ * most. A 'feedback' is the user's own voice and a 'reflect' is where the
+ * character actually changed — those are the ichchi's biography, and deleting
+ * them would quietly erase why it is the way it is.
+ */
+const RETAIN_DAYS: Record<string, number> = {
+  call: 30,
+  decay: 30,
+  feedback: 365,
+  reflect: 365,
+};
+
 export interface DecayReport {
   ichchi: number;
   moodsAdjusted: number;
   bondsDecayed: number;
   memoriesDecayed: number;
+  eventsPruned: number;
 }
 
 function moodOf(ichchi: Ichchi): Mood {
@@ -134,10 +155,28 @@ export async function runDecay(): Promise<DecayReport> {
     ]);
   }
 
+  // Retention. Runs last so a failure here cannot cost a decay pass, and
+  // never touches an event newer than the ichchi's last reflection — that is
+  // the window reflect() is about to read, and pruning it would make the
+  // ichchi reflect on a day with holes in it.
+  const pruned = await query<{ id: string }>(
+    `delete from ichchi_events e
+      using ichchi i
+      where e.ichchi_id = i.id
+        and e.created_at < now() - make_interval(days => case e.kind
+              when 'call' then ${RETAIN_DAYS.call}
+              when 'decay' then ${RETAIN_DAYS.decay}
+              when 'feedback' then ${RETAIN_DAYS.feedback}
+              else ${RETAIN_DAYS.reflect} end)
+        and e.created_at < coalesce(i.reflected_at, now())
+      returning e.id`,
+  );
+
   return {
     ichchi: rows.length,
     moodsAdjusted,
     bondsDecayed: bonds.length,
     memoriesDecayed: memories.length,
+    eventsPruned: pruned.length,
   };
 }

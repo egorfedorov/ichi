@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { TOOLS, callTool } from "@/lib/mcp";
 import { verifyToken } from "@/lib/tokens";
+import { checkRateLimit, RATE_LIMIT } from "@/lib/rate-limit";
 import { env } from "@/lib/env";
 
 /**
@@ -89,6 +90,26 @@ export async function POST(req: Request) {
     return NextResponse.json(
       { jsonrpc: "2.0", id: null, error: { code: -32001, message: unauthorizedReason(req) } },
       { status: 401, headers: { "WWW-Authenticate": 'Bearer realm="ichchi"' } },
+    );
+  }
+
+  // Keyed by token, not by user: a user with three machines gets three
+  // budgets, and a single runaway agent cannot starve their other sessions.
+  const limit = checkRateLimit(owner.tokenId);
+  if (!limit.ok) {
+    return NextResponse.json(
+      {
+        jsonrpc: "2.0",
+        id: null,
+        error: {
+          code: -32000,
+          message:
+            `Rate limit reached: at most ${RATE_LIMIT} calls per minute per token. ` +
+            `Wait ${limit.retryAfter}s. If you are retrying a failed call, stop — ` +
+            "the failure will not resolve by repeating it.",
+        },
+      },
+      { status: 429, headers: { "Retry-After": String(limit.retryAfter) } },
     );
   }
 
