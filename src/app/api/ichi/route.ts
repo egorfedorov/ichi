@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { query } from "@/db";
 import { requireUser } from "@/lib/session";
-import { adoptIchchi, archetypeById, setJoinCode, setPublic } from "@/lib/ichchi";
+import { adoptIchi, archetypeById, setJoinCode, setPublic } from "@/lib/ichi";
 
 /**
  * Session-authenticated adopt endpoint for the web form. The MCP server
- * exposes the same action to agents under bearer auth — same adoptIchchi,
+ * exposes the same action to agents under bearer auth — same adoptIchi,
  * different doorman.
  */
 export async function POST(req: Request) {
@@ -34,12 +34,12 @@ export async function POST(req: Request) {
     );
   }
 
-  const ichchi = await adoptIchchi(user.id, archetype, name);
-  return NextResponse.json({ slug: ichchi.slug }, { status: 201 });
+  const ichi = await adoptIchi(user.id, archetype, name);
+  return NextResponse.json({ slug: ichi.slug }, { status: 201 });
 }
 
 /**
- * Publish or unpublish an ichchi. Scoped to the caller's own ichchi by
+ * Publish or unpublish an ichi. Scoped to the caller's own ichi by
  * setPublic(), so one account can never publish another's.
  */
 export async function PATCH(req: Request) {
@@ -69,10 +69,10 @@ export async function PATCH(req: Request) {
       out.joinCode = await setJoinCode(user.id, body.slug, body.shared);
     }
     if (typeof body.mortal === "boolean") {
-      // Scoped by owner_id, and refuses to touch an ichchi that has already
+      // Scoped by owner_id, and refuses to touch an ichi that has already
       // departed — there is nothing to toggle once it is gone.
       await query(
-        `update ichchi set mortal = $3
+        `update ichi set mortal = $3
           where owner_id = $1 and slug = $2 and departed_at is null`,
         [user.id, body.slug, body.mortal],
       );
@@ -80,6 +80,6 @@ export async function PATCH(req: Request) {
     }
     return NextResponse.json(out);
   } catch {
-    return NextResponse.json({ error: "no such ichchi" }, { status: 404 });
+    return NextResponse.json({ error: "no such ichi" }, { status: 404 });
   }
 }

@@ -1,8 +1,8 @@
-import type { IchchiEvent } from "@/db/types";
+import type { IchiEvent } from "@/db/types";
 import { ago } from "./words";
 
 /** One readable line per event — the log is a story, not a table. */
-function describe(ev: IchchiEvent): string {
+function describe(ev: IchiEvent): string {
   switch (ev.kind) {
     case "feedback":
       if (ev.signal === "praise") return "похвала";
@@ -18,15 +18,15 @@ function describe(ev: IchchiEvent): string {
 }
 
 /**
- * Recent ichchi_events, newest first. Praise/scold get colour because they are
+ * Recent ichi_events, newest first. Praise/scold get colour because they are
  * the events a user scans for after giving feedback; calls and decay stay
  * quiet.
  */
-export default function EventLog({ events }: { events: IchchiEvent[] }) {
+export default function EventLog({ events }: { events: IchiEvent[] }) {
   if (events.length === 0) {
     return (
       <p className="text-sm text-snow-3">
-        Событий ещё нет — они появляются с первого обращения к иччи.
+        Событий ещё нет — они появляются с первого обращения к ичи.
       </p>
     );
   }

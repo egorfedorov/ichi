@@ -5,15 +5,15 @@ import type { LandingDict } from "@/lib/landing-i18n";
 import {
   BASELINE,
   DEMO_TRAITS,
-  type IchchiEngine,
-} from "@/components/landing/useIchchiEngine";
+  type IchiEngine,
+} from "@/components/landing/useIchiEngine";
 import { useReducedMotion } from "@/components/landing/useReducedMotion";
 
 /**
- * The brain half of the split screen: what the ichchi actually is under the
+ * The brain half of the split screen: what the ichi actually is under the
  * chat. Four live instruments, all fed by the same engine —
  *
- *   ichchi_brief   the JSON block the agent receives with every request;
+ *   ichi_brief   the JSON block the agent receives with every request;
  *                a line flashes when its value changes
  *   sparkline    valence over the last ~40 ticks, against the baseline
  *   bond/traits  the slow numbers: attachment and the Big Five
@@ -31,11 +31,11 @@ const TRAIT_KEYS = [
   "neuroticism",
 ] as const;
 
-export default function IchchiBrain({
+export default function IchiBrain({
   engine,
   t,
 }: {
-  engine: IchchiEngine;
+  engine: IchiEngine;
   t: LandingDict["chat"];
 }) {
   const { valence, mood, bond, history, events } = engine;
@@ -102,11 +102,11 @@ export default function IchchiBrain({
         {t.brain.eyebrow}
       </p>
 
-      {/* ichchi_brief — the payload itself. */}
+      {/* ichi_brief — the payload itself. */}
       <div dir="ltr">
         <div className="mb-1.5 flex items-baseline justify-between gap-3">
           <p className="mono text-[11px] font-semibold text-riso-green">
-            $ ichchi_brief
+            $ ichi_brief
           </p>
           <p className="mono text-right text-[10px] leading-snug text-[#646b75]">
             {t.brain.briefNote}
@@ -218,7 +218,7 @@ export default function IchchiBrain({
           className="mono max-h-28 space-y-1 overflow-y-auto rounded-md border border-[#2a2f37] bg-[#101317] px-2.5 py-2 text-[10.5px] leading-relaxed"
         >
           {events.length === 0 && (
-            <p className="text-[#646b75]">— ichchi_feedback —</p>
+            <p className="text-[#646b75]">— ichi_feedback —</p>
           )}
           {events.map((e) => (
             <p key={e.id} className="flex items-baseline gap-2">

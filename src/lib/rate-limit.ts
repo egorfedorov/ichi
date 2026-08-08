@@ -1,7 +1,7 @@
 /**
  * Per-token rate limiting for the MCP endpoint.
  *
- * The endpoint writes a row to ichchi_events on every single tool call, so an
+ * The endpoint writes a row to ichi_events on every single tool call, so an
  * agent stuck in a retry loop does not just burn CPU — it grows the database
  * without bound on someone else's disk. A cap on active tokens (lib/tokens.ts)
  * bounded how many keys exist; nothing bounded how fast one could be used.
@@ -44,9 +44,9 @@ export const WINDOW_MS = 60_000;
  * reloads modules in dev, and a fresh Map per reload is a rate limiter that
  * silently stops limiting.
  */
-const store = (globalThis as unknown as { _ichchiRate?: Map<string, Bucket> })._ichchiRate ??
+const store = (globalThis as unknown as { _ichiRate?: Map<string, Bucket> })._ichiRate ??
   new Map<string, Bucket>();
-(globalThis as unknown as { _ichchiRate?: Map<string, Bucket> })._ichchiRate = store;
+(globalThis as unknown as { _ichiRate?: Map<string, Bucket> })._ichiRate = store;
 
 /** Dropped once per sweep so an idle process does not hold every token seen. */
 function sweep(now: number): void {

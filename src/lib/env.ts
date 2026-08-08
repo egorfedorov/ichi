@@ -21,7 +21,7 @@ const schema = z.object({
   // option — the request and response shapes are identical, so nothing else
   // in the codebase changes.
   ANTHROPIC_BASE_URL: z.string().url().optional(),
-  // Reflection reads ichchi events and commits personality drift. It runs
+  // Reflection reads ichi events and commits personality drift. It runs
   // often and on small inputs, so the cheap model is the default, not an
   // upgrade path.
   MODEL_JUDGE: z.string().default("claude-haiku-4-5"),

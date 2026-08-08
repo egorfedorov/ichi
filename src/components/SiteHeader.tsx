@@ -17,14 +17,14 @@ export default async function SiteHeader() {
           href="/"
           className="text-sm font-semibold tracking-[0.3em] text-aurora uppercase"
         >
-          иччи
+          ичи
         </Link>
 
         {/* Connection, tokens and sign-in all live in the console now, so
             this bar carries only the way back to it and the way out. */}
         <nav className="flex items-center gap-5 text-sm text-snow-2">
-          <Link href="/ichchi" className="transition-colors hover:text-snow">
-            Иччи
+          <Link href="/ichi" className="transition-colors hover:text-snow">
+            Ичи
           </Link>
           <Link href="/" className="transition-colors hover:text-snow">
             Консоль

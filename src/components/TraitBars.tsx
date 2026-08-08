@@ -1,4 +1,4 @@
-import type { Ichchi, TraitName } from "@/db/types";
+import type { Ichi, TraitName } from "@/db/types";
 
 const LABELS: Record<TraitName, string> = {
   openness: "Открытость",
@@ -20,11 +20,11 @@ const ORDER: TraitName[] = [
  * Big Five as bars. Neuroticism is tinted ember rather than aurora: high is
  * not "better", and a green bar would imply a score to maximise.
  */
-export default function TraitBars({ ichchi }: { ichchi: Ichchi }) {
+export default function TraitBars({ ichi }: { ichi: Ichi }) {
   return (
     <div className="space-y-2.5">
       {ORDER.map((trait) => {
-        const value = ichchi[trait];
+        const value = ichi[trait];
         return (
           <div key={trait} className="flex items-center gap-3">
             <span className="w-40 shrink-0 text-xs text-snow-2">

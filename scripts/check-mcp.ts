@@ -1,13 +1,13 @@
 /**
- * Connect to a running ichchi the way an agent does, over HTTP, and check the
+ * Connect to a running ichi the way an agent does, over HTTP, and check the
  * whole MCP handshake end to end.
  *
  *   npm run check:mcp                       # against localhost
- *   ICHI_URL=https://ichchi.example.com npm run check:mcp
+ *   ICHI_URL=https://ichi.example.com npm run check:mcp
  *
  * Creates a throwaway account and token directly in the database, adopts a
- * scratch ichchi, exercises every tool, then deletes the account — the cascade
- * takes the ichchi, its memories, its events and the token with it. A check
+ * scratch ichi, exercises every tool, then deletes the account — the cascade
+ * takes the ichi, its memories, its events and the token with it. A check
  * that dirties the state it checks must clean up after itself.
  */
 
@@ -91,7 +91,7 @@ async function main() {
   const { token } = await issueToken(userId, "check:mcp");
   console.log(`\ncreated a throwaway account and token (check-mcp-${runId})`);
 
-  const ichchiName = `Checkmcp ${runId}`;
+  const ichiName = `Checkmcp ${runId}`;
 
   try {
     console.log("\nhandshake");
@@ -107,7 +107,7 @@ async function main() {
     check("initialize succeeds", init.status === 200 && !init.body.error);
     check(
       "server names itself and its protocol",
-      (init.body.result?.serverInfo as { name?: string })?.name === "ichchi" &&
+      (init.body.result?.serverInfo as { name?: string })?.name === "ichi" &&
         typeof init.body.result?.protocolVersion === "string",
       String(init.body.result?.protocolVersion),
     );
@@ -122,26 +122,26 @@ async function main() {
     );
     const names = tools.map((t) => t.name);
     for (const expected of [
-      "ichchi_list",
-      "ichchi_adopt",
-      "ichchi_brief",
-      "ichchi_state",
-      "ichchi_feedback",
-      "ichchi_remember",
-      "ichchi_recall",
+      "ichi_list",
+      "ichi_adopt",
+      "ichi_brief",
+      "ichi_state",
+      "ichi_feedback",
+      "ichi_remember",
+      "ichi_recall",
     ]) {
       check(`${expected} is offered`, names.includes(expected));
     }
 
-    console.log("\nadopting an ichchi");
+    console.log("\nadopting an ichi");
     const adopt = await rpc(
       "tools/call",
-      { name: "ichchi_adopt", arguments: { archetype: "sage", name: ichchiName } },
+      { name: "ichi_adopt", arguments: { archetype: "sage", name: ichiName } },
       token,
     );
     const adoptText = textOf(adopt.body.result);
-    check("ichchi_adopt answers", adopt.status === 200 && adoptText.length > 0);
-    check("the ichchi introduces itself", adoptText.includes(ichchiName), adoptText.slice(0, 50));
+    check("ichi_adopt answers", adopt.status === 200 && adoptText.length > 0);
+    check("the ichi introduces itself", adoptText.includes(ichiName), adoptText.slice(0, 50));
     check(
       "the safety rule rides along",
       adoptText.includes("never the quality"),
@@ -150,14 +150,14 @@ async function main() {
     console.log("\nbriefing");
     const brief = await rpc(
       "tools/call",
-      { name: "ichchi_brief", arguments: { ichchi: ichchiName } },
+      { name: "ichi_brief", arguments: { ichi: ichiName } },
       token,
     );
     const briefText = textOf(brief.body.result);
-    check("ichchi_brief answers by name", brief.status === 200 && briefText.includes("Mood:"));
+    check("ichi_brief answers by name", brief.status === 200 && briefText.includes("Mood:"));
     const briefBySlug = await rpc(
       "tools/call",
-      { name: "ichchi_brief", arguments: { ichchi: `checkmcp-${runId}` } },
+      { name: "ichi_brief", arguments: { ichi: `checkmcp-${runId}` } },
       token,
     );
     check("…and by slug", briefBySlug.status === 200 && !briefBySlug.body.error);
@@ -170,8 +170,8 @@ async function main() {
     const praise = await rpc(
       "tools/call",
       {
-        name: "ichchi_feedback",
-        arguments: { ichchi: ichchiName, kind: "praise", reason: "clean migration, zero downtime" },
+        name: "ichi_feedback",
+        arguments: { ichi: ichiName, kind: "praise", reason: "clean migration, zero downtime" },
       },
       token,
     );
@@ -180,7 +180,7 @@ async function main() {
     const readState = () =>
       maybeOne<{ mood_valence: number; bond: number }>(
         `select s.mood_valence, b.bond
-           from ichchi s join bonds b on b.ichchi_id = s.id
+           from ichi s join bonds b on b.ichi_id = s.id
           where s.owner_id = $1 and b.user_id = $1`,
         [userId],
       );
@@ -189,8 +189,8 @@ async function main() {
     const scold = await rpc(
       "tools/call",
       {
-        name: "ichchi_feedback",
-        arguments: { ichchi: ichchiName, kind: "scold", reason: "dropped the schema twice" },
+        name: "ichi_feedback",
+        arguments: { ichi: ichiName, kind: "scold", reason: "dropped the schema twice" },
       },
       token,
     );
@@ -213,45 +213,45 @@ async function main() {
     console.log("\nstate, memory, recall");
     const state = await rpc(
       "tools/call",
-      { name: "ichchi_state", arguments: { ichchi: ichchiName } },
+      { name: "ichi_state", arguments: { ichi: ichiName } },
       token,
     );
     const stateText = textOf(state.body.result);
-    check("ichchi_state shows the full sheet", stateText.includes("Traits") && stateText.includes("Pending drift"));
+    check("ichi_state shows the full sheet", stateText.includes("Traits") && stateText.includes("Pending drift"));
 
     const remember = await rpc(
       "tools/call",
       {
-        name: "ichchi_remember",
-        arguments: { ichchi: ichchiName, text: "the user hates ORMs, prefers raw SQL", kind: "fact" },
+        name: "ichi_remember",
+        arguments: { ichi: ichiName, text: "the user hates ORMs, prefers raw SQL", kind: "fact" },
       },
       token,
     );
-    check("ichchi_remember saves", remember.status === 200 && !remember.body.error);
+    check("ichi_remember saves", remember.status === 200 && !remember.body.error);
 
     const recall = await rpc(
       "tools/call",
-      { name: "ichchi_recall", arguments: { ichchi: ichchiName, query: "ORM" } },
+      { name: "ichi_recall", arguments: { ichi: ichiName, query: "ORM" } },
       token,
     );
     check(
-      "ichchi_recall finds it back",
+      "ichi_recall finds it back",
       textOf(recall.body.result).includes("raw SQL"),
     );
 
-    const listIchchi = await rpc("tools/call", { name: "ichchi_list", arguments: {} }, token);
-    check("ichchi_list shows the adopted ichchi", textOf(listIchchi.body.result).includes(ichchiName));
+    const listIchi = await rpc("tools/call", { name: "ichi_list", arguments: {} }, token);
+    check("ichi_list shows the adopted ichi", textOf(listIchi.body.result).includes(ichiName));
 
     console.log("\nrefusing what it should refuse");
     const missing = await rpc(
       "tools/call",
-      { name: "ichchi_brief", arguments: { ichchi: "no-such-ichchi-xyz" } },
+      { name: "ichi_brief", arguments: { ichi: "no-such-ichi-xyz" } },
       token,
     );
     const missingText = textOf(missing.body.result) + (missing.body.error?.message ?? "");
     check(
-      "an unknown ichchi names itself in the refusal",
-      missingText.includes("no-such-ichchi-xyz"),
+      "an unknown ichi names itself in the refusal",
+      missingText.includes("no-such-ichi-xyz"),
       missingText.slice(0, 60),
     );
     check(
@@ -270,8 +270,8 @@ async function main() {
 
     console.log("\nthe log a person reads");
     const events = await query<{ kind: string }>(
-      `select distinct kind from ichchi_events se
-         join ichchi s on s.id = se.ichchi_id
+      `select distinct kind from ichi_events se
+         join ichi s on s.id = se.ichi_id
         where s.owner_id = $1`,
       [userId],
     );
@@ -282,7 +282,7 @@ async function main() {
       kinds.join(", "),
     );
   } finally {
-    // The account's cascade takes ichchi, bonds, memories, events and tokens.
+    // The account's cascade takes ichi, bonds, memories, events and tokens.
     await query(`delete from "user" where id = $1`, [userId]);
     console.log("\ncleaned up the throwaway account");
   }

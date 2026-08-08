@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import type { LandingDict } from "@/lib/landing-i18n";
-import type { IchchiEngine } from "@/components/landing/useIchchiEngine";
+import type { IchiEngine } from "@/components/landing/useIchiEngine";
 import { COMMANDS, complete, findCommand, type Line } from "@/components/landing/commands";
 import { TOOLS } from "@/lib/mcp-tools";
 import { LOCALES, LOCALE_COOKIE } from "@/lib/locales";
@@ -22,7 +22,7 @@ import {
 
 /**
  * The transcript pane and the prompt — the half of the screen the reader
- * drives. Command output and the ichchi's own replies share one buffer, so
+ * drives. Command output and the ichi's own replies share one buffer, so
  * the page reads as a single session rather than a widget next to a widget.
  *
  * Scrolling happens HERE, inside the pane. The document itself never scrolls
@@ -30,7 +30,7 @@ import {
  * screen, everything reachable, nothing below the fold to miss.
  */
 
-const PROMPT = "ichchi";
+const PROMPT = "ichi";
 const TOOL_COUNT = TOOLS.length;
 
 /**
@@ -55,11 +55,16 @@ export default function Terminal({
   engine,
   t,
   greeting,
+  name,
+  onName,
 }: {
-  engine: IchchiEngine;
+  engine: IchiEngine;
   t: LandingDict;
   /** null until the visitor memory has been read; the boot waits for it. */
   greeting: string | null;
+  /** What this visitor chose to call it, if anything. */
+  name: string | null;
+  onName: (chosen: string) => void;
 }) {
   const [lines, setLines] = useState<Line[]>([]);
   const [typing, setTyping] = useState<Line | null>(null);
@@ -69,6 +74,8 @@ export default function Terminal({
   const [session, setSession] = useState<SessionState>(EMPTY_SESSION);
   const reduced = useReducedMotion();
   const booted = useRef(false);
+  // Captured once so the boot script cannot change shape mid-type.
+  const greetingName = name;
 
   // Ask the server once who this is, so a returning visitor with a live
   // cookie sees "signed in as …" instead of being asked to sign in again.
@@ -96,13 +103,18 @@ export default function Terminal({
     booted.current = true;
 
     const script: Line[] = [
-      { kind: "dim", text: `ichchi 0.1.0 · ${COMMANDS.length} commands` },
+      { kind: "dim", text: `ichi 0.1.0 · ${COMMANDS.length} commands` },
       { kind: "dim", text: "connecting over MCP …" },
       { kind: "head", text: `handshake ok · ${TOOL_COUNT} tools · session live` },
       { kind: "out", text: "" },
       { kind: "accent", text: greeting },
       { kind: "out", text: "" },
-      { kind: "dim", text: "Type :help, or say something to it." },
+      {
+        kind: "dim",
+        text: greetingName
+          ? "Type :help, or say something to it."
+          : "Type :help — or :name it, and it will answer to that.",
+      },
     ];
 
     let cancelled = false;
@@ -155,7 +167,7 @@ export default function Terminal({
       cancelled = true;
       timers.forEach(clearTimeout);
     };
-  }, [greeting, reduced]);
+  }, [greeting, greetingName, reduced]);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -163,9 +175,9 @@ export default function Terminal({
   // already been folded into the transcript.
   const takenRef = useRef(1);
 
-  // Fold new ichchi replies into the buffer as the engine produces them.
+  // Fold new ichi replies into the buffer as the engine produces them.
   useEffect(() => {
-    const fresh = engine.msgs.slice(takenRef.current).filter((m) => m.from === "ichchi");
+    const fresh = engine.msgs.slice(takenRef.current).filter((m) => m.from === "ichi");
     takenRef.current = engine.msgs.length;
     if (fresh.length === 0) return;
     setLines((prev) => [
@@ -254,6 +266,42 @@ export default function Terminal({
       chooseLocale(hit.code);
       return;
     }
+    /*
+     * Naming.
+     *
+     * The product has always taken a name — ichi_adopt has a `name` argument
+     * and the row carries it. What was missing was anyone finding that out:
+     * the demo introduced an anonymous thing, and an anonymous thing is a
+     * widget. Giving it a name is the moment it stops being one, so the
+     * landing hands the visitor that moment before asking them for anything.
+     */
+    if (input === ":name" || input.startsWith(":name ")) {
+      const chosen = input.slice(5).trim().slice(0, 24);
+      if (!chosen) {
+        setLines((prev) => [
+          ...prev,
+          {
+            kind: "dim",
+            text: name
+              ? `You called it ${name}. :name <something else> to change that.`
+              : "What do you want to call it? :name Мурзик",
+          },
+          { kind: "out", text: "" },
+        ]);
+        return;
+      }
+      onName(chosen);
+      setLines((prev) => [
+        ...prev,
+        { kind: "accent", text: `${chosen}. I'll answer to that.` },
+        {
+          kind: "dim",
+          text: "  Your agent does the same with ichi_adopt — the name is yours to pick.",
+        },
+        { kind: "out", text: "" },
+      ]);
+      return;
+    }
     if (input === ":whoami") {
       setLines((prev) => [
         ...prev,
@@ -295,7 +343,7 @@ export default function Terminal({
       return;
     }
 
-    // Not a command: it is something said to the ichchi. Praise and scolding
+    // Not a command: it is something said to the ichi. Praise and scolding
     // move the real mechanics, which is why the core and the brief react.
     const kind = PRAISE.test(input) ? "praise" : SCOLD.test(input) ? "scold" : "ask";
     engine.send(kind, input);
@@ -345,7 +393,7 @@ export default function Terminal({
             </Link>
           ) : (
             <p key={i} className={`cli-line cli-${l.kind}`}>
-              {l.kind === "cmd" ? `${PROMPT}> ${l.text}` : l.text}
+              {l.kind === "cmd" ? `${(name ?? PROMPT).toLowerCase()}> ${l.text}` : l.text}
             </p>
           ),
         )}
@@ -365,7 +413,7 @@ export default function Terminal({
             {c.name}
           </button>
         ))}
-        {[session.email ? ":mine" : ":signin", ":token", ":lang"].map((n) => (
+        {[":name", session.email ? ":mine" : ":signin", ":token", ":lang"].map((n) => (
           <button key={n} type="button" className="cli-chip" onClick={() => submit(n)}>
             {n}
           </button>
@@ -398,7 +446,7 @@ export default function Terminal({
             ? "email>"
             : session.awaiting === "password"
               ? "password>"
-              : `${PROMPT}>`}
+              : `${(name ?? PROMPT).toLowerCase()}>`}
         </span>
         <input
           ref={inputRef}

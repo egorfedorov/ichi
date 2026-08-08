@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 /**
- * Publish an ichchi and get a link worth sending.
+ * Publish an ichi and get a link worth sending.
  *
  * Deliberately shows the URL the moment it exists, with a copy button next to
  * it: the feature is the share, and a toggle that only flips a flag leaves the
@@ -40,7 +40,7 @@ export default function PublishToggle({
     setBusy(true);
     setError(null);
     try {
-      const res = await fetch("/api/ichchi", {
+      const res = await fetch("/api/ichi", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slug, ...body }),
@@ -143,8 +143,8 @@ export default function PublishToggle({
 
         <p className="mt-3 text-xs leading-relaxed text-snow-3">
           {joinCode
-            ? "У всех по ссылке появится доступ к иччи из их агентов. Стандарты станут общими для команды, а связь у иччи с каждым останется своя. Отзыв ссылки не выгоняет тех, кто уже вошёл."
-            : "Общий иччи помнит стандарты команды, а не одного человека: правило, записанное однажды, приходит в сессию каждого."}
+            ? "У всех по ссылке появится доступ к ичи из их агентов. Стандарты станут общими для команды, а связь у ичи с каждым останется своя. Отзыв ссылки не выгоняет тех, кто уже вошёл."
+            : "Общий ичи помнит стандарты команды, а не одного человека: правило, записанное однажды, приходит в сессию каждого."}
         </p>
       </div>
 
@@ -167,8 +167,8 @@ export default function PublishToggle({
 
         <p className="mt-3 text-xs leading-relaxed text-snow-3">
           {mortal
-            ? "Через 90 дней полного молчания иччи уйдёт и не вернётся. Страница, память и письма останутся — читать можно, обращаться нельзя."
-            : "Иччи — хозяин места; того, кого перестают кормить, дом теряет. Включи, если хочешь, чтобы привязанность что-то значила: 90 дней тишины — и он уходит навсегда. Данные не удаляются, но вернуть его нельзя."}
+            ? "Через 90 дней полного молчания ичи уйдёт и не вернётся. Страница, память и письма останутся — читать можно, обращаться нельзя."
+            : "Ичи — хозяин места; того, кого перестают кормить, дом теряет. Включи, если хочешь, чтобы привязанность что-то значила: 90 дней тишины — и он уходит навсегда. Данные не удаляются, но вернуть его нельзя."}
         </p>
       </div>
 

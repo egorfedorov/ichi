@@ -2,9 +2,9 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { query } from "@/db";
-import type { Letter, Memory, IchchiEvent } from "@/db/types";
+import type { Letter, Memory, IchiEvent } from "@/db/types";
 import { currentUser } from "@/lib/session";
-import { archetypeById, bondFor, getIchchi } from "@/lib/ichchi";
+import { archetypeById, bondFor, getIchi } from "@/lib/ichi";
 import { bondWordsRu } from "@/components/words";
 import MoodBadge from "@/components/MoodBadge";
 import TraitBars from "@/components/TraitBars";
@@ -22,10 +22,10 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const user = await currentUser();
-  if (!user) return { title: "Иччи" };
+  if (!user) return { title: "Ичи" };
   const { slug } = await params;
-  const ichchi = await getIchchi(user.id, slug);
-  return { title: ichchi ? `${ichchi.name} — иччи` : "Иччи" };
+  const ichi = await getIchi(user.id, slug);
+  return { title: ichi ? `${ichi.name} — ичи` : "Ичи" };
 }
 
 /** A small labelled 0..1 bar for stress and energy — same idiom as TraitBars. */
@@ -55,68 +55,68 @@ function Meter({
 }
 
 /**
- * One ichchi's page: current state up top, then the visible log — what it
- * remembers and what happened to it. The log is the feature ("what the ichchi
+ * One ichi's page: current state up top, then the visible log — what it
+ * remembers and what happened to it. The log is the feature ("what the ichi
  * learned"), so it gets most of the page, not a collapsed tab.
  */
-export default async function IchchiPage({ params }: Props) {
+export default async function IchiPage({ params }: Props) {
   const user = await currentUser();
   if (!user) redirect("/");
 
   const { slug } = await params;
-  const ichchi = await getIchchi(user.id, slug);
-  if (!ichchi) notFound();
+  const ichi = await getIchi(user.id, slug);
+  if (!ichi) notFound();
 
   const [bond, memories, events, letters] = await Promise.all([
-    bondFor(ichchi.id, user.id),
+    bondFor(ichi.id, user.id),
     query<Memory>(
       `select * from memories
-        where ichchi_id = $1
+        where ichi_id = $1
         order by salience desc, created_at desc
         limit 20`,
-      [ichchi.id],
+      [ichi.id],
     ),
-    query<IchchiEvent>(
-      `select * from ichchi_events
-        where ichchi_id = $1
+    query<IchiEvent>(
+      `select * from ichi_events
+        where ichi_id = $1
         order by created_at desc
         limit 30`,
-      [ichchi.id],
+      [ichi.id],
     ),
     query<Letter>(
       `select * from letters
-        where ichchi_id = $1
+        where ichi_id = $1
         order by period_start desc
         limit 8`,
-      [ichchi.id],
+      [ichi.id],
     ),
   ]);
 
-  const archetype = archetypeById(ichchi.archetype);
-  const drift = Object.entries(ichchi.pending_drift ?? {});
+  const archetype = archetypeById(ichi.archetype);
+  const drift = Object.entries(ichi.pending_drift ?? {});
 
   return (
     <main className="mx-auto w-full max-w-4xl px-6 py-12">
-      <Link href="/ichchi" className="text-xs text-snow-3 hover:text-snow">
-        ← все иччи
+      <Link href="/ichi" className="text-xs text-snow-3 hover:text-snow">
+        ← все ичи
       </Link>
 
       {/* Header */}
       <div className="mt-3 flex flex-wrap items-baseline gap-3">
-        <h1 className="text-3xl font-semibold text-snow">{ichchi.name}</h1>
-        <MoodBadge ichchi={ichchi} />
+        <h1 className="text-3xl font-semibold text-snow">{ichi.name}</h1>
+        <MoodBadge ichi={ichi} />
       </div>
       <p className="mt-1 text-sm text-snow-2">
-        {archetype?.name ?? ichchi.archetype}
+        {archetype?.name ?? ichi.archetype}
         {archetype ? ` — ${archetype.tagline}` : ""}
       </p>
 
       <div className="mt-6">
         <PublishToggle
-          slug={ichchi.slug}
-          initialPublicSlug={ichchi.public_slug}
-          initialJoinCode={ichchi.join_code}
-          initialMortal={ichchi.mortal}
+          slug={ichi.slug}
+          initialPublicSlug={ichi.public_slug}
+          initialJoinCode={ichi.join_code}
+          initialMortal={ichi.mortal}
           appUrl={env.NEXT_PUBLIC_APP_URL}
         />
       </div>
@@ -125,7 +125,7 @@ export default async function IchchiPage({ params }: Props) {
         {/* Traits */}
         <section className="rounded-lg border border-rule bg-night-2 p-5">
           <h2 className="mb-4 text-sm font-semibold text-snow">Характер</h2>
-          <TraitBars ichchi={ichchi} />
+          <TraitBars ichi={ichi} />
           {drift.length > 0 && (
             <p className="mt-4 text-xs text-snow-3">
               Накопленный дрейф (
@@ -149,13 +149,13 @@ export default async function IchchiPage({ params }: Props) {
               <span className="text-snow-2">Доверие</span>
               <span className="text-snow">{bond.trust}/100</span>
             </div>
-            <Meter label="Стресс" value={ichchi.stress} color="bg-berry" />
-            <Meter label="Энергия" value={ichchi.energy} color="bg-frost" />
+            <Meter label="Стресс" value={ichi.stress} color="bg-berry" />
+            <Meter label="Энергия" value={ichi.energy} color="bg-frost" />
           </div>
           <p className="mt-4 text-xs text-snow-3">
-            взаимодействий: {ichchi.interactions}
-            {ichchi.reflected_at
-              ? ` · последняя рефлексия ${ichchi.reflected_at.toLocaleDateString("ru-RU")}`
+            взаимодействий: {ichi.interactions}
+            {ichi.reflected_at
+              ? ` · последняя рефлексия ${ichi.reflected_at.toLocaleDateString("ru-RU")}`
               : " · рефлексии ещё не было"}
           </p>
         </section>
@@ -165,9 +165,9 @@ export default async function IchchiPage({ params }: Props) {
       <section className="mt-4 rounded-lg border border-rule bg-night-2 p-5">
         <h2 className="mb-2 text-sm font-semibold text-snow">Голос</h2>
         <p className="text-sm leading-relaxed text-snow-2">
-          {ichchi.voice_notes ?? archetype?.voice ?? "—"}
+          {ichi.voice_notes ?? archetype?.voice ?? "—"}
         </p>
-        {ichchi.voice_notes && archetype && (
+        {ichi.voice_notes && archetype && (
           <p className="mt-2 text-xs text-snow-3">
             изначально: {archetype.voice}
           </p>
@@ -178,12 +178,12 @@ export default async function IchchiPage({ params }: Props) {
       <section className="mt-10">
         <h2 className="text-lg font-semibold text-snow">Письма</h2>
         <p className="mt-1 mb-4 text-sm text-snow-3">
-          Раз в неделю иччи рассказывает своими словами, как прошла неделя.
+          Раз в неделю ичи рассказывает своими словами, как прошла неделя.
         </p>
         <Letters letters={letters} />
       </section>
 
-      {/* What the ichchi learned */}
+      {/* What the ichi learned */}
       <section className="mt-10">
         <h2 className="text-lg font-semibold text-snow">Память</h2>
         <p className="mt-1 mb-4 text-sm text-snow-3">

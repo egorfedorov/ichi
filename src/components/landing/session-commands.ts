@@ -168,30 +168,30 @@ export async function mintToken(session: SessionState): Promise<StepResult> {
   }
 }
 
-/** The ichchi this account carries, listed in the console. */
+/** The ichi this account carries, listed in the console. */
 export async function listMine(session: SessionState): Promise<StepResult> {
   if (!session.email) {
     return { lines: [err("not signed in — run :signin first")], session };
   }
   try {
-    const res = await fetch("/api/ichchi/mine");
-    if (!res.ok) return { lines: [err("could not read your ichchi")], session };
+    const res = await fetch("/api/ichi/mine");
+    if (!res.ok) return { lines: [err("could not read your ichi")], session };
     const data = (await res.json()) as {
-      ichchi: { name: string; slug: string; archetype: string; mood: string; bond: number }[];
+      ichi: { name: string; slug: string; archetype: string; mood: string; bond: number }[];
     };
-    if (data.ichchi.length === 0) {
+    if (data.ichi.length === 0) {
       return {
         lines: [
-          dim("No ichchi yet."),
-          dim("  :spirits shows the archetypes · your agent adopts one with ichchi_adopt"),
+          dim("No ichi yet."),
+          dim("  :spirits shows the archetypes · your agent adopts one with ichi_adopt"),
         ],
         session,
       };
     }
     return {
       lines: [
-        ok("YOUR ICHCHI"),
-        ...data.ichchi.map((i) => ({
+        ok("YOUR ICHI"),
+        ...data.ichi.map((i) => ({
           kind: "out" as const,
           text: `  ${i.name.padEnd(18)} ${i.slug.padEnd(16)} ${i.archetype.padEnd(9)} ${i.mood} · bond ${i.bond}/100`,
         })),

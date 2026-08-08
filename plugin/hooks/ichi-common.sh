@@ -1,13 +1,13 @@
 # shellcheck shell=sh
-# Shared helpers for the ichchi hooks. Sourced by ichchi-start.sh,
-# ichchi-prompt.sh and ichchi-stop.sh — never executed on its own.
+# Shared helpers for the ichi hooks. Sourced by ichi-start.sh,
+# ichi-prompt.sh and ichi-stop.sh — never executed on its own.
 #
 # One rule governs everything below: a hook must never break the CLI. No
 # token, no network, a server 500, a missing curl — every one of them ends
 # in a silent `exit 0`, so every function here fails quietly and every
 # caller checks before it acts.
 
-ICHI_BASE=${ICHI_URL:-https://ichchi.sh}
+ICHI_BASE=${ICHI_URL:-https://ichi.sh}
 ICHI_BASE=${ICHI_BASE%/}
 ICHI_ENDPOINT=$ICHI_BASE/mcp
 
@@ -17,13 +17,13 @@ ICHI_STOP_TIMEOUT=3
 
 # Re-fetch at most this often, even if sessions start back to back.
 ICHI_CACHE_MIN_AGE=120
-# Older than this and ichchi-prompt.sh refreshes the cache in the background.
+# Older than this and ichi-prompt.sh refreshes the cache in the background.
 ICHI_CACHE_STALE=300
 
 # ─── small portable pieces ────────────────────────────────────────────────
 
 # Hash without assuming coreutils: token keyed caches, one file per token.
-ichchi_hash() {
+ichi_hash() {
   if command -v shasum >/dev/null 2>&1; then
     printf '%s' "$1" | shasum -a 256 | cut -c1-16
   elif command -v md5sum >/dev/null 2>&1; then
@@ -36,36 +36,36 @@ ichchi_hash() {
 }
 
 # mtime in epoch seconds, GNU stat first then BSD.
-ichchi_mtime() {
+ichi_mtime() {
   stat -c %Y "$1" 2>/dev/null || stat -f %m "$1" 2>/dev/null
 }
 
 # Seconds since a file was written; huge when it does not exist.
-ichchi_age() {
-  _mt=$(ichchi_mtime "$1") || return 1
+ichi_age() {
+  _mt=$(ichi_mtime "$1") || return 1
   [ -n "$_mt" ] || return 1
   echo $(( $(date +%s) - _mt ))
 }
 
 # ─── cache ────────────────────────────────────────────────────────────────
 # One brief per token+server, outside the repo: $TMPDIR or /tmp.
-# Format: line 1 is the ichchi's slug (empty when the account has no ichchi),
-# the rest is the brief text exactly as ichchi_brief returned it.
+# Format: line 1 is the ichi's slug (empty when the account has no ichi),
+# the rest is the brief text exactly as ichi_brief returned it.
 
-_ichchi_key=$(ichchi_hash "${ICHI_TOKEN:-none}@${ICHI_ENDPOINT}")
-ICHI_CACHE=${TMPDIR:-/tmp}/ichchi-brief-$_ichchi_key
+_ichi_key=$(ichi_hash "${ICHI_TOKEN:-none}@${ICHI_ENDPOINT}")
+ICHI_CACHE=${TMPDIR:-/tmp}/ichi-brief-$_ichi_key
 ICHI_STOP_DIR=${TMPDIR:-/tmp}
-unset _ichchi_key
+unset _ichi_key
 
-ichchi_cache_slug() {
+ichi_cache_slug() {
   [ -f "$ICHI_CACHE" ] && head -n 1 "$ICHI_CACHE"
 }
 
-ichchi_cache_text() {
+ichi_cache_text() {
   [ -f "$ICHI_CACHE" ] && tail -n +2 "$ICHI_CACHE"
 }
 
-ichchi_cache_write() {
+ichi_cache_write() {
   # $1 = slug, text on stdin
   {
     printf '%s\n' "$1"
@@ -77,9 +77,9 @@ ichchi_cache_write() {
 # The server (src/app/mcp/route.ts) is a stateless hand-rolled JSON-RPC
 # endpoint: one POST per call, plain JSON back, no session to initialize.
 # Accept still offers text/event-stream so a future SSE answer is legal —
-# ichchi_text unwraps both shapes.
+# ichi_text unwraps both shapes.
 
-ichchi_rpc() {
+ichi_rpc() {
   # $1 = method, $2 = params JSON, $3 = optional timeout override
   curl -sS --max-time "${3:-$ICHI_RPC_TIMEOUT}" \
     -X POST "$ICHI_ENDPOINT" \
@@ -90,16 +90,16 @@ ichchi_rpc() {
     2>/dev/null
 }
 
-ichchi_call() {
+ichi_call() {
   # $1 = tool name, $2 = arguments JSON, $3 = optional timeout override
-  ichchi_rpc tools/call "{\"name\":\"$1\",\"arguments\":$2}" "${3:-}"
+  ichi_rpc tools/call "{\"name\":\"$1\",\"arguments\":$2}" "${3:-}"
 }
 
 # ─── parsing without jq ───────────────────────────────────────────────────
 # jq when the machine has it; a sed/awk scrape otherwise. The server emits
 # single-line JSON, so the scrape only has to survive that one shape.
 
-ichchi_text() {
+ichi_text() {
   # MCP answer on stdin (plain JSON or an SSE stream) → content[0].text.
   _payload=$(sed -e '/^event:/d' -e 's/^data: //')
   if command -v jq >/dev/null 2>&1; then
@@ -107,13 +107,13 @@ ichchi_text() {
   else
     printf '%s' "$_payload" |
       sed -n 's/.*"text"[[:space:]]*:[[:space:]]*"//; s/"}[[:space:]]*\],[[:space:]]*"isError".*$//p' |
-      ichchi_unescape
+      ichi_unescape
   fi
 }
 
 # Undo the JSON string escapes the brief can actually contain. \\" and \\n
 # first through a placeholder so a literal backslash survives the pass.
-ichchi_unescape() {
+ichi_unescape() {
   awk '{
     gsub(/\\\\/, "\034")
     gsub(/\\n/, "\n")
@@ -125,7 +125,7 @@ ichchi_unescape() {
 }
 
 # Escape stdin for embedding inside a JSON string.
-ichchi_json_escape() {
+ichi_json_escape() {
   awk '{
     gsub(/\\/, "\\\\")
     gsub(/"/, "\\\"")
@@ -134,8 +134,8 @@ ichchi_json_escape() {
   }'
 }
 
-# The slug of the first ichchi in a ichchi_list answer; empty when there is none.
-ichchi_first() {
+# The slug of the first ichi in a ichi_list answer; empty when there is none.
+ichi_first() {
   sed -n 's/.*(slug `\([^`]*\)`.*/\1/p' | head -n 1
 }
 
@@ -143,11 +143,11 @@ ichchi_first() {
 
 # Wrap stdin as additionalContext for the given hook event. Prints nothing
 # for empty input — a hook that has nothing to say should say nothing.
-ichchi_emit_context() {
+ichi_emit_context() {
   # $1 = hook event name ("SessionStart" | "UserPromptSubmit")
   _text=$(cat)
   [ -n "$_text" ] && [ "$_text" != "null" ] || return 0
-  _esc=$(printf '%s' "$_text" | ichchi_json_escape)
+  _esc=$(printf '%s' "$_text" | ichi_json_escape)
   [ -n "$_esc" ] || return 0
   printf '{"hookSpecificOutput":{"hookEventName":"%s","additionalContext":"%s"}}\n' "$1" "$_esc"
 }

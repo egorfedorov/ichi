@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ARCHETYPES } from "@/lib/ichchi";
+import { ARCHETYPES } from "@/lib/ichi";
 import { TOOLS } from "@/lib/mcp-tools";
 import { landingDict } from "@/lib/t";
 import Console from "@/components/landing/Console";
@@ -59,11 +59,11 @@ export default async function Home() {
           ))}
         </ul>
 
-        <h2>{t.ichchi.title}</h2>
-        <p>{t.ichchi.sub}</p>
+        <h2>{t.ichi.title}</h2>
+        <p>{t.ichi.sub}</p>
         <ul>
           {ARCHETYPES.map((a) => {
-            const copy = t.ichchi.items[a.id as keyof typeof t.ichchi.items];
+            const copy = t.ichi.items[a.id as keyof typeof t.ichi.items];
             return (
               <li key={a.id}>
                 <strong>{a.name}</strong> ({a.id}) — {copy?.desc ?? a.description}

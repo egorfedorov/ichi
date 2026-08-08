@@ -1,11 +1,11 @@
 "use client";
 
 import { useId } from "react";
-import { DEMO_TRAITS, type MoodKey } from "@/components/landing/useIchchiEngine";
+import { DEMO_TRAITS, type MoodKey } from "@/components/landing/useIchiEngine";
 import { useReducedMotion } from "@/components/landing/useReducedMotion";
 
 /**
- * The ichchi itself, drawn.
+ * The ichi itself, drawn.
  *
  * A core that breathes, and traffic running both ways along the wires to every
  * agent it rides in. The two directions are the whole product in one picture:
@@ -65,7 +65,7 @@ function pace(valence: number): number {
  * Where each trait's vertex sits. Angles start at the top and go clockwise,
  * radius scales with the trait — a strong trait pushes its corner out.
  *
- * Computed at module scope because the demo ichchi's traits never change; a
+ * Computed at module scope because the demo ichi's traits never change; a
  * real one would take them as a prop and the maths would be identical.
  */
 const TRAIT_ORDER = [
@@ -76,8 +76,8 @@ const TRAIT_ORDER = [
   "neuroticism",
 ] as const;
 
-const R_MIN = 34;
-const R_SPAN = 58;
+const R_MIN = 22;
+const R_SPAN = 30;
 
 const TRAIT_VERTICES = TRAIT_ORDER.map((key, i) => {
   const angle = -Math.PI / 2 + (i / TRAIT_ORDER.length) * Math.PI * 2;
@@ -91,7 +91,7 @@ const TRAIT_VERTICES = TRAIT_ORDER.map((key, i) => {
 
 const traitPoints = TRAIT_VERTICES.map((v) => `${v.x.toFixed(1)},${v.y.toFixed(1)}`).join(" ");
 
-export default function IchchiCore({
+export default function IchiCore({
   mood,
   valence,
   bond,
@@ -284,7 +284,7 @@ export default function IchchiCore({
             The character, drawn.
 
             A glowing ball is what every AI product puts on its landing page,
-            and it says nothing: two different ichchi would look identical.
+            and it says nothing: two different ichi would look identical.
             This is the Big Five as a five-pointed figure — each vertex pushed
             out by one trait — so the SHAPE is the personality. A Hunter
             (extraversion 85, conscientiousness 45) is visibly lopsided next
@@ -296,35 +296,46 @@ export default function IchchiCore({
           */}
           <g className="core-body">
             <g className={reduced ? undefined : "core-spin"}>
+              {/*
+                A constellation, not a solid.
+
+                Filled, the five-pointed figure read as a lopsided house —
+                an arbitrary shape rather than a structure. The information is
+                in the VERTICES, so those are what carry the light: the field
+                between them is barely there, and the frame is one thin line.
+                Spokes are gone; they drew a kite.
+              */}
               <polygon
                 points={traitPoints}
                 fill={`url(#body${uid})`}
+                fillOpacity="0.16"
                 stroke={ink}
-                strokeWidth="1.5"
+                strokeOpacity="0.55"
+                strokeWidth="1"
                 strokeLinejoin="round"
                 vectorEffect="non-scaling-stroke"
                 style={{ transition: "all 900ms cubic-bezier(.22,1,.36,1)" }}
               />
-              {/* Spokes to each vertex: the figure reads as built out of five
-                  measurements rather than as an arbitrary blob. */}
-              {TRAIT_VERTICES.map(({ x, y }, i) => (
-                <g key={i}>
-                  <line
-                    x1={CORE.x}
-                    y1={CORE.y}
-                    x2={x}
-                    y2={y}
-                    stroke={ink}
-                    strokeOpacity="0.28"
-                    strokeWidth="1"
-                    vectorEffect="non-scaling-stroke"
+              {TRAIT_VERTICES.map(({ x, y, key }, i) => (
+                <g key={key}>
+                  {/* Each trait is a lit node. The halo behind it is what makes
+                      five dots read as something alive rather than as a chart. */}
+                  <circle cx={x} cy={y} r="9" fill={ink} fillOpacity="0.18" />
+                  <circle
+                    className={reduced ? undefined : "core-node"}
+                    cx={x}
+                    cy={y}
+                    r="3.6"
+                    fill="#ffffff"
+                    fillOpacity="0.92"
+                    style={{ animationDelay: `${i * 0.42}s` }}
                   />
-                  <circle cx={x} cy={y} r="3.4" fill={ink} />
                 </g>
               ))}
             </g>
-            {/* The still centre. Everything else turns around it. */}
-            <circle cx={CORE.x} cy={CORE.y} r="7" fill="#ffffff" fillOpacity="0.9" />
+            {/* The still centre. Everything turns around it. */}
+            <circle cx={CORE.x} cy={CORE.y} r="5" fill="#ffffff" fillOpacity="0.95" />
+            <circle cx={CORE.x} cy={CORE.y} r="11" fill={ink} fillOpacity="0.35" />
           </g>
         </g>
       </svg>

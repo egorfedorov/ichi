@@ -12,7 +12,7 @@ export function claude(): Anthropic {
     ...(env.ANTHROPIC_BASE_URL ? { baseURL: env.ANTHROPIC_BASE_URL } : {}),
     // The SDK's defaults are 10 minutes and 2 retries — one request a flaky
     // reseller leaves hanging can hold a job for half an hour, and pg-boss
-    // works one job at a time, so that one request stalls every ichchi on the
+    // works one job at a time, so that one request stalls every ichi on the
     // instance.
     timeout: 240_000,
     maxRetries: 1,

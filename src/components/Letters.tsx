@@ -1,7 +1,7 @@
 import type { Letter } from "@/db/types";
 
 /**
- * The ichchi's letters, newest first.
+ * The ichi's letters, newest first.
  *
  * Given the most prominent place on the page under the state panels, because
  * this is the only thing here written *to* the reader — everything else is
@@ -13,7 +13,7 @@ export default function Letters({ letters }: { letters: Letter[] }) {
   if (letters.length === 0) {
     return (
       <p className="text-sm text-snow-3">
-        Писем ещё нет. Иччи пишет раз в неделю, по понедельникам — и только
+        Писем ещё нет. Ичи пишет раз в неделю, по понедельникам — и только
         если на неделе было о чём рассказать.
       </p>
     );

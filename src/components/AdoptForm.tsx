@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import type { Archetype } from "@/lib/ichchi";
+import type { Archetype } from "@/lib/ichi";
 
 /**
  * The adopt form. Archetypes arrive from the server as props (the catalogue
  * lives in code, so there is nothing to fetch); the POST goes to the API so
- * adoptIchchi runs behind session auth, same pattern as /api/tokens.
+ * adoptIchi runs behind session auth, same pattern as /api/tokens.
  */
 export default function AdoptForm({ archetypes }: { archetypes: Archetype[] }) {
   const router = useRouter();
@@ -21,7 +21,7 @@ export default function AdoptForm({ archetypes }: { archetypes: Archetype[] }) {
   async function submit() {
     setBusy(true);
     setError(null);
-    const res = await fetch("/api/ichchi", {
+    const res = await fetch("/api/ichi", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ archetype: archetypeId, name }),
@@ -32,12 +32,12 @@ export default function AdoptForm({ archetypes }: { archetypes: Archetype[] }) {
       return;
     }
     const { slug } = (await res.json()) as { slug: string };
-    router.push(`/ichchi/${slug}`);
+    router.push(`/ichi/${slug}`);
   }
 
   return (
     <div className="rounded-lg border border-rule bg-night-2 p-5">
-      <h2 className="text-lg font-semibold">Призвать иччи</h2>
+      <h2 className="text-lg font-semibold">Призвать ичи</h2>
 
       <label className="mt-4 block text-xs text-snow-3">Дух</label>
       <select

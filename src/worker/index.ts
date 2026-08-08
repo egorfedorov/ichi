@@ -9,7 +9,7 @@ import {
 } from "@/worker/queue";
 import { runReflect } from "@/worker/reflect";
 import { runDecay } from "@/worker/decay";
-import { ichchiWithAWeek, runLetter, weekStart } from "@/worker/letter";
+import { ichiWithAWeek, runLetter, weekStart } from "@/worker/letter";
 
 /**
  * Background worker. Run alongside the web app:
@@ -24,22 +24,22 @@ async function main() {
     QUEUES.reflect,
     { batchSize: 1, pollingIntervalSeconds: 2 },
     async ([job]) => {
-      const { ichchiId } = job.data as { ichchiId: string };
+      const { ichiId } = job.data as { ichiId: string };
       const started = Date.now();
       try {
-        const r = await runReflect(ichchiId);
+        const r = await runReflect(ichiId);
         console.log(
           r
-            ? `[reflect] ${ichchiId} sentiment=${r.sentiment.toFixed(2)} ` +
+            ? `[reflect] ${ichiId} sentiment=${r.sentiment.toFixed(2)} ` +
                 `memories=${r.memories} committed=${JSON.stringify(r.committed)} ` +
                 `${r.costCents.toFixed(2)}¢ ${Date.now() - started}ms`
-            : `[reflect] ${ichchiId} nothing to do ${Date.now() - started}ms`,
+            : `[reflect] ${ichiId} nothing to do ${Date.now() - started}ms`,
         );
       } catch (err) {
         // pg-boss swallows the throw into its retry bookkeeping, so a failure
         // would otherwise leave no trace in the log at all.
         console.error(
-          `[reflect] ${ichchiId} FAILED after ${Date.now() - started}ms:`,
+          `[reflect] ${ichiId} FAILED after ${Date.now() - started}ms:`,
           err instanceof Error ? err.message : err,
         );
         throw err;
@@ -52,7 +52,7 @@ async function main() {
     try {
       const r = await runDecay();
       console.log(
-        `[decay] ichchi=${r.ichchi} moods=${r.moodsAdjusted} ` +
+        `[decay] ichi=${r.ichi} moods=${r.moodsAdjusted} ` +
           `bonds=${r.bondsDecayed} memories=${r.memoriesDecayed} ` +
           `pruned=${r.eventsPruned} departed=${r.departed} ${Date.now() - started}ms`,
       );
@@ -67,28 +67,28 @@ async function main() {
   await scheduleDecay();
 
   // The fan-out: decide who had a week worth writing about, then one job per
-  // ichchi so a single failed model call retries alone.
+  // ichi so a single failed model call retries alone.
   await boss.work(QUEUES.letters, { batchSize: 1, pollingIntervalSeconds: 60 }, async () => {
-    const ids = await ichchiWithAWeek();
+    const ids = await ichiWithAWeek();
     const period = weekStart(new Date(Date.now() - 7 * 86_400_000));
     for (const id of ids) await enqueueLetter(id, period);
     console.log(`[letters] ${period}: queued ${ids.length} letter(s)`);
   });
 
   await boss.work(QUEUES.letter, { batchSize: 1, pollingIntervalSeconds: 5 }, async ([job]) => {
-    const { ichchiId } = job.data as { ichchiId: string };
+    const { ichiId } = job.data as { ichiId: string };
     const started = Date.now();
     try {
-      const r = await runLetter(ichchiId);
+      const r = await runLetter(ichiId);
       console.log(
         r
-          ? `[letter] ${ichchiId} ${r.periodStart} ${r.words} words ` +
+          ? `[letter] ${ichiId} ${r.periodStart} ${r.words} words ` +
               `${r.costCents.toFixed(2)}¢ ${Date.now() - started}ms`
-          : `[letter] ${ichchiId} nothing to write ${Date.now() - started}ms`,
+          : `[letter] ${ichiId} nothing to write ${Date.now() - started}ms`,
       );
     } catch (err) {
       console.error(
-        `[letter] ${ichchiId} FAILED after ${Date.now() - started}ms:`,
+        `[letter] ${ichiId} FAILED after ${Date.now() - started}ms:`,
         err instanceof Error ? err.message : err,
       );
       throw err;

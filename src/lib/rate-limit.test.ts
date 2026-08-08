@@ -4,7 +4,7 @@ import { checkRateLimit, resetRateLimits } from "./rate-limit";
 
 /**
  * The limiter is the only thing standing between one runaway agent and an
- * unbounded ichchi_events table, so its edges get asserted rather than
+ * unbounded ichi_events table, so its edges get asserted rather than
  * assumed: that it actually refuses past the limit, that the window really
  * reopens, and that two tokens never share a budget.
  */

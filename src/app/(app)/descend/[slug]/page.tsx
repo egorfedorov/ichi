@@ -1,17 +1,17 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { currentUser } from "@/lib/session";
-import { archetypeById, descendFrom, getPublicIchchi } from "@/lib/ichchi";
+import { archetypeById, descendFrom, getPublicIchi } from "@/lib/ichi";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Взять потомка — иччи" };
+export const metadata = { title: "Взять потомка — ичи" };
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 /**
- * Taking a descendant of somebody else's published ichchi.
+ * Taking a descendant of somebody else's published ichi.
  *
  * Lives behind the session for the same reason joining does: this creates a
  * row owned by a person, and the person has to be the one asking.
@@ -25,16 +25,16 @@ export default async function DescendPage({ params }: Props) {
   const user = await currentUser();
   if (!user) redirect(`/sign-in`);
 
-  const parent = await getPublicIchchi(slug);
+  const parent = await getPublicIchi(slug);
   if (!parent) {
     return (
       <main className="mx-auto w-full max-w-xl px-6 py-16">
-        <h1 className="text-2xl font-semibold text-snow">Иччи не найден</h1>
+        <h1 className="text-2xl font-semibold text-snow">Ичи не найден</h1>
         <p className="mt-3 text-sm text-snow-2">
           Страница закрыта или ссылки никогда не было.
         </p>
-        <Link href="/ichchi" className="mt-8 inline-block text-sm text-frost">
-          ← мои иччи
+        <Link href="/ichi" className="mt-8 inline-block text-sm text-frost">
+          ← мои ичи
         </Link>
       </main>
     );
@@ -47,7 +47,7 @@ export default async function DescendPage({ params }: Props) {
     const raw = String(formData.get("name") ?? "").trim();
     if (raw.length < 2 || raw.length > 40) return;
     const child = await descendFrom(slug, me.id, raw.slice(0, 40));
-    redirect(`/ichchi/${child.slug}`);
+    redirect(`/ichi/${child.slug}`);
   }
 
   return (

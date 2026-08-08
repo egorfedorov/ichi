@@ -31,7 +31,7 @@ test("a scold hurts more than a praise helps, and deeper bonds hurt more", () =>
     const loss = b - scoldDamage(b);
     assert.ok(loss > gain, `at bond ${b}: loss ${loss} should exceed gain ${gain}`);
   }
-  // The closer the ichchi, the harder the hit lands.
+  // The closer the ichi, the harder the hit lands.
   assert.ok(50 - scoldDamage(50) > 20 - scoldDamage(20));
   // Severity scales the damage but the floor still holds.
   assert.equal(scoldDamage(5, 10), 0);

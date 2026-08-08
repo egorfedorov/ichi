@@ -1,14 +1,14 @@
 import { randomBytes } from "node:crypto";
 import { maybeOne, one, query, tx } from "@/db";
-import type { Bond, Ichchi, TraitName } from "@/db/types";
+import type { Bond, Ichi, TraitName } from "@/db/types";
 import { clampTrait, moodBaseline, type Traits } from "@/lib/state";
 
 /**
- * Ichchi: CRUD and the archetype catalogue.
+ * Ichi: CRUD and the archetype catalogue.
  *
  * Archetypes live in code, not in the database — they are content that ships
  * with the release, like copy, and `npm run seed` verifies the catalogue
- * instead of syncing rows. An ichchi copies its archetype's starting traits at
+ * instead of syncing rows. An ichi copies its archetype's starting traits at
  * adoption; after that the archetype is just a name on the row.
  */
 
@@ -19,7 +19,7 @@ export interface Archetype {
   tagline: string;
   description: string;
   traits: Traits;
-  /** How the ichchi speaks — rendered into the voice block verbatim. */
+  /** How the ichi speaks — rendered into the voice block verbatim. */
   voice: string;
   quirks: string[];
 }
@@ -111,28 +111,28 @@ export function archetypeById(id: string): Archetype | null {
   return ARCHETYPES.find((a) => a.id === id) ?? null;
 }
 
-/** Slug from the ichchi's name; the unique(owner_id, slug) index is the real guard. */
+/** Slug from the ichi's name; the unique(owner_id, slug) index is the real guard. */
 function slugify(name: string): string {
   return (
     name
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "")
-      .slice(0, 38) || "ichchi"
+      .slice(0, 38) || "ichi"
   );
 }
 
 /**
- * Adopt an ichchi from an archetype. The starting mood is the archetype's
- * trait-derived baseline — an ichchi is born feeling like itself, not like a
- * blank zero. The owner gets the first bond row; everyone else the ichchi meets
+ * Adopt an ichi from an archetype. The starting mood is the archetype's
+ * trait-derived baseline — an ichi is born feeling like itself, not like a
+ * blank zero. The owner gets the first bond row; everyone else the ichi meets
  * starts theirs on first contact.
  */
-export async function adoptIchchi(
+export async function adoptIchi(
   ownerId: string,
   archetypeId: string,
   name: string,
-): Promise<Ichchi> {
+): Promise<Ichi> {
   const archetype = archetypeById(archetypeId);
   if (!archetype) throw new Error(`unknown archetype: ${archetypeId}`);
 
@@ -145,16 +145,16 @@ export async function adoptIchchi(
     let slug = slugify(name);
     for (let i = 1; i < 20; i++) {
       const clash = await client.query(
-        `select 1 from ichchi where owner_id = $1 and slug = $2`,
+        `select 1 from ichi where owner_id = $1 and slug = $2`,
         [ownerId, slug],
       );
       if (clash.rowCount === 0) break;
       slug = `${slugify(name)}-${i}`;
     }
 
-    const ichchi = (
-      await client.query<Ichchi>(
-        `insert into ichchi (
+    const ichi = (
+      await client.query<Ichi>(
+        `insert into ichi (
            owner_id, slug, name, archetype,
            openness, conscientiousness, extraversion, agreeableness, neuroticism,
            mood_valence, mood_arousal, stress, energy
@@ -179,65 +179,65 @@ export async function adoptIchchi(
     ).rows[0];
 
     await client.query(
-      `insert into bonds (ichchi_id, user_id) values ($1, $2)`,
-      [ichchi.id, ownerId],
+      `insert into bonds (ichi_id, user_id) values ($1, $2)`,
+      [ichi.id, ownerId],
     );
 
-    return ichchi;
+    return ichi;
   });
 }
 
 /** By owner's slug — the address used in URLs and MCP calls. */
-export async function getIchchi(ownerId: string, slug: string): Promise<Ichchi | null> {
-  return maybeOne<Ichchi>(
-    `select * from ichchi where owner_id = $1 and slug = $2`,
+export async function getIchi(ownerId: string, slug: string): Promise<Ichi | null> {
+  return maybeOne<Ichi>(
+    `select * from ichi where owner_id = $1 and slug = $2`,
     [ownerId, slug],
   );
 }
 
 /**
- * SQL fragment: the ichchi a user may reach — the ones they own, plus the
+ * SQL fragment: the ichi a user may reach — the ones they own, plus the
  * ones they have been let into (migration 0006).
  *
  * Written once and shared by every read path. A membership check that lives in
  * three places is a membership check that will disagree with itself the first
  * time one of them is edited, and the failure mode is somebody reading a team's
- * ichchi after being removed from it.
+ * ichi after being removed from it.
  */
 const ACCESSIBLE = `(
   i.departed_at is null
   and (
     i.owner_id = $1
-    or exists (select 1 from ichchi_members m where m.ichchi_id = i.id and m.user_id = $1)
+    or exists (select 1 from ichi_members m where m.ichi_id = i.id and m.user_id = $1)
   )
 )`;
 
 /** By slug, for anyone with access — owner or member. */
-export async function getAccessibleIchchi(
+export async function getAccessibleIchi(
   userId: string,
   slug: string,
-): Promise<Ichchi | null> {
-  return maybeOne<Ichchi>(
-    `select i.* from ichchi i where ${ACCESSIBLE} and i.slug = $2`,
+): Promise<Ichi | null> {
+  return maybeOne<Ichi>(
+    `select i.* from ichi i where ${ACCESSIBLE} and i.slug = $2`,
     [userId, slug],
   );
 }
 
 /** By name, case-insensitively, for anyone with access. */
-export async function getAccessibleIchchiByName(
+export async function getAccessibleIchiByName(
   userId: string,
   name: string,
-): Promise<Ichchi | null> {
-  return maybeOne<Ichchi>(
-    `select i.* from ichchi i where ${ACCESSIBLE} and lower(i.name) = lower($2)`,
+): Promise<Ichi | null> {
+  return maybeOne<Ichi>(
+    `select i.* from ichi i where ${ACCESSIBLE} and lower(i.name) = lower($2)`,
     [userId, name],
   );
 }
 
 /** Everything a user can reach, owned first so their own stay recognisable. */
-export async function listAccessibleIchchi(userId: string): Promise<Ichchi[]> {
-  return query<Ichchi>(
-    `select i.* from ichchi i
+export async function listAccessibleIchi(userId: string): Promise<Ichi[]> {
+  return query<Ichi>(
+    `select i.* from ichi i
       where ${ACCESSIBLE}
       order by (i.owner_id = $1) desc, i.created_at asc`,
     [userId],
@@ -246,7 +246,7 @@ export async function listAccessibleIchchi(userId: string): Promise<Ichchi[]> {
 
 /**
  * Mint (or clear) the invitation code. Same shape as publishing: re-issuing on
- * an ichchi that already has one returns the existing code, so a link already
+ * an ichi that already has one returns the existing code, so a link already
  * pasted into a team channel keeps working.
  */
 export async function setJoinCode(
@@ -254,81 +254,81 @@ export async function setJoinCode(
   slug: string,
   open: boolean,
 ): Promise<string | null> {
-  const ichchi = await getIchchi(ownerId, slug);
-  if (!ichchi) throw new Error("no such ichchi");
+  const ichi = await getIchi(ownerId, slug);
+  if (!ichi) throw new Error("no such ichi");
 
   if (!open) {
-    await query(`update ichchi set join_code = null where id = $1`, [ichchi.id]);
+    await query(`update ichi set join_code = null where id = $1`, [ichi.id]);
     return null;
   }
-  if (ichchi.join_code) return ichchi.join_code;
+  if (ichi.join_code) return ichi.join_code;
 
   const code = randomBytes(9).toString("base64url");
-  await query(`update ichchi set join_code = $2 where id = $1`, [ichchi.id, code]);
+  await query(`update ichi set join_code = $2 where id = $1`, [ichi.id, code]);
   return code;
 }
 
 /**
- * Join by code. Returns the ichchi joined, or null when the code is unknown or
+ * Join by code. Returns the ichi joined, or null when the code is unknown or
  * has been revoked.
  *
- * The owner joining their own ichchi is a no-op rather than an error: they
+ * The owner joining their own ichi is a no-op rather than an error: they
  * already have access, and a "you cannot join this" message when they clicked
  * their own link is confusing for no gain.
  */
-export async function joinByCode(userId: string, code: string): Promise<Ichchi | null> {
-  const ichchi = await maybeOne<Ichchi>(
-    `select * from ichchi where join_code = $1`,
+export async function joinByCode(userId: string, code: string): Promise<Ichi | null> {
+  const ichi = await maybeOne<Ichi>(
+    `select * from ichi where join_code = $1`,
     [code],
   );
-  if (!ichchi) return null;
-  if (ichchi.owner_id === userId) return ichchi;
+  if (!ichi) return null;
+  if (ichi.owner_id === userId) return ichi;
 
   await query(
-    `insert into ichchi_members (ichchi_id, user_id) values ($1, $2)
-       on conflict (ichchi_id, user_id) do nothing`,
-    [ichchi.id, userId],
+    `insert into ichi_members (ichi_id, user_id) values ($1, $2)
+       on conflict (ichi_id, user_id) do nothing`,
+    [ichi.id, userId],
   );
-  return ichchi;
+  return ichi;
 }
 
-export async function getIchchiById(id: string): Promise<Ichchi | null> {
-  return maybeOne<Ichchi>(`select * from ichchi where id = $1`, [id]);
+export async function getIchiById(id: string): Promise<Ichi | null> {
+  return maybeOne<Ichi>(`select * from ichi where id = $1`, [id]);
 }
 
-export async function listIchchi(ownerId: string): Promise<Ichchi[]> {
-  return query<Ichchi>(
-    `select * from ichchi where owner_id = $1 order by created_at asc`,
+export async function listIchi(ownerId: string): Promise<Ichi[]> {
+  return query<Ichi>(
+    `select * from ichi where owner_id = $1 order by created_at asc`,
     [ownerId],
   );
 }
 
 /**
- * The bond between an ichchi and one user, creating it on first contact — a
- * ichchi a colleague's agent just met should not need a ceremony to have
+ * The bond between an ichi and one user, creating it on first contact — a
+ * ichi a colleague's agent just met should not need a ceremony to have
  * feelings about them.
  */
-export async function bondFor(ichchiId: string, userId: string): Promise<Bond> {
+export async function bondFor(ichiId: string, userId: string): Promise<Bond> {
   const existing = await maybeOne<Bond>(
-    `select * from bonds where ichchi_id = $1 and user_id = $2`,
-    [ichchiId, userId],
+    `select * from bonds where ichi_id = $1 and user_id = $2`,
+    [ichiId, userId],
   );
   if (existing) return existing;
-  // on conflict: two agents of the same user can meet the ichchi in the same
+  // on conflict: two agents of the same user can meet the ichi in the same
   // second; the loser of the race just reads the winner's row.
   await query(
-    `insert into bonds (ichchi_id, user_id) values ($1, $2)
-       on conflict (ichchi_id, user_id) do nothing`,
-    [ichchiId, userId],
+    `insert into bonds (ichi_id, user_id) values ($1, $2)
+       on conflict (ichi_id, user_id) do nothing`,
+    [ichiId, userId],
   );
   return one<Bond>(
-    `select * from bonds where ichchi_id = $1 and user_id = $2`,
-    [ichchiId, userId],
+    `select * from bonds where ichi_id = $1 and user_id = $2`,
+    [ichiId, userId],
   );
 }
 
 /**
- * Birth an ichchi from a living one rather than from an archetype.
+ * Birth an ichi from a living one rather than from an archetype.
  *
  * The descendant starts from the parent's *current* traits and voice — the
  * character someone actually shaped, not the archetype's factory settings.
@@ -345,18 +345,18 @@ export async function descendFrom(
   parentPublicSlug: string,
   ownerId: string,
   name: string,
-): Promise<Ichchi> {
-  const parent = await maybeOne<Ichchi>(
-    `select * from ichchi where public_slug = $1 and departed_at is null`,
+): Promise<Ichi> {
+  const parent = await maybeOne<Ichi>(
+    `select * from ichi where public_slug = $1 and departed_at is null`,
     [parentPublicSlug],
   );
-  if (!parent) throw new Error("no such ichchi");
+  if (!parent) throw new Error("no such ichi");
 
   return tx(async (client) => {
     let slug = slugify(name);
     for (let i = 1; i < 20; i++) {
       const clash = await client.query(
-        `select 1 from ichchi where owner_id = $1 and slug = $2`,
+        `select 1 from ichi where owner_id = $1 and slug = $2`,
         [ownerId, slug],
       );
       if (clash.rowCount === 0) break;
@@ -368,8 +368,8 @@ export async function descendFrom(
     const mood = moodBaseline(traitsOf(parent));
 
     const child = (
-      await client.query<Ichchi>(
-        `insert into ichchi (
+      await client.query<Ichi>(
+        `insert into ichi (
            owner_id, slug, name, archetype, parent_id,
            openness, conscientiousness, extraversion, agreeableness, neuroticism,
            mood_valence, mood_arousal, stress, energy, voice_notes
@@ -395,7 +395,7 @@ export async function descendFrom(
       )
     ).rows[0];
 
-    await client.query(`insert into bonds (ichchi_id, user_id) values ($1, $2)`, [
+    await client.query(`insert into bonds (ichi_id, user_id) values ($1, $2)`, [
       child.id,
       ownerId,
     ]);
@@ -409,7 +409,7 @@ export async function descendFrom(
  * never a memory body. See migration 0005: publishing a temperament must not
  * publish the codebase it formed around.
  */
-export interface PublicIchchi {
+export interface PublicIchi {
   name: string;
   archetype: string;
   slug: string;
@@ -433,32 +433,32 @@ export interface PublicIchchi {
   top_bond: number;
 }
 
-export async function getPublicIchchi(publicSlug: string): Promise<PublicIchchi | null> {
+export async function getPublicIchi(publicSlug: string): Promise<PublicIchi | null> {
   // The column list is the privacy boundary, so it is written out rather than
   // `select *` — a future column should have to be added here deliberately.
-  return maybeOne<PublicIchchi>(
+  return maybeOne<PublicIchi>(
     `select i.name, i.archetype, i.slug, i.public_slug,
             i.openness, i.conscientiousness, i.extraversion,
             i.agreeableness, i.neuroticism,
             i.mood_valence, i.mood_arousal, i.stress, i.energy,
             i.voice_notes, i.interactions,
             greatest(1, extract(day from now() - i.created_at))::int as age_days,
-            (select count(*)::int from memories m where m.ichchi_id = i.id) as memory_count,
+            (select count(*)::int from memories m where m.ichi_id = i.id) as memory_count,
             (select count(*)::int from memories m
-              where m.ichchi_id = i.id and m.kind = 'standard') as standard_count,
-            coalesce((select max(b.bond)::int from bonds b where b.ichchi_id = i.id), 0) as top_bond
-       from ichchi i
+              where m.ichi_id = i.id and m.kind = 'standard') as standard_count,
+            coalesce((select max(b.bond)::int from bonds b where b.ichi_id = i.id), 0) as top_bond
+       from ichi i
       where i.public_slug = $1`,
     [publicSlug],
   );
 }
 
 /**
- * Give an ichchi a public address, or take it away.
+ * Give an ichi a public address, or take it away.
  *
  * The suffix is random rather than sequential: a published page should be
  * shareable by its owner, not enumerable by anyone who can count. Re-publishing
- * an already-public ichchi keeps the existing address, so a link that has been
+ * an already-public ichi keeps the existing address, so a link that has been
  * shared does not rot the next time the toggle is touched.
  */
 export async function setPublic(
@@ -466,29 +466,29 @@ export async function setPublic(
   slug: string,
   makePublic: boolean,
 ): Promise<string | null> {
-  const ichchi = await getIchchi(ownerId, slug);
-  if (!ichchi) throw new Error("no such ichchi");
+  const ichi = await getIchi(ownerId, slug);
+  if (!ichi) throw new Error("no such ichi");
 
   if (!makePublic) {
-    await query(`update ichchi set public_slug = null where id = $1`, [ichchi.id]);
+    await query(`update ichi set public_slug = null where id = $1`, [ichi.id]);
     return null;
   }
-  if (ichchi.public_slug) return ichchi.public_slug;
+  if (ichi.public_slug) return ichi.public_slug;
 
   const suffix = randomBytes(3).toString("hex");
-  const publicSlug = `${ichchi.slug.slice(0, 40)}-${suffix}`;
-  await query(`update ichchi set public_slug = $2 where id = $1`, [ichchi.id, publicSlug]);
+  const publicSlug = `${ichi.slug.slice(0, 40)}-${suffix}`;
+  await query(`update ichi set public_slug = $2 where id = $1`, [ichi.id, publicSlug]);
   return publicSlug;
 }
 
-/** Trait snapshot of an ichchi row, for the pure mechanics in state.ts. */
-export function traitsOf(ichchi: Ichchi): Traits {
+/** Trait snapshot of an ichi row, for the pure mechanics in state.ts. */
+export function traitsOf(ichi: Ichi): Traits {
   return {
-    openness: ichchi.openness,
-    conscientiousness: ichchi.conscientiousness,
-    extraversion: ichchi.extraversion,
-    agreeableness: ichchi.agreeableness,
-    neuroticism: ichchi.neuroticism,
+    openness: ichi.openness,
+    conscientiousness: ichi.conscientiousness,
+    extraversion: ichi.extraversion,
+    agreeableness: ichi.agreeableness,
+    neuroticism: ichi.neuroticism,
   };
 }
 

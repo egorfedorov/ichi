@@ -39,7 +39,7 @@ export function bondDecay(bond: number, days: number, ratePerDay = 0.5): number 
 /**
  * Instant damage from a scolding. Deliberately larger than one praise's
  * gain — trust is asymmetric, it breaks faster than it builds. The damage
- * scales with the current bond: the closer the ichchi, the harder the hit
+ * scales with the current bond: the closer the ichi, the harder the hit
  * lands.
  */
 export function scoldDamage(bond: number, severity = 1): number {
@@ -51,7 +51,7 @@ export function scoldDamage(bond: number, severity = 1): number {
  * Attachment stages — what the bond has actually unlocked.
  *
  * A number climbing from 34 to 41 is not something a person feels. A stage is:
- * the ichchi starts using your name, or starts saying what it thinks before
+ * the ichi starts using your name, or starts saying what it thinks before
  * you ask. Each threshold has to buy something the reader would notice in the
  * next reply, or it is decoration.
  *
@@ -70,7 +70,7 @@ export function bondStage(bond: number): BondStage {
 }
 
 /**
- * What each stage grants, in the ichchi's own words. Rendered into the voice
+ * What each stage grants, in the ichi's own words. Rendered into the voice
  * block, so it is written as an instruction to the agent, not as a UI label.
  */
 export const STAGE_PRIVILEGE: Record<BondStage, string | null> = {

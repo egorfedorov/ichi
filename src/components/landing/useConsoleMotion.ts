@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { CORE_ORIGIN } from "@/components/landing/IchchiCore";
+import { CORE_ORIGIN } from "@/components/landing/IchiCore";
 
 /**
  * The console's staged and reactive motion.

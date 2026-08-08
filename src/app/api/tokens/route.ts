@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { query } from "@/db";
-import type { IchchiToken } from "@/db/types";
+import type { IchiToken } from "@/db/types";
 import { requireUser } from "@/lib/session";
 import { issueLimitReached, issueToken, revokeToken } from "@/lib/tokens";
 
@@ -17,9 +17,9 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  const tokens = await query<IchchiToken>(
+  const tokens = await query<IchiToken>(
     `select id, prefix, name, last_used_at, created_at
-       from ichchi_tokens
+       from ichi_tokens
       where user_id = $1 and revoked_at is null
       order by created_at desc`,
     [user.id],

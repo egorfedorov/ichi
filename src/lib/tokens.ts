@@ -26,7 +26,7 @@ export async function issueToken(userId: string, name?: string): Promise<IssuedT
   const prefix = token.slice(0, 12);
 
   const row = await maybeOne<{ id: string }>(
-    `insert into ichchi_tokens (user_id, token_hash, prefix, name)
+    `insert into ichi_tokens (user_id, token_hash, prefix, name)
      values ($1, $2, $3, $4) returning id`,
     [userId, hashToken(token), prefix, name ?? null],
   );
@@ -52,7 +52,7 @@ export async function verifyToken(raw: string | null): Promise<TokenOwner | null
     token_hash: string;
   }>(
     `select id, user_id, token_hash
-       from ichchi_tokens
+       from ichi_tokens
       where token_hash = $1 and revoked_at is null`,
     [hash],
   );
@@ -65,7 +65,7 @@ export async function verifyToken(raw: string | null): Promise<TokenOwner | null
   if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
 
   // Fire-and-forget: a failed timestamp update must not fail the tool call.
-  void query(`update ichchi_tokens set last_used_at = now() where id = $1`, [row.id]).catch(
+  void query(`update ichi_tokens set last_used_at = now() where id = $1`, [row.id]).catch(
     () => {},
   );
 
@@ -74,7 +74,7 @@ export async function verifyToken(raw: string | null): Promise<TokenOwner | null
 
 export async function revokeToken(userId: string, tokenId: string): Promise<void> {
   await query(
-    `update ichchi_tokens set revoked_at = now() where id = $1 and user_id = $2`,
+    `update ichi_tokens set revoked_at = now() where id = $1 and user_id = $2`,
     [tokenId, userId],
   );
 }
@@ -84,7 +84,7 @@ const MAX_ACTIVE_TOKENS = 20;
 
 export async function issueLimitReached(userId: string): Promise<boolean> {
   const rows = await query<{ n: number }>(
-    `select count(*)::int as n from ichchi_tokens
+    `select count(*)::int as n from ichi_tokens
       where user_id = $1 and revoked_at is null`,
     [userId],
   );

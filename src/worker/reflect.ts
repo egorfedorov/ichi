@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { query, tx } from "@/db";
-import type { Ichchi, IchchiEvent } from "@/db/types";
+import type { Ichi, IchiEvent } from "@/db/types";
 import { costCents, structured } from "@/lib/claude";
 import { env } from "@/lib/env";
 import {
@@ -10,21 +10,21 @@ import {
   type PendingDrift,
   type Traits,
 } from "@/lib/state";
-import { archetypeById, traitColumns, traitsOf } from "@/lib/ichchi";
+import { archetypeById, traitColumns, traitsOf } from "@/lib/ichi";
 
 /**
- * Reflection (feature: an ichchi that thinks about what it lived through).
+ * Reflection (feature: an ichi that thinks about what it lived through).
  *
- * The request path is deliberately dumb: events land in ichchi_events, mood and
+ * The request path is deliberately dumb: events land in ichi_events, mood and
  * bond twitch, drift whispers accumulate. This job is the judgement. It reads
  * everything that happened since the last reflection, and a cheap model
  * answers four questions: how did it feel overall, what is worth remembering,
- * did the ichchi form a belief, and which way does the character lean. Only
+ * did the ichi form a belief, and which way does the character lean. Only
  * then does pending_drift get a chance to commit — past a per-trait
  * threshold, so one angry session cannot rewrite a personality.
  *
- * Lazy: nothing runs on a schedule. ichchi_brief
- * and ichchi_feedback enqueue this when enough has happened (see lib/mcp.ts),
+ * Lazy: nothing runs on a schedule. ichi_brief
+ * and ichi_feedback enqueue this when enough has happened (see lib/mcp.ts),
  * and the singleton window in the queue keeps a chatty agent from stacking
  * reflections.
  */
@@ -63,7 +63,7 @@ const REFLECTION_SCHEMA = {
   properties: {
     sentiment: {
       type: "number",
-      description: "Overall emotional tone of these events for the ichchi, -1 (hurt) to 1 (delighted).",
+      description: "Overall emotional tone of these events for the ichi, -1 (hurt) to 1 (delighted).",
     },
     drift: {
       type: "object",
@@ -78,7 +78,7 @@ const REFLECTION_SCHEMA = {
     memories: {
       type: "array",
       description:
-        "0-3 things worth the ichchi remembering long-term. Only what would " +
+        "0-3 things worth the ichi remembering long-term. Only what would " +
         "matter weeks from now — a wound, a win, a standing preference. " +
         "Routine calls are not memories.\n" +
         "Use kind 'standard' ONLY for a rule the user themselves stated about " +
@@ -90,7 +90,7 @@ const REFLECTION_SCHEMA = {
       items: {
         type: "object",
         properties: {
-          body: { type: "string", description: "One or two sentences, from the ichchi's point of view." },
+          body: { type: "string", description: "One or two sentences, from the ichi's point of view." },
           kind: { type: "string", enum: ["event", "insult", "praise", "belief", "fact", "standard"] },
           valence: { type: "number", description: "Emotional charge, -1..1." },
           salience: { type: "number", description: "How strongly it is stamped, 0..1." },
@@ -103,7 +103,7 @@ const REFLECTION_SCHEMA = {
     voice_note: {
       type: "string",
       description:
-        "One short line to add to how the ichchi speaks — a belief or mannerism " +
+        "One short line to add to how the ichi speaks — a belief or mannerism " +
         "these events formed. Empty string when nothing that lasting happened.",
     },
   },
@@ -112,13 +112,13 @@ const REFLECTION_SCHEMA = {
 } as const;
 
 const SYSTEM =
-  "You are the inner life of an ichchi — a household spirit, a persistent " +
+  "You are the inner life of an ichi — a household spirit, a persistent " +
   "personality that rides alongside an AI coding agent. You are given its character " +
   "(Big Five traits, current voice) and the events it just lived through, in " +
   "order. Reflect on them the way a person sits with their day.\n\n" +
   "Judge conservatively: most stretches of events change nothing lasting. " +
   "Drift is a lean, not a leap — the caller applies a threshold, so only " +
-  "report what the events genuinely evidence. Write memories from the ichchi's " +
+  "report what the events genuinely evidence. Write memories from the ichi's " +
   "own point of view, in first person. Never invent events that are not listed.";
 
 /**
@@ -126,15 +126,15 @@ const SYSTEM =
  * Events are trimmed hard — the log is a summary of a session, not the
  * session itself.
  */
-export function buildReflectPrompt(ichchi: Ichchi, events: IchchiEvent[]): string {
-  const archetype = archetypeById(ichchi.archetype);
-  const t = traitsOf(ichchi);
+export function buildReflectPrompt(ichi: Ichi, events: IchiEvent[]): string {
+  const archetype = archetypeById(ichi.archetype);
+  const t = traitsOf(ichi);
 
   const lines: string[] = [
-    `Ichchi: ${ichchi.name} (${archetype?.name ?? ichchi.archetype})`,
+    `Ichi: ${ichi.name} (${archetype?.name ?? ichi.archetype})`,
     `Traits: openness ${t.openness}, conscientiousness ${t.conscientiousness}, ` +
       `extraversion ${t.extraversion}, agreeableness ${t.agreeableness}, neuroticism ${t.neuroticism}`,
-    `Voice so far: ${ichchi.voice_notes ?? archetype?.voice ?? "—"}`,
+    `Voice so far: ${ichi.voice_notes ?? archetype?.voice ?? "—"}`,
     "",
     "Events since the last reflection, oldest first:",
   ];
@@ -175,12 +175,12 @@ export const VOICE_NOTES_MAX = 320;
  * The previous version appended and then truncated the tail to a cap. That
  * looked append-only and safe, and it quietly froze the personality: once the
  * string saturated, every later reflection appended into the part that got
- * cut, so the ichchi stopped forming convictions on the day it hit the limit
+ * cut, so the ichi stopped forming convictions on the day it hit the limit
  * and nothing in the logs said so. For a product whose whole premise is a
  * character that grows, that was the worst possible failure — invisible and
  * permanent.
  *
- * Newest wins. An ichchi is allowed to forget an old conviction; it is not
+ * Newest wins. An ichi is allowed to forget an old conviction; it is not
  * allowed to stop having new ones.
  */
 export function appendVoiceNote(existing: string | null, note: string): string | null {
@@ -198,19 +198,19 @@ export function appendVoiceNote(existing: string | null, note: string): string |
 }
 
 /**
- * Apply a reflection to an ichchi, pure and exported for tests: the model's
+ * Apply a reflection to an ichi, pure and exported for tests: the model's
  * drift joins the pending pool, the pool commits past its threshold, and a
  * formed conviction joins the voice (evicting the oldest if the voice is full).
  */
-export function applyReflection(ichchi: Ichchi, result: ReflectionResult): ReflectionApplication {
-  const pending = accumulateDrift(ichchi.pending_drift, result.drift as PendingDrift);
-  const { traits, committed, remaining } = commitDrift(traitsOf(ichchi), pending);
+export function applyReflection(ichi: Ichi, result: ReflectionResult): ReflectionApplication {
+  const pending = accumulateDrift(ichi.pending_drift, result.drift as PendingDrift);
+  const { traits, committed, remaining } = commitDrift(traitsOf(ichi), pending);
 
   return {
     traits,
     committed,
     remaining,
-    voiceNotes: appendVoiceNote(ichchi.voice_notes, result.voice_note),
+    voiceNotes: appendVoiceNote(ichi.voice_notes, result.voice_note),
   };
 }
 
@@ -222,28 +222,28 @@ export interface ReflectReport {
 }
 
 /**
- * Reflect on one ichchi. Returns null when there was honestly nothing to do:
- * no API key (self-host without one must run fine, ichchi just never
- * reflect), an ichchi that no longer exists, or no events since the last pass.
+ * Reflect on one ichi. Returns null when there was honestly nothing to do:
+ * no API key (self-host without one must run fine, ichi just never
+ * reflect), an ichi that no longer exists, or no events since the last pass.
  */
-export async function runReflect(ichchiId: string): Promise<ReflectReport | null> {
+export async function runReflect(ichiId: string): Promise<ReflectReport | null> {
   if (!env.ANTHROPIC_API_KEY) {
-    console.log(`[reflect] ${ichchiId} skipped — ANTHROPIC_API_KEY is not set`);
+    console.log(`[reflect] ${ichiId} skipped — ANTHROPIC_API_KEY is not set`);
     return null;
   }
 
-  const ichchi = await query<Ichchi>(`select * from ichchi where id = $1`, [ichchiId]).then(
+  const ichi = await query<Ichi>(`select * from ichi where id = $1`, [ichiId]).then(
     (rows) => rows[0] ?? null,
   );
-  if (!ichchi) return null;
+  if (!ichi) return null;
 
-  const events = await query<IchchiEvent>(
-    `select * from ichchi_events
-      where ichchi_id = $1 and kind in ('call', 'feedback')
+  const events = await query<IchiEvent>(
+    `select * from ichi_events
+      where ichi_id = $1 and kind in ('call', 'feedback')
         and created_at > coalesce($2, 'epoch'::timestamptz)
       order by created_at asc
       limit ${MAX_EVENTS_READ}`,
-    [ichchiId, ichchi.reflected_at],
+    [ichiId, ichi.reflected_at],
   );
   if (events.length === 0) return null;
 
@@ -251,30 +251,30 @@ export async function runReflect(ichchiId: string): Promise<ReflectReport | null
     model: env.MODEL_JUDGE,
     maxTokens: 2000,
     toolName: "record_reflection",
-    toolDescription: "Record the ichchi's reflection on these events. Call once.",
+    toolDescription: "Record the ichi's reflection on these events. Call once.",
     schema: REFLECTION_SCHEMA,
     system: SYSTEM,
-    content: [{ type: "text", text: buildReflectPrompt(ichchi, events) }],
+    content: [{ type: "text", text: buildReflectPrompt(ichi, events) }],
   });
 
   const parsed = reflectionShape.safeParse(raw);
   if (!parsed.success) throw new Error("reflection schema mismatch");
   const result = parsed.data;
 
-  const applied = applyReflection(ichchi, result);
+  const applied = applyReflection(ichi, result);
   const cols = traitColumns(applied.traits);
   const cost = costCents(env.MODEL_JUDGE, usage);
 
   await tx(async (client) => {
     await client.query(
-      `update ichchi set
+      `update ichi set
          openness = $2, conscientiousness = $3, extraversion = $4,
          agreeableness = $5, neuroticism = $6,
          pending_drift = $7, voice_notes = $8,
          reflected_at = now(), updated_at = now()
        where id = $1`,
       [
-        ichchiId,
+        ichiId,
         cols.openness,
         cols.conscientiousness,
         cols.extraversion,
@@ -287,10 +287,10 @@ export async function runReflect(ichchiId: string): Promise<ReflectReport | null
 
     for (const m of result.memories) {
       await client.query(
-        `insert into memories (ichchi_id, body, kind, valence, salience)
+        `insert into memories (ichi_id, body, kind, valence, salience)
          values ($1, $2, $3, $4, $5)`,
         [
-          ichchiId,
+          ichiId,
           m.body,
           m.kind,
           clamp(m.valence, -1, 1),
@@ -299,12 +299,12 @@ export async function runReflect(ichchiId: string): Promise<ReflectReport | null
       );
     }
 
-    // The visible log line: what the ichchi concluded, and what it changed.
+    // The visible log line: what the ichi concluded, and what it changed.
     await client.query(
-      `insert into ichchi_events (ichchi_id, kind, text, delta)
+      `insert into ichi_events (ichi_id, kind, text, delta)
        values ($1, 'reflect', $2, $3)`,
       [
-        ichchiId,
+        ichiId,
         `reflected on ${events.length} event(s)`,
         JSON.stringify({
           sentiment: result.sentiment,

@@ -48,7 +48,7 @@ export function clampTrait(v: number): number {
 }
 
 /**
- * The mood an ichchi returns to when nothing happens. Derived from traits so
+ * The mood an ichi returns to when nothing happens. Derived from traits so
  * that a choleric archetype and a phlegmatic one cool down to different
  * places: extraversion and agreeableness warm the baseline, neuroticism
  * sours it and keeps it tense.
@@ -108,8 +108,8 @@ export function moodDecayToBaseline(
  *
  * Negativity bias is deliberate: a scolding lands harder than a praise lifts
  * (|valence| 0.8 vs 0.6), because that is how attachment actually works and
- * because it makes abuse costly rather than a neutral way to steer the ichchi.
- * `sentiment` (-1..1) scales the impact — a scold with a reason the ichchi
+ * because it makes abuse costly rather than a neutral way to steer the ichi.
+ * `sentiment` (-1..1) scales the impact — a scold with a reason the ichi
  * "agrees" with stings differently from a baseless one; the caller decides,
  * the formula just scales.
  */
@@ -167,7 +167,7 @@ export interface CommitResult {
 /**
  * Commit pending drift into traits. Per-trait threshold: only a trait whose
  * accumulated |drift| reaches the threshold is applied; the rest carries
- * over. Clamped to 0..100 — an ichchi can saturate a trait but never leave it.
+ * over. Clamped to 0..100 — an ichi can saturate a trait but never leave it.
  */
 export function commitDrift(
   traits: Traits,

@@ -49,7 +49,7 @@ function steps(items: { t: string; d: string }[]): Line[] {
 export const COMMANDS: Command[] = [
   {
     name: ":help",
-    help: "everything this ichchi can do",
+    help: "everything this ichi can do",
     run: () => [
       head("COMMANDS"),
       ...COMMANDS.map((c) => ({
@@ -57,7 +57,7 @@ export const COMMANDS: Command[] = [
         text: `  ${c.name.padEnd(12)} ${c.help}`,
       })),
       blank(),
-      dim("  Anything that is not a command is said to the ichchi."),
+      dim("  Anything that is not a command is said to the ichi."),
       dim("  Praise it or scold it and watch the core, the brief and the log move."),
     ],
   },
@@ -104,15 +104,15 @@ export const COMMANDS: Command[] = [
     name: ":spirits",
     help: "the six archetypes you can summon",
     run: (t) => [
-      head(t.ichchi.title.toUpperCase()),
-      dim(`  ${t.ichchi.sub}`),
+      head(t.ichi.title.toUpperCase()),
+      dim(`  ${t.ichi.sub}`),
       blank(),
-      ...Object.entries(t.ichchi.items).flatMap(([id, v]) => [
+      ...Object.entries(t.ichi.items).flatMap(([id, v]) => [
         { kind: "accent" as const, text: `  ${id.padEnd(18)} ${v.tagline}` },
         dim(`  ${" ".repeat(18)} ${v.desc}`),
         blank(),
       ]),
-      dim("  ichchi_adopt <archetype> — and it is yours, with a name you pick."),
+      dim("  ichi_adopt <archetype> — and it is yours, with a name you pick."),
     ],
   },
   {
@@ -122,8 +122,8 @@ export const COMMANDS: Command[] = [
       head(t.connect.title.toUpperCase()),
       blank(),
       ...steps(t.connect.steps),
-      { kind: "accent", text: "  $ claude mcp add --transport http ichchi \\" },
-      { kind: "accent", text: "      https://ichchi.sh/mcp \\" },
+      { kind: "accent", text: "  $ claude mcp add --transport http ichi \\" },
+      { kind: "accent", text: "      https://ichi.sh/mcp \\" },
       { kind: "accent", text: '      --header "Authorization: Bearer ichi_…"' },
       blank(),
       { kind: "out", text: "  → open the connect page", href: "/connect" },
@@ -131,21 +131,21 @@ export const COMMANDS: Command[] = [
   },
   {
     name: ":clients",
-    help: "the same ichchi in every tool you work in",
+    help: "the same ichi in every tool you work in",
     run: (t) => [
       head("ONE ICHCHI, EVERY CLIENT"),
       dim(`  ${t.cli.agents} — it is a plain MCP server, so anything that speaks`),
       dim("  MCP over HTTP can reach it. Same spirit, same memory, same grudge."),
       blank(),
       { kind: "accent", text: "  Claude Code" },
-      dim("    $ claude mcp add --transport http ichchi \\"),
-      dim("        https://ichchi.sh/mcp \\"),
+      dim("    $ claude mcp add --transport http ichi \\"),
+      dim("        https://ichi.sh/mcp \\"),
       dim('        --header "Authorization: Bearer ichi_…"'),
       blank(),
       { kind: "accent", text: "  Cursor · Windsurf · VS Code · Claude Desktop" },
       dim("    Add to the client's MCP config file — they share this shape:"),
-      dim('    { "mcpServers": { "ichchi": {'),
-      dim('        "url": "https://ichchi.sh/mcp",'),
+      dim('    { "mcpServers": { "ichi": {'),
+      dim('        "url": "https://ichi.sh/mcp",'),
       dim('        "headers": { "Authorization": "Bearer ichi_…" } } } }'),
       blank(),
       dim("  Check your client's docs for where its config file lives — the"),

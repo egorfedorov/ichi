@@ -1,8 +1,8 @@
 /**
  * The languages the landing is offered in.
  *
- * The public page only. Ichchi, settings and the connect flow stay in their
- * own language — an ichchi's memory and voice are content, and content does not
+ * The public page only. Ichi, settings and the connect flow stay in their
+ * own language — an ichi's memory and voice are content, and content does not
  * get translated behind the reader's back.
  */
 
@@ -32,7 +32,7 @@ export const LOCALES: Locale[] = [
 export const DEFAULT_LOCALE = "en";
 
 /** The cookie the picker sets. Read on every render of the landing. */
-export const LOCALE_COOKIE = "ichchi_lang";
+export const LOCALE_COOKIE = "ichi_lang";
 
 export function isLocale(code: string | undefined | null): code is string {
   return Boolean(code) && LOCALES.some((l) => l.code === code);

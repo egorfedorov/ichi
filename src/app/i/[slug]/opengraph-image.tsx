@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { archetypeById, getPublicIchchi } from "@/lib/ichchi";
+import { archetypeById, getPublicIchi } from "@/lib/ichi";
 import { bondWords, moodWords } from "@/lib/voice";
 
 /**
@@ -10,7 +10,7 @@ import { bondWords, moodWords } from "@/lib/voice";
  * that makes a stranger curious — a named character with a mood — rather than
  * a logo and a tagline.
  *
- * Colour comes from the ichchi's live mood, so two people sharing two ichchi
+ * Colour comes from the ichi's live mood, so two people sharing two ichi
  * get two visibly different cards. A card that looks identical for every user
  * teaches the timeline to ignore it.
  *
@@ -19,7 +19,7 @@ import { bondWords, moodWords } from "@/lib/voice";
  * implements — no grid, no shorthand gaps in odd places.
  */
 
-export const alt = "An ichchi — a living spirit for AI agents";
+export const alt = "An ichi — a living spirit for AI agents";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -47,9 +47,9 @@ function inkFor(mood: string): string {
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const ichchi = await getPublicIchchi(slug);
+  const ichi = await getPublicIchi(slug);
 
-  if (!ichchi) {
+  if (!ichi) {
     return new ImageResponse(
       (
         <div
@@ -64,22 +64,22 @@ export default async function Image({ params }: { params: Promise<{ slug: string
             fontSize: 56,
           }}
         >
-          ichchi
+          ichi
         </div>
       ),
       size,
     );
   }
 
-  const archetype = archetypeById(ichchi.archetype);
-  const mood = moodWords(ichchi);
+  const archetype = archetypeById(ichi.archetype);
+  const mood = moodWords(ichi);
   const ink = inkFor(mood);
   const traits: [string, number][] = [
-    ["O", ichchi.openness],
-    ["C", ichchi.conscientiousness],
-    ["E", ichchi.extraversion],
-    ["A", ichchi.agreeableness],
-    ["N", ichchi.neuroticism],
+    ["O", ichi.openness],
+    ["C", ichi.conscientiousness],
+    ["E", ichi.extraversion],
+    ["A", ichi.agreeableness],
+    ["N", ichi.neuroticism],
   ];
 
   return new ImageResponse(
@@ -106,14 +106,14 @@ export default async function Image({ params }: { params: Promise<{ slug: string
 
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ fontSize: 96, fontWeight: 700, letterSpacing: -2 }}>
-            {ichchi.name}
+            {ichi.name}
           </div>
           <div style={{ display: "flex", fontSize: 34, color: ink, marginTop: 12 }}>
             feeling {mood}
           </div>
           <div style={{ display: "flex", fontSize: 26, color: "#8d939c", marginTop: 16 }}>
-            {archetype?.name ?? ichchi.archetype} · bond {ichchi.top_bond}/100,{" "}
-            {bondWords(ichchi.top_bond)} · {ichchi.memory_count} memories
+            {archetype?.name ?? ichi.archetype} · bond {ichi.top_bond}/100,{" "}
+            {bondWords(ichi.top_bond)} · {ichi.memory_count} memories
           </div>
         </div>
 
@@ -146,7 +146,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
               color: "#646b75",
             }}
           >
-            ichchi.sh/i/{ichchi.public_slug}
+            ichi.sh/i/{ichi.public_slug}
           </div>
         </div>
       </div>

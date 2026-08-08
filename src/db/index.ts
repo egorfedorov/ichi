@@ -5,17 +5,17 @@ import { env } from "@/lib/env";
  * One pool for the whole process. Next dev-mode reloads modules, so stash it on
  * globalThis or you leak a pool per hot reload until Postgres runs out of slots.
  */
-const globalForDb = globalThis as unknown as { _ichchiPool?: Pool };
+const globalForDb = globalThis as unknown as { _ichiPool?: Pool };
 
 export const pool =
-  globalForDb._ichchiPool ??
+  globalForDb._ichiPool ??
   new Pool({
     connectionString: env.DATABASE_URL,
     max: 10,
     idleTimeoutMillis: 30_000,
   });
 
-if (process.env.NODE_ENV !== "production") globalForDb._ichchiPool = pool;
+if (process.env.NODE_ENV !== "production") globalForDb._ichiPool = pool;
 
 export async function query<T extends object = Record<string, unknown>>(
   text: string,

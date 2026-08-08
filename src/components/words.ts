@@ -1,15 +1,15 @@
-import type { Ichchi } from "@/db/types";
+import type { Ichi } from "@/db/types";
 
 /**
- * Russian word-forms of the ichchi's state for the web UI. voice.ts renders the
+ * Russian word-forms of the ichi's state for the web UI. voice.ts renders the
  * same state in English for agents; duplicating the ladder here instead of
  * parameterising it keeps the agent-facing copy free to change without
  * touching the interface language.
  */
 
 /** Same thresholds as voice.ts moodWords — the page and the agent must agree. */
-export function moodWordsRu(ichchi: Ichchi): string {
-  const { mood_valence: v, mood_arousal: a, stress, energy } = ichchi;
+export function moodWordsRu(ichi: Ichi): string {
+  const { mood_valence: v, mood_arousal: a, stress, energy } = ichi;
   if (v <= -0.5 && a >= 0.3) return "задет и на взводе";
   if (v <= -0.5) return "обижен, ушёл в себя";
   if (v <= -0.2 && stress >= 0.6) return "напряжён и обидчив";

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { LandingDict } from "@/lib/landing-i18n";
 
 /**
- * One ichchi, one state. The chat, the brain panel and the event log all read
+ * One ichi, one state. The chat, the brain panel and the event log all read
  * from this hook, so a scolding in the chat moves the sparkline, the JSON
  * brief and the log in the same render.
  *
@@ -30,9 +30,9 @@ export function moodOf(v: number): MoodKey {
 
 export type ChatKind = "ask" | "praise" | "scold";
 
-export type IchchiMsg = { id: number; from: "you" | "ichchi"; text: string };
+export type IchiMsg = { id: number; from: "you" | "ichi"; text: string };
 
-export type IchchiEvent = {
+export type IchiEvent = {
   id: number;
   kind: ChatKind;
   text: string;
@@ -41,8 +41,8 @@ export type IchchiEvent = {
 };
 
 /**
- * The demo ichchi's character — the Sage archetype's starting traits. Copied
- * as data because @/lib/ichchi imports the database, which the browser bundle
+ * The demo ichi's character — the Sage archetype's starting traits. Copied
+ * as data because @/lib/ichi imports the database, which the browser bundle
  * must never see.
  */
 export const DEMO_TRAITS = {
@@ -61,7 +61,7 @@ const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 /** Module-level so the render-purity rule doesn't see Math.random in a handler. */
 const replyDelay = () => 650 + Math.random() * 650;
 
-export function useIchchiEngine(
+export function useIchiEngine(
   t: LandingDict["chat"],
   /**
    * Where a returning visitor left it. Applied after mount rather than as an
@@ -70,8 +70,8 @@ export function useIchchiEngine(
    */
   restore?: { valence: number; bond: number } | null,
 ) {
-  const [msgs, setMsgs] = useState<IchchiMsg[]>([
-    { id: 0, from: "ichchi", text: t.greeting },
+  const [msgs, setMsgs] = useState<IchiMsg[]>([
+    { id: 0, from: "ichi", text: t.greeting },
   ]);
   // The history is the state: current valence is always its last point, so
   // the sparkline and the mood can never disagree.
@@ -86,7 +86,7 @@ export function useIchchiEngine(
     setHistory([restore.valence]);
     setBond(restore.bond);
   }, [restore]);
-  const [events, setEvents] = useState<IchchiEvent[]>([]);
+  const [events, setEvents] = useState<IchiEvent[]>([]);
   const [answering, setAnswering] = useState(false);
   const histRef = useRef(history);
   const idRef = useRef(1);
@@ -133,7 +133,7 @@ export function useIchchiEngine(
       { id: idRef.current++, kind, text: clean, delta },
     ]);
 
-    // The reply is chosen when the ichchi answers, not when you ask — the mood
+    // The reply is chosen when the ichi answers, not when you ask — the mood
     // may have cooled in between.
     setAnswering(true);
     timers.current.push(
@@ -145,7 +145,7 @@ export function useIchchiEngine(
             : kind === "scold"
               ? pick(t.scoldAck)
               : pick(t.replies[moodOf(now)]);
-        setMsgs((m) => [...m, { id: idRef.current++, from: "ichchi", text: reply }]);
+        setMsgs((m) => [...m, { id: idRef.current++, from: "ichi", text: reply }]);
         setAnswering(false);
       }, replyDelay()),
     );
@@ -154,4 +154,4 @@ export function useIchchiEngine(
   return { msgs, valence, mood, bond, history, events, answering, send };
 }
 
-export type IchchiEngine = ReturnType<typeof useIchchiEngine>;
+export type IchiEngine = ReturnType<typeof useIchiEngine>;

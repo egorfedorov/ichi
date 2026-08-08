@@ -3,7 +3,7 @@ import { currentLocale, landingDict } from "@/lib/t";
 import { localeOf } from "@/lib/locales";
 
 /**
- * Public ichchi pages wear the paper chrome, not the app's night theme.
+ * Public ichi pages wear the paper chrome, not the app's night theme.
  *
  * This is the one page a stranger reaches first, arriving from someone else's
  * link with no idea what any of it is — so unlike the console, it keeps a
@@ -24,7 +24,7 @@ export default async function PublicLayout({
       <header className="topbar">
         <div className="shell topbar-inner">
           <Link href="/" className="wordmark">
-            ichchi<span>.</span>
+            ichi<span>.</span>
           </Link>
           <Link className="btn ms-auto" href="/">
             {t.hero.ctaPrimary}

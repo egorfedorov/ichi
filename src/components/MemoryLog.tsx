@@ -11,8 +11,8 @@ const KIND_LABELS: Record<MemoryKind, string> = {
 };
 
 /**
- * The ichchi's memory log. The dot is valence (warm/hurt/neutral), the bar is
- * salience — how firmly the memory is held. This is the "what the ichchi
+ * The ichi's memory log. The dot is valence (warm/hurt/neutral), the bar is
+ * salience — how firmly the memory is held. This is the "what the ichi
  * learned" surface; ordering by salience happens in the page's query.
  */
 export default function MemoryLog({ memories }: { memories: Memory[] }) {

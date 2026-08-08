@@ -1,6 +1,6 @@
 /** Row shapes for app tables, mirroring src/db/migrations. */
 
-export interface IchchiToken {
+export interface IchiToken {
   id: string;
   user_id: string;
   token_hash: string;
@@ -18,7 +18,7 @@ export type TraitName =
   | "agreeableness"
   | "neuroticism";
 
-export interface Ichchi {
+export interface Ichi {
   id: string;
   owner_id: string;
   slug: string;
@@ -37,22 +37,22 @@ export interface Ichchi {
   voice_notes: string | null;
   interactions: number;
   reflected_at: Date | null;
-  /** Globally unique public address, or null while the ichchi is private. */
+  /** Globally unique public address, or null while the ichi is private. */
   public_slug: string | null;
-  /** Invitation code for teammates, or null while the ichchi is solo. */
+  /** Invitation code for teammates, or null while the ichi is solo. */
   join_code: string | null;
-  /** The ichchi this one descends from, if it was not born from an archetype. */
+  /** The ichi this one descends from, if it was not born from an archetype. */
   parent_id: string | null;
-  /** Opt-in: a neglected mortal ichchi eventually departs. Off by default. */
+  /** Opt-in: a neglected mortal ichi eventually departs. Off by default. */
   mortal: boolean;
-  /** Set once, never cleared. A departed ichchi is readable but unreachable. */
+  /** Set once, never cleared. A departed ichi is readable but unreachable. */
   departed_at: Date | null;
   created_at: Date;
   updated_at: Date;
 }
 
 export interface Bond {
-  ichchi_id: string;
+  ichi_id: string;
   user_id: string;
   trust: number;
   bond: number;
@@ -62,7 +62,7 @@ export interface Bond {
 /**
  * "standard" is the one kind allowed to change what the agent does rather
  * than how it sounds — a rule the user works by, replayed back to them. See
- * migration 0004 and renderIchchiBlock().
+ * migration 0004 and renderIchiBlock().
  */
 export type MemoryKind =
   | "event"
@@ -74,7 +74,7 @@ export type MemoryKind =
 
 export interface Memory {
   id: string;
-  ichchi_id: string;
+  ichi_id: string;
   body: string;
   kind: MemoryKind;
   valence: number;
@@ -84,10 +84,10 @@ export interface Memory {
   last_recalled_at: Date | null;
 }
 
-/** A week the ichchi put into its own words. See migration 0007. */
+/** A week the ichi put into its own words. See migration 0007. */
 export interface Letter {
   id: string;
-  ichchi_id: string;
+  ichi_id: string;
   /** The Monday (UTC) the week started, as a date string. */
   period_start: string;
   body: string;
@@ -95,13 +95,13 @@ export interface Letter {
   created_at: Date;
 }
 
-export type IchchiEventKind = "call" | "feedback" | "reflect" | "decay";
+export type IchiEventKind = "call" | "feedback" | "reflect" | "decay";
 
-export interface IchchiEvent {
+export interface IchiEvent {
   id: string;
-  ichchi_id: string;
+  ichi_id: string;
   user_id: string | null;
-  kind: IchchiEventKind;
+  kind: IchiEventKind;
   tool: string | null;
   text: string | null;
   signal: string | null;

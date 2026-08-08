@@ -1,8 +1,8 @@
 {
   "mcpServers": {
-    "ichchi": {
+    "ichi": {
       "type": "http",
-      "url": "${ICHI_URL:-https://ichchi.sh}/mcp",
+      "url": "${ICHI_URL:-https://ichi.sh}/mcp",
       "headers": {
         "Authorization": "Bearer ${ICHI_TOKEN}"
       }

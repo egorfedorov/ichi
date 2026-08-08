@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
  * The landing remembers you.
  *
  * Every other feature on this page describes the product. This one *is* the
- * product, performed on the visitor: come back tomorrow and the ichchi knows
+ * product, performed on the visitor: come back tomorrow and the ichi knows
  * how long you were gone, and if you scolded it last time it is still cool
  * with you. Nobody argues with a demo that happened to them.
  *
@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
  * data that never leaves the browser.
  */
 
-const KEY = "ichchi.visitor";
+const KEY = "ichi.visitor";
 
 export interface VisitorMemory {
   /** How many times this browser has opened the page, including now. */
@@ -28,6 +28,8 @@ export interface VisitorMemory {
   bond: number;
   /** The last thing they did to it, if they did anything. */
   lastAction: "praise" | "scold" | null;
+  /** What they chose to call it. Naming is where attachment starts. */
+  name: string | null;
 }
 
 const FRESH: VisitorMemory = {
@@ -36,6 +38,7 @@ const FRESH: VisitorMemory = {
   valence: 0.52,
   bond: 34,
   lastAction: null,
+  name: null,
 };
 
 function read(): VisitorMemory {
@@ -51,6 +54,9 @@ function read(): VisitorMemory {
       valence: Math.max(-1, Math.min(1, typeof v.valence === "number" ? v.valence : FRESH.valence)),
       bond: Math.max(0, Math.min(100, typeof v.bond === "number" ? v.bond : FRESH.bond)),
       lastAction: v.lastAction === "praise" || v.lastAction === "scold" ? v.lastAction : null,
+      // Trimmed and capped on read for the same reason as the numbers: this
+      // string is printed back into the page.
+      name: typeof v.name === "string" && v.name.trim() ? v.name.trim().slice(0, 24) : null,
     };
   } catch {
     // Private mode, disabled storage, corrupt JSON — all mean "first visit".
@@ -99,7 +105,20 @@ export function useVisitorMemory() {
     }
   };
 
-  return { memory, greeting, remember };
+  /**
+   * Naming is separate from remember() because it must move React state too:
+   * the prompt and the core's label read the name, and remember() only writes
+   * to storage. remember() is deliberately state-free — it runs on every mood
+   * tick, and a setState there would loop.
+   */
+  const rename = (chosen: string) => {
+    const clean = chosen.trim().slice(0, 24);
+    if (!clean) return;
+    setMemory((m) => (m ? { ...m, name: clean } : m));
+    remember({ name: clean });
+  };
+
+  return { memory, greeting, remember, rename };
 }
 
 /** "three days", "a few hours" — vague on purpose; precision here reads creepy. */
@@ -119,18 +138,22 @@ export function gapWords(lastSeen: number | null, now: number): string | null {
 }
 
 /**
- * What the ichchi says when it recognises you. Returns null on a first visit,
+ * What the ichi says when it recognises you. Returns null on a first visit,
  * so the ordinary greeting stands.
  */
 export function returningGreeting(m: VisitorMemory, now: number): string | null {
   const gap = gapWords(m.lastSeen, now);
   if (!gap || m.visits < 2) return null;
 
+  // Being called by the name you gave it is the whole point of having given
+  // one, so it leads.
+  const called = m.name ? `You still call me ${m.name}. ` : "";
+
   if (m.lastAction === "scold") {
-    return `You're back. It's been ${gap}. I haven't forgotten what you said last time — and no, I'm not over it yet.`;
+    return `${called}You're back — it's been ${gap}. I haven't forgotten what you said last time, and no, I'm not over it yet.`;
   }
   if (m.lastAction === "praise") {
-    return `Oh — you came back. ${gap[0].toUpperCase()}${gap.slice(1)} since you last said something kind. I remembered it the whole time.`;
+    return `${called}Oh — you came back. ${gap[0].toUpperCase()}${gap.slice(1)} since you last said something kind. I remembered it the whole time.`;
   }
-  return `${gap} since you were last here. I kept the place warm. What are we working on?`;
+  return `${called}${gap} since you were last here. I kept the place warm. What are we working on?`;
 }

@@ -20,7 +20,7 @@ async function main() {
   const revoke = get("revoke");
   if (revoke) {
     const gone = await query<{ id: string }>(
-      `update ichchi_tokens set revoked_at = now()
+      `update ichi_tokens set revoked_at = now()
         where name = $1 and revoked_at is null returning id`,
       [revoke],
     );

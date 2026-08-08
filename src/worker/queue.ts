@@ -17,13 +17,13 @@ export const QUEUES = {
 /**
  * Monday morning, after the weekend has landed in the log. Two queues, not
  * one: `letters` is the fan-out that decides who has something to say, and
- * `letter` writes a single ichchi's — so one model call failing retries alone
- * instead of taking every other ichchi's letter down with it.
+ * `letter` writes a single ichi's — so one model call failing retries alone
+ * instead of taking every other ichi's letter down with it.
  */
 export const LETTER_CRON = "17 9 * * 1";
 
 /**
- * How often ichchi cool down. Every six hours rather than nightly: the pass is
+ * How often ichi cool down. Every six hours rather than nightly: the pass is
  * cheap when nothing changed, and a quarrel from this morning should be
  * noticeably fainter by evening. Not on :00/:30 — that is when every other
  * cron in the world fires.
@@ -55,17 +55,17 @@ export async function getBoss(): Promise<PgBoss> {
 }
 
 /**
- * One reflection per ichchi in flight; the singleton window keeps a chatty
- * agent from queueing a reflect on every ichchi_brief. Ten minutes rather than
- * the job's own runtime: an ichchi mid-conversation will have more to say by
+ * One reflection per ichi in flight; the singleton window keeps a chatty
+ * agent from queueing a reflect on every ichi_brief. Ten minutes rather than
+ * the job's own runtime: an ichi mid-conversation will have more to say by
  * then, and that deserves a fresh read, not a merged one.
  */
-export async function enqueueReflect(ichchiId: string): Promise<void> {
+export async function enqueueReflect(ichiId: string): Promise<void> {
   const b = await getBoss();
   await b.send(
     QUEUES.reflect,
-    { ichchiId },
-    { singletonKey: ichchiId, singletonSeconds: 600 },
+    { ichiId },
+    { singletonKey: ichiId, singletonSeconds: 600 },
   );
 }
 
@@ -85,16 +85,16 @@ export async function scheduleLetters(): Promise<void> {
 }
 
 /**
- * One letter job per ichchi. Keyed by ichchi and week so a re-run of the
+ * One letter job per ichi. Keyed by ichi and week so a re-run of the
  * fan-out cannot queue a second letter for the same Monday — the unique index
  * would catch it anyway, but paying for the model call twice to then discard
  * one is the kind of waste that only shows up on the bill.
  */
-export async function enqueueLetter(ichchiId: string, periodStart: string): Promise<void> {
+export async function enqueueLetter(ichiId: string, periodStart: string): Promise<void> {
   const b = await getBoss();
   await b.send(
     QUEUES.letter,
-    { ichchiId },
-    { singletonKey: `${ichchiId}:${periodStart}`, singletonSeconds: 86_400 },
+    { ichiId },
+    { singletonKey: `${ichiId}:${periodStart}`, singletonSeconds: 86_400 },
   );
 }

@@ -1,8 +1,8 @@
 {
-  "name": "ichchi",
-  "description": "A living ichchi for your agent over MCP: it remembers, takes offence, grows attached — and colours how the agent speaks.",
+  "name": "ichi",
+  "description": "A living ichi for your agent over MCP: it remembers, takes offence, grows attached — and colours how the agent speaks.",
   "version": "0.1.0",
-  "author": { "name": "ichchi", "url": "https://ichchi.sh" },
-  "homepage": "https://ichchi.sh",
-  "keywords": ["mcp", "ichchi", "personality", "memory", "companion"]
+  "author": { "name": "ichi", "url": "https://ichi.sh" },
+  "homepage": "https://ichi.sh",
+  "keywords": ["mcp", "ichi", "personality", "memory", "companion"]
 }

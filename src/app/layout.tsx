@@ -5,9 +5,9 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
-  title: "ichchi — a living spirit for your agents",
+  title: "ichi — a living spirit for your agents",
   description:
-    "Summon an ichchi — a spirit that lives next to your AI agent over MCP. " +
+    "Summon an ichi — a spirit that lives next to your AI agent over MCP. " +
     "It remembers, takes offence, grows attached, and its mood shapes the " +
     "agent's voice on every reply.",
 };

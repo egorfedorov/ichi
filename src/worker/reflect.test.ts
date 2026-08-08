@@ -1,6 +1,6 @@
 import { test, before } from "node:test";
 import assert from "node:assert/strict";
-import type { Ichchi, IchchiEvent } from "@/db/types";
+import type { Ichi, IchiEvent } from "@/db/types";
 import type {
   appendVoiceNote as appendVoiceNoteFn,
   applyReflection as applyReflectionFn,
@@ -28,7 +28,7 @@ before(async () => {
   VOICE_NOTES_MAX = mod.VOICE_NOTES_MAX;
 });
 
-function ichchiFixture(overrides: Partial<Ichchi> = {}): Ichchi {
+function ichiFixture(overrides: Partial<Ichi> = {}): Ichi {
   return {
     id: "00000000-0000-0000-0000-000000000001",
     owner_id: "user-1",
@@ -59,13 +59,13 @@ function ichchiFixture(overrides: Partial<Ichchi> = {}): Ichchi {
   };
 }
 
-function eventFixture(overrides: Partial<IchchiEvent> = {}): IchchiEvent {
+function eventFixture(overrides: Partial<IchiEvent> = {}): IchiEvent {
   return {
     id: "00000000-0000-0000-0000-000000000002",
-    ichchi_id: "00000000-0000-0000-0000-000000000001",
+    ichi_id: "00000000-0000-0000-0000-000000000001",
     user_id: "user-1",
     kind: "feedback",
-    tool: "ichchi_feedback",
+    tool: "ichi_feedback",
     text: "broke the build",
     signal: "scold",
     delta: {},
@@ -74,28 +74,28 @@ function eventFixture(overrides: Partial<IchchiEvent> = {}): IchchiEvent {
   };
 }
 
-test("buildReflectPrompt names the ichchi, its traits and every event", () => {
-  const ichchi = ichchiFixture();
+test("buildReflectPrompt names the ichi, its traits and every event", () => {
+  const ichi = ichiFixture();
   const events = [
     eventFixture(),
-    eventFixture({ kind: "call", tool: "ichchi_brief", signal: null, text: null }),
+    eventFixture({ kind: "call", tool: "ichi_brief", signal: null, text: null }),
   ];
 
-  const prompt = buildReflectPrompt(ichchi, events);
+  const prompt = buildReflectPrompt(ichi, events);
 
   assert.ok(prompt.includes("Эбэ"));
   assert.ok(prompt.includes("neuroticism 60"));
-  // The archetype's voice stands in when the ichchi has no notes of its own.
+  // The archetype's voice stands in when the ichi has no notes of its own.
   assert.ok(prompt.includes("Quiet, flowing"));
   assert.ok(prompt.includes("scold: broke the build"));
-  assert.ok(prompt.includes("call/ichchi_brief"));
+  assert.ok(prompt.includes("call/ichi_brief"));
   // Oldest first — reflection reads a day in order, not as a pile.
-  assert.ok(prompt.indexOf("scold") < prompt.indexOf("call/ichchi_brief"));
+  assert.ok(prompt.indexOf("scold") < prompt.indexOf("call/ichi_brief"));
 });
 
 test("applyReflection commits drift past the threshold and carries the rest", () => {
-  const ichchi = ichchiFixture({ pending_drift: { neuroticism: 1.8 } });
-  const applied = applyReflection(ichchi, {
+  const ichi = ichiFixture({ pending_drift: { neuroticism: 1.8 } });
+  const applied = applyReflection(ichi, {
     sentiment: -0.5,
     drift: { neuroticism: 0.5, agreeableness: -0.4 },
     memories: [],
@@ -111,8 +111,8 @@ test("applyReflection commits drift past the threshold and carries the rest", ()
 });
 
 test("applyReflection appends a formed belief without dropping old ones", () => {
-  const ichchi = ichchiFixture({ voice_notes: "Speaks of rivers." });
-  const applied = applyReflection(ichchi, {
+  const ichi = ichiFixture({ voice_notes: "Speaks of rivers." });
+  const applied = applyReflection(ichi, {
     sentiment: 0,
     drift: {},
     memories: [],
@@ -120,7 +120,7 @@ test("applyReflection appends a formed belief without dropping old ones", () => 
   });
   assert.equal(applied.voiceNotes, "Speaks of rivers. · Distrusts Friday deploys.");
 
-  const unchanged = applyReflection(ichchi, {
+  const unchanged = applyReflection(ichi, {
     sentiment: 0,
     drift: {},
     memories: [],
@@ -131,7 +131,7 @@ test("applyReflection appends a formed belief without dropping old ones", () => 
 
 /**
  * The regression that matters most in this file. The old implementation
- * appended and truncated the tail, so once voice_notes saturated the ichchi
+ * appended and truncated the tail, so once voice_notes saturated the ichi
  * silently stopped forming convictions — forever, and with nothing in the
  * logs to show it. This asserts the opposite: the newest conviction is always
  * present, and the cost of that is the oldest one falling off.
@@ -154,8 +154,8 @@ test("appendVoiceNote keeps a single oversized note rather than dropping it", ()
 });
 
 test("applyReflection clamps committed traits to 0..100", () => {
-  const ichchi = ichchiFixture({ neuroticism: 99, pending_drift: { neuroticism: 5 } });
-  const applied = applyReflection(ichchi, {
+  const ichi = ichiFixture({ neuroticism: 99, pending_drift: { neuroticism: 5 } });
+  const applied = applyReflection(ichi, {
     sentiment: 0,
     drift: {},
     memories: [],

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   ichchi — riso paper outside, polar night inside
+   ichi — riso paper outside, polar night inside
    The public landing prints on paper: warm off-white stock, ink text, riso
    ink accents (values are real Risograph inks). The internal pages keep the
    original polar-night palette; both token sets live here, the (app) route
@@ -374,7 +374,7 @@ body {
     0 0 28px rgba(0, 169, 92, 0.14);
 }
 
-/* ichchi_brief payload: riso-ink syntax tokens, no highlighter library. */
+/* ichi_brief payload: riso-ink syntax tokens, no highlighter library. */
 .j-key {
   color: #b3a1e0; /* riso violet, lifted so it reads on ink */
 }
@@ -476,7 +476,7 @@ body {
 /*
  * The mood is the room, not a badge.
  *
- * A wash behind every pane, coloured by the ichchi's current valence and
+ * A wash behind every pane, coloured by the ichi's current valence and
  * strongest where the core sits. Scold it and the whole screen goes cold and
  * red; praise it and the room warms — the state stops being a number in a
  * panel and becomes the light you are reading by.
@@ -539,7 +539,7 @@ body {
        mobile browsers lie about vh. */
     height: 100svh;
     /*
-     * The ichchi is the subject of this page, so it gets the room: a stage
+     * The ichi is the subject of this page, so it gets the room: a stage
      * across the top two thirds, the terminal as a command strip beneath it,
      * and the instruments as a narrow rail down the side.
      *
@@ -555,7 +555,7 @@ body {
   }
 }
 
-/* The core: the ichchi drawn, breathing. */
+/* The core: the ichi drawn, breathing. */
 .core-wrap {
   width: 100%;
   height: 100%;
@@ -582,7 +582,7 @@ body {
  * from `svgOrigin` (see useConsoleMotion); adding a CSS transform-box on top
  * makes the browser reinterpret that matrix, and the core scales about the
  * canvas corner instead of itself — it visibly flies off to the left.
- * The origin lives in one place: CORE_ORIGIN in IchchiCore.tsx.
+ * The origin lives in one place: CORE_ORIGIN in IchiCore.tsx.
  */
 
 /*
@@ -809,11 +809,11 @@ body {
 
 /* ─── landing motion ──────────────────────────────────────────────────────
    Nearly static, in the mozg spirit: the only things that move are the
-   ichchi's mood dot (it is alive, that is the point) and the chat typing
+   ichi's mood dot (it is alive, that is the point) and the chat typing
    indicator. Both stop under prefers-reduced-motion.
    ─────────────────────────────────────────────────────────────────────────── */
 
-/* The mood dot breathes: an ichchi is alive, not a static badge. */
+/* The mood dot breathes: an ichi is alive, not a static badge. */
 .mood-dot {
   animation: mood-pulse 2.4s ease-in-out infinite;
 }
@@ -872,5 +872,28 @@ body {
 @keyframes core-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Each trait node breathes on its own beat, so the five read as alive
+   rather than as a synchronised widget. */
+.core-node {
+  animation: core-node 3.2s ease-in-out infinite;
+}
+@keyframes core-node {
+  0%,
+  100% {
+    r: 3.6;
+    opacity: 0.92;
+  }
+  50% {
+    r: 2.6;
+    opacity: 0.55;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .core-node,
+  .core-spin {
+    animation: none;
   }
 }

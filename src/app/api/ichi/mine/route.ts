@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/session";
-import { bondFor, listAccessibleIchchi } from "@/lib/ichchi";
+import { bondFor, listAccessibleIchi } from "@/lib/ichi";
 import { moodWords } from "@/lib/voice";
 
 /**
  * The console's `:mine`. A projection shaped for one line of terminal each —
- * the full state sheet is what ichchi_state is for, and duplicating it here
+ * the full state sheet is what ichi_state is for, and duplicating it here
  * would mean two things to keep in step.
  */
 export async function GET(req: Request) {
@@ -16,8 +16,8 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  const rows = await listAccessibleIchchi(user.id);
-  const ichchi = await Promise.all(
+  const rows = await listAccessibleIchi(user.id);
+  const ichi = await Promise.all(
     rows.map(async (i) => ({
       name: i.name,
       slug: i.slug,
@@ -28,5 +28,5 @@ export async function GET(req: Request) {
     })),
   );
 
-  return NextResponse.json({ ichchi });
+  return NextResponse.json({ ichi });
 }

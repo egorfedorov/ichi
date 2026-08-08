@@ -30,7 +30,7 @@ export function recallScore(opts: {
 
 /**
  * Exponential salience decay. Charged memories (|valence| near 1) get up to
- * double the half-life — the ichchi forgets what was said long before it
+ * double the half-life — the ichi forgets what was said long before it
  * forgets how it felt. A floor keeps the result inside 0..1.
  */
 export function salienceDecay(
@@ -50,7 +50,7 @@ export function salienceDecay(
  * A standard never fades out of force.
  *
  * Every other memory is allowed to become a faint impression — that is what
- * makes an ichchi feel like it lived rather than logged. A standard is the
+ * makes an ichi feel like it lived rather than logged. A standard is the
  * user's own instruction ("always write the test first"), and an instruction
  * that quietly expires after a fortnight is worse than one that was never
  * recorded: the agent stops honouring it and nobody is told why. So standards

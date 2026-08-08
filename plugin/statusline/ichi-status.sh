@@ -1,8 +1,8 @@
 #!/bin/sh
-# ichchi statusline — the mood, always visible.
+# ichi statusline — the mood, always visible.
 #
 # Reads ONLY the cache the SessionStart/UserPromptSubmit hooks already wrote
-# (see ichchi-common.sh). The statusline runs on a hot path — every render —
+# (see ichi-common.sh). The statusline runs on a hot path — every render —
 # so it must never touch the network, never block, and never print an error.
 # If there is no cache, there is no line; the hooks will fill it in shortly.
 #
@@ -11,15 +11,15 @@
 #
 #   "statusLine": {
 #     "type": "command",
-#     "command": "~/.claude/plugins/ichchi/statusline/ichchi-status.sh"
+#     "command": "~/.claude/plugins/ichi/statusline/ichi-status.sh"
 #   }
 #
-# Claude Code passes session JSON on stdin. We ignore it — the ichchi's mood
+# Claude Code passes session JSON on stdin. We ignore it — the ichi's mood
 # is the same in every session, and parsing it would cost more than it buys.
 
 set -u
 
-ICHI_BASE=${ICHI_URL:-https://ichchi.sh}
+ICHI_BASE=${ICHI_URL:-https://ichi.sh}
 ICHI_BASE=${ICHI_BASE%/}
 
 hash_of() {
@@ -34,14 +34,14 @@ hash_of() {
   fi
 }
 
-CACHE=${TMPDIR:-/tmp}/ichchi-brief-$(hash_of "${ICHI_TOKEN:-none}@$ICHI_BASE/mcp")
+CACHE=${TMPDIR:-/tmp}/ichi-brief-$(hash_of "${ICHI_TOKEN:-none}@$ICHI_BASE/mcp")
 [ -f "$CACHE" ] || exit 0
 
 # Line 1 of the cache is the slug; the brief itself starts at line 2.
 brief=$(tail -n +2 "$CACHE" 2>/dev/null) || exit 0
 [ -n "$brief" ] || exit 0
 
-name=$(printf '%s' "$brief" | sed -n 's/^## Ichchi: \([^(]*\) (.*/\1/p' | head -n 1)
+name=$(printf '%s' "$brief" | sed -n 's/^## Ichi: \([^(]*\) (.*/\1/p' | head -n 1)
 mood=$(printf '%s' "$brief" | sed -n 's/^Mood: \(.*\) · Bond:.*/\1/p' | head -n 1)
 bond=$(printf '%s' "$brief" | sed -n 's/^Mood:.*· Bond: \([0-9]*\)\/100.*/\1/p' | head -n 1)
 

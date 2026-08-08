@@ -3,13 +3,13 @@
  *
  *   npm run seed
  *
- * Archetypes live in code (src/lib/ichchi.ts), not in the database — they ship
+ * Archetypes live in code (src/lib/ichi.ts), not in the database — they ship
  * with the release like copy does. So there is nothing to insert; what this
  * script does is fail early on the two ways a fresh install is broken: the
  * database is unreachable, or the migrations never ran.
  */
 import { pool, query } from "@/db";
-import { ARCHETYPES } from "@/lib/ichchi";
+import { ARCHETYPES } from "@/lib/ichi";
 
 async function main() {
   const migrations = await query<{ name: string }>(
@@ -21,9 +21,9 @@ async function main() {
     }
   }
 
-  const ichchi = await query<{ n: number }>(`select count(*)::int as n from ichchi`);
+  const ichi = await query<{ n: number }>(`select count(*)::int as n from ichi`);
 
-  console.log(`✓ schema is current, ${ichchi[0].n} ichchi(s) adopted so far\n`);
+  console.log(`✓ schema is current, ${ichi[0].n} ichi(s) adopted so far\n`);
   console.log("Archetype catalogue:");
   for (const a of ARCHETYPES) {
     const t = a.traits;

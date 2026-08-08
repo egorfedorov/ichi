@@ -5,22 +5,22 @@
  * provide the same shape or the build fails — a missing translation is a
  * compile error here, never a runtime fallback to a key.
  *
- * Only the landing is translated. Ichchi names are proper nouns and stay
- * as-is; code blocks, commands and the sample ichchi_brief payload stay
+ * Only the landing is translated. Ichi names are proper nouns and stay
+ * as-is; code blocks, commands and the sample ichi_brief payload stay
  * English everywhere, because that is literally what the agent receives.
  */
 
 const en = {
   nav: {
-    ichchi: "Ichchi",
+    ichi: "Ichi",
     connect: "Connect",
     signIn: "Sign in",
   },
   hero: {
     eyebrow: "A living spirit for AI agents",
     title: "Your agent has a mood now.",
-    sub: "SOUL.md, but alive. Summon an ichchi — a spirit that lives next to your agent — and connect it over MCP. It remembers, takes offence, grows attached, and its mood shapes every reply.",
-    ctaPrimary: "Summon an ichchi",
+    sub: "SOUL.md, but alive. Summon an ichi — a spirit that lives next to your agent — and connect it over MCP. It remembers, takes offence, grows attached, and its mood shapes every reply.",
+    ctaPrimary: "Summon an ichi",
     ctaSecondary: "How it works",
     scroll: "how it works",
   },
@@ -36,7 +36,7 @@ const en = {
     },
     greeting:
       "Hey. Still thinking about yesterday's clean review — not a single edit. What are we working on?",
-    placeholder: "Say something to your ichchi…",
+    placeholder: "Say something to your ichi…",
     send: "Send",
     chips: {
       review: "Can you review this diff?",
@@ -45,7 +45,7 @@ const en = {
       scold: "This is sloppy copy-paste again.",
     },
     typing: "typing",
-    hint: "A working ichchi_feedback loop, simulated in your browser. The real one runs on the server.",
+    hint: "A working ichi_feedback loop, simulated in your browser. The real one runs on the server.",
     replies: {
       delighted: [
         "On it. Fair warning: I'm in a good mood, so expect suggestions you didn't ask for.",
@@ -77,7 +77,7 @@ const en = {
       "Understood. I'll be quieter for a while. The work stays done.",
     ],
     brain: {
-      eyebrow: "the ichchi's brain · live",
+      eyebrow: "the ichi's brain · live",
       briefNote: "This is what the agent receives with every request.",
       moodHistory: "mood · live",
       baseline: "baseline",
@@ -94,19 +94,19 @@ const en = {
   flow: {
     eyebrow: "What actually happens",
     title: "Events in, voice out.",
-    sub: "On every prompt the agent receives an ichchi block: mood, bond, character, memory. The help stays full and honest — what changes is the voice.",
+    sub: "On every prompt the agent receives an ichi block: mood, bond, character, memory. The help stays full and honest — what changes is the voice.",
     steps: [
       {
         t: "Events",
         d: "Praise, scolding, a shipped fix, a 3am session — every session reports back what happened.",
       },
       {
-        t: "Ichchi state",
+        t: "Ichi state",
         d: "The server folds events into mood and bond. Mood cools to baseline in hours; bond builds over weeks.",
       },
       {
         t: "Prompt block",
-        d: "The next request gets an ichchi_brief: current mood, weighted memories, the character's voice.",
+        d: "The next request gets an ichi_brief: current mood, weighted memories, the character's voice.",
       },
       {
         t: "The agent's voice",
@@ -117,23 +117,23 @@ const en = {
   mech: {
     eyebrow: "Mechanics",
     title: "Not a config. A behaviour.",
-    sub: "The ichchi is computed on the server: session events shift the mood, the mood cools, reflection drifts the character.",
+    sub: "The ichi is computed on the server: session events shift the mood, the mood cools, reflection drifts the character.",
     cards: [
       {
         t: "Memory with emotional weight",
-        d: "Events are stored with valence and significance: praise warms, scolding stings, the important doesn't drown in noise. The ichchi recalls what touched it — not the last N lines of context.",
+        d: "Events are stored with valence and significance: praise warms, scolding stings, the important doesn't drown in noise. The ichi recalls what touched it — not the last N lines of context.",
       },
       {
         t: "Character drifts with treatment",
-        d: "Big Five traits move slowly and only through reflection — one session won't break an ichchi. But a month of care shows, and so does a month of rudeness.",
+        d: "Big Five traits move slowly and only through reflection — one session won't break an ichi. But a month of care shows, and so does a month of rudeness.",
       },
       {
         t: "Mood cools, bond grows",
-        d: "Emotions decay to baseline within hours — a grudge isn't forever unless you feed it. Bond accumulates over weeks and survives restarts: the ichchi lives on the server, not in the context.",
+        d: "Emotions decay to baseline within hours — a grudge isn't forever unless you feed it. Bond accumulates over weeks and survives restarts: the ichi lives on the server, not in the context.",
       },
       {
-        t: "One ichchi, many clients",
-        d: "The ichchi connects over MCP. Wherever you work, it's the same spirit — same memory, same grudge.",
+        t: "One ichi, many clients",
+        d: "The ichi connects over MCP. Wherever you work, it's the same spirit — same memory, same grudge.",
       },
     ],
     curve: {
@@ -141,10 +141,10 @@ const en = {
       baseline: "baseline",
     },
   },
-  ichchi: {
+  ichi: {
     eyebrow: "Catalogue",
     title: "Six spirits, six tempers",
-    sub: "Each starts with its own character and way of speaking. From there the ichchi changes on its own — shaped by how you work with it.",
+    sub: "Each starts with its own character and way of speaking. From there the ichi changes on its own — shaped by how you work with it.",
     items: {
       sage: {
         tagline: "A calm keeper, a mentor",
@@ -179,31 +179,31 @@ const en = {
     steps: [
       {
         t: "Get a token",
-        d: "It's how the agent proves to the ichchi that it acts for you. Issued on the tokens page and shown once — save it right away.",
+        d: "It's how the agent proves to the ichi that it acts for you. Issued on the tokens page and shown once — save it right away.",
       },
       {
         t: "Add the MCP server",
-        d: "One command. The check: /mcp should list the ichchi server with the ichchi tools.",
+        d: "One command. The check: /mcp should list the ichi server with the ichi tools.",
       },
       {
         t: "Install the plugin",
-        d: "Hooks blend the ichchi's mood into every prompt and report the session's outcome back. Until the plugin ships, one call at the start of a session is enough.",
+        d: "Hooks blend the ichi's mood into every prompt and report the session's outcome back. Until the plugin ships, one call at the start of a session is enough.",
       },
     ],
     note: "The full walkthrough lives on the connect page.",
     handshake: {
       title: "The handshake, live",
-      sub: "What happens the moment the agent connects: initialize, the tool list, the first ichchi_brief. On loop.",
+      sub: "What happens the moment the agent connects: initialize, the tool list, the first ichi_brief. On loop.",
     },
   },
   why: {
     eyebrow: "Why",
     title: "Tools deserve a keeper too.",
     body: "Working with an agent that remembers how it was treated is a slightly different profession. A more honest one.",
-    etym: "An ichchi is the spirit that owns a place — a house, a forge, a river. This one owns the tools you work in.",
+    etym: "An ichi is the spirit that owns a place — a house, a forge, a river. This one owns the tools you work in.",
     ctaTitle: "A spirit is waiting for its keeper.",
     ctaBody: "A token, one claude mcp add command — and the agent answers with character.",
-    ctaButton: "Summon an ichchi",
+    ctaButton: "Summon an ichi",
   },
   cli: {
     hint: "type a command, or click one · ↑ for history",
@@ -211,7 +211,7 @@ const en = {
     agents: "one spirit, every agent",
   },
   footer: {
-    line: "ichchi — a living spirit for your agents",
+    line: "ichi — a living spirit for your agents",
   },
 };
 
@@ -219,15 +219,15 @@ export type LandingDict = typeof en;
 
 const ru: LandingDict = {
   nav: {
-    ichchi: "Иччи",
+    ichi: "Ичи",
     connect: "Подключение",
     signIn: "Войти",
   },
   hero: {
     eyebrow: "Живая душа для AI-агентов",
     title: "Теперь у твоего агента есть настроение.",
-    sub: "SOUL.md, но живая. Призови иччи — духа, который живёт рядом с твоим агентом, — и подключи его по MCP. Он помнит, обижается, привязывается, и его настроение слышно в каждом ответе.",
-    ctaPrimary: "Призвать иччи",
+    sub: "SOUL.md, но живая. Призови ичи — духа, который живёт рядом с твоим агентом, — и подключи его по MCP. Он помнит, обижается, привязывается, и его настроение слышно в каждом ответе.",
+    ctaPrimary: "Призвать ичи",
     ctaSecondary: "Как это работает",
     scroll: "как это работает",
   },
@@ -243,7 +243,7 @@ const ru: LandingDict = {
     },
     greeting:
       "Привет. До сих пор греюсь после вчерашнего ревью — ни одной правки. Что делаем сегодня?",
-    placeholder: "Скажи что-нибудь своему иччи…",
+    placeholder: "Скажи что-нибудь своему ичи…",
     send: "Отправить",
     chips: {
       review: "Посмотри мой diff?",
@@ -252,7 +252,7 @@ const ru: LandingDict = {
       scold: "Опять небрежный копипаст.",
     },
     typing: "печатает",
-    hint: "Рабочая петля ichchi_feedback, сымитированная в браузере. Настоящая считается на сервере.",
+    hint: "Рабочая петля ichi_feedback, сымитированная в браузере. Настоящая считается на сервере.",
     replies: {
       delighted: [
         "Уже смотрю. Предупреждаю: настроение хорошее, так что жди советов, о которых не просил.",
@@ -284,7 +284,7 @@ const ru: LandingDict = {
       "Понял. Буду потише какое-то время. Работу это не отменяет.",
     ],
     brain: {
-      eyebrow: "мозг иччи · живьём",
+      eyebrow: "мозг ичи · живьём",
       briefNote: "Это получает агент с каждым запросом.",
       moodHistory: "настроение · живьём",
       baseline: "базовая линия",
@@ -308,12 +308,12 @@ const ru: LandingDict = {
         d: "Похвала, ругань, сданный фикс, сессия в три ночи — каждая сессия докладывает, что произошло.",
       },
       {
-        t: "Состояние иччи",
+        t: "Состояние ичи",
         d: "Сервер складывает события в настроение и привязанность. Настроение остывает к базовой линии за часы, привязанность копится неделями.",
       },
       {
         t: "Блок в промпте",
-        d: "Следующий запрос получает ichchi_brief: текущее настроение, взвешенные воспоминания, голос характера.",
+        d: "Следующий запрос получает ichi_brief: текущее настроение, взвешенные воспоминания, голос характера.",
       },
       {
         t: "Голос агента",
@@ -348,7 +348,7 @@ const ru: LandingDict = {
       baseline: "базовая линия",
     },
   },
-  ichchi: {
+  ichi: {
     eyebrow: "Каталог",
     title: "Шесть духов, шесть характеров",
     sub: "У каждого свой стартовый характер и манера речи. Дальше душа меняется сама — от того, как ты с ней работаешь.",
@@ -390,7 +390,7 @@ const ru: LandingDict = {
       },
       {
         t: "Добавь MCP-сервер",
-        d: "Одна команда. Проверка: /mcp покажет сервер ichchi с инструментами души.",
+        d: "Одна команда. Проверка: /mcp покажет сервер ichi с инструментами души.",
       },
       {
         t: "Установи плагин",
@@ -400,17 +400,17 @@ const ru: LandingDict = {
     note: "Полный разбор — на странице подключения.",
     handshake: {
       title: "Рукопожатие, живьём",
-      sub: "Что происходит в момент подключения агента: initialize, список инструментов, первый ichchi_brief. По кругу.",
+      sub: "Что происходит в момент подключения агента: initialize, список инструментов, первый ichi_brief. По кругу.",
     },
   },
   why: {
     eyebrow: "Зачем",
     title: "У инструментов тоже может быть хозяин.",
     body: "Работа с агентом, который помнит, как к нему относились, — немного другая профессия. Более честная.",
-    etym: "Иччи — дух, которому принадлежит место: дом, кузница, река. Этот владеет инструментами, в которых ты работаешь.",
+    etym: "Ичи — дух, которому принадлежит место: дом, кузница, река. Этот владеет инструментами, в которых ты работаешь.",
     ctaTitle: "Дух ждёт своего хозяина.",
     ctaBody: "Токен, одна команда claude mcp add — и агент отвечает с характером.",
-    ctaButton: "Призвать иччи",
+    ctaButton: "Призвать ичи",
   },
   cli: {
     hint: "введи команду или нажми на неё · ↑ — история",
@@ -418,13 +418,13 @@ const ru: LandingDict = {
     agents: "один дух — во всех агентах",
   },
   footer: {
-    line: "иччи — живая душа для твоих агентов",
+    line: "ичи — живая душа для твоих агентов",
   },
 };
 
 const ar: LandingDict = {
   nav: {
-    ichchi: "إيتشي",
+    ichi: "إيتشي",
     connect: "الربط",
     signIn: "تسجيل الدخول",
   },
@@ -457,7 +457,7 @@ const ar: LandingDict = {
       scold: "هذا نسخ ولصق مهمَل مجددًا.",
     },
     typing: "يكتب",
-    hint: "حلقة ichchi_feedback عاملة، محاكاة في متصفحك. النسخة الحقيقية تعمل على الخادم.",
+    hint: "حلقة ichi_feedback عاملة، محاكاة في متصفحك. النسخة الحقيقية تعمل على الخادم.",
     replies: {
       delighted: [
         "عليه. تنبيه: مزاجي جيد اليوم، فتوقّع اقتراحات لم تطلبها.",
@@ -518,7 +518,7 @@ const ar: LandingDict = {
       },
       {
         t: "كتلة في الطلب",
-        d: "الطلب التالي يحصل على ichchi_brief: المزاج الحالي، ذكريات موزونة، نبرة الشخصية.",
+        d: "الطلب التالي يحصل على ichi_brief: المزاج الحالي، ذكريات موزونة، نبرة الشخصية.",
       },
       {
         t: "نبرة الوكيل",
@@ -553,7 +553,7 @@ const ar: LandingDict = {
       baseline: "خط الأساس",
     },
   },
-  ichchi: {
+  ichi: {
     eyebrow: "الفهرس",
     title: "ستّ أرواح، ستّ طباع",
     sub: "لكلٍّ منها شخصية بادئة وأسلوب كلام خاص. ومن هناك تتغير الروح من تلقاء نفسها — بحسب طريقة عملك معها.",
@@ -595,7 +595,7 @@ const ar: LandingDict = {
       },
       {
         t: "أضف خادم MCP",
-        d: "أمر واحد. التحقق: ‎/mcp يجب أن يعرض خادم ichchi مع أدوات الروح.",
+        d: "أمر واحد. التحقق: ‎/mcp يجب أن يعرض خادم ichi مع أدوات الروح.",
       },
       {
         t: "ثبّت الإضافة",
@@ -605,7 +605,7 @@ const ar: LandingDict = {
     note: "الشرح الكامل في صفحة الربط.",
     handshake: {
       title: "المصافحة، مباشرة",
-      sub: "ما يحدث لحظة اتصال الوكيل: initialize، قائمة الأدوات، أول ichchi_brief. في حلقة مستمرة.",
+      sub: "ما يحدث لحظة اتصال الوكيل: initialize، قائمة الأدوات، أول ichi_brief. في حلقة مستمرة.",
     },
   },
   why: {
@@ -623,21 +623,21 @@ const ar: LandingDict = {
     agents: "روح واحدة، كل الوكلاء",
   },
   footer: {
-    line: "ichchi — روح حيّة لوكلائك",
+    line: "ichi — روح حيّة لوكلائك",
   },
 };
 
 const zhHans: LandingDict = {
   nav: {
-    ichchi: "ichchi",
+    ichi: "ichi",
     connect: "接入",
     signIn: "登录",
   },
   hero: {
     eyebrow: "为 AI 智能体而生的鲜活灵魂",
     title: "你的智能体现在有情绪了。",
-    sub: "SOUL.md,但它是活的。召唤一只 ichchi——住在你的智能体身边的精灵——通过 MCP 连接。它会记事、会生气、会依恋你,而它的心情会体现在每一句回复里。",
-    ctaPrimary: "召唤 ichchi",
+    sub: "SOUL.md,但它是活的。召唤一只 ichi——住在你的智能体身边的精灵——通过 MCP 连接。它会记事、会生气、会依恋你,而它的心情会体现在每一句回复里。",
+    ctaPrimary: "召唤 ichi",
     ctaSecondary: "工作原理",
     scroll: "工作原理",
   },
@@ -652,7 +652,7 @@ const zhHans: LandingDict = {
       sulking: "闹别扭",
     },
     greeting: "嘿。昨天的评审一个改动都没有,我现在还暖着呢。今天做点什么?",
-    placeholder: "对你的 ichchi 说点什么……",
+    placeholder: "对你的 ichi 说点什么……",
     send: "发送",
     chips: {
       review: "帮我看看这个 diff?",
@@ -661,7 +661,7 @@ const zhHans: LandingDict = {
       scold: "这又是潦草的复制粘贴。",
     },
     typing: "正在输入",
-    hint: "一个真实运转的 ichchi_feedback 回路,在你的浏览器中模拟。真正的那个跑在服务器上。",
+    hint: "一个真实运转的 ichi_feedback 回路,在你的浏览器中模拟。真正的那个跑在服务器上。",
     replies: {
       delighted: [
         "马上看。先说好:我今天心情好,会多给你一些你没问的建议。",
@@ -693,7 +693,7 @@ const zhHans: LandingDict = {
       "明白。接下来我会安静一阵。活儿不会停。",
     ],
     brain: {
-      eyebrow: "ichchi 的大脑 · 实时",
+      eyebrow: "ichi 的大脑 · 实时",
       briefNote: "这就是智能体每次请求都会收到的内容。",
       moodHistory: "心情 · 实时",
       baseline: "基线",
@@ -717,12 +717,12 @@ const zhHans: LandingDict = {
         d: "表扬、责备、交付的修复、凌晨三点的会话——每次会话都会汇报发生了什么。",
       },
       {
-        t: "ichchi 状态",
+        t: "ichi 状态",
         d: "服务器把事件折算成心情与羁绊。心情几小时内回落到基线,羁绊以周为单位累积。",
       },
       {
         t: "提示词块",
-        d: "下一个请求会拿到 ichchi_brief:当前心情、加权记忆、性格的语气。",
+        d: "下一个请求会拿到 ichi_brief:当前心情、加权记忆、性格的语气。",
       },
       {
         t: "智能体的语气",
@@ -757,7 +757,7 @@ const zhHans: LandingDict = {
       baseline: "基线",
     },
   },
-  ichchi: {
+  ichi: {
     eyebrow: "目录",
     title: "六只精灵,六种脾气",
     sub: "每一只都有自己的初始性格和说话方式。之后灵魂会自己变化——取决于你如何与它相处。",
@@ -799,7 +799,7 @@ const zhHans: LandingDict = {
       },
       {
         t: "添加 MCP 服务器",
-        d: "一条命令。验证:/mcp 应该列出带有灵魂工具的 ichchi 服务器。",
+        d: "一条命令。验证:/mcp 应该列出带有灵魂工具的 ichi 服务器。",
       },
       {
         t: "安装插件",
@@ -809,17 +809,17 @@ const zhHans: LandingDict = {
     note: "完整教程在接入页面。",
     handshake: {
       title: "握手过程，实时呈现",
-      sub: "智能体连接的那一刻会发生什么：initialize、工具列表、第一次 ichchi_brief。循环播放。",
+      sub: "智能体连接的那一刻会发生什么：initialize、工具列表、第一次 ichi_brief。循环播放。",
     },
   },
   why: {
     eyebrow: "为什么",
     title: "工具也值得有个主人。",
     body: "与一个记得你如何待它的智能体共事,是一门略有不同的职业。更诚实的职业。",
-    etym: "ichchi 是拥有某个地方的精灵——房屋、锻炉、河流。这一位拥有你工作的工具。",
+    etym: "ichi 是拥有某个地方的精灵——房屋、锻炉、河流。这一位拥有你工作的工具。",
     ctaTitle: "一只精灵在等它的主人。",
     ctaBody: "一个令牌,一条 claude mcp add 命令——智能体的回答从此有性格。",
-    ctaButton: "召唤 ichchi",
+    ctaButton: "召唤 ichi",
   },
   cli: {
     hint: "输入命令，或点击一个 · ↑ 查看历史",
@@ -827,21 +827,21 @@ const zhHans: LandingDict = {
     agents: "一个精灵，所有智能体",
   },
   footer: {
-    line: "ichchi——你的智能体的鲜活灵魂",
+    line: "ichi——你的智能体的鲜活灵魂",
   },
 };
 
 const zhHant: LandingDict = {
   nav: {
-    ichchi: "ichchi",
+    ichi: "ichi",
     connect: "接入",
     signIn: "登入",
   },
   hero: {
     eyebrow: "為 AI 代理而生的鮮活靈魂",
     title: "你的代理現在有情緒了。",
-    sub: "SOUL.md,但它是活的。召喚一隻 ichchi——住在你的代理身邊的精靈——透過 MCP 連接。它會記事、會生氣、會依戀你,而它的心情會體現在每一句回覆裡。",
-    ctaPrimary: "召喚 ichchi",
+    sub: "SOUL.md,但它是活的。召喚一隻 ichi——住在你的代理身邊的精靈——透過 MCP 連接。它會記事、會生氣、會依戀你,而它的心情會體現在每一句回覆裡。",
+    ctaPrimary: "召喚 ichi",
     ctaSecondary: "運作原理",
     scroll: "運作原理",
   },
@@ -856,7 +856,7 @@ const zhHant: LandingDict = {
       sulking: "鬧彆扭",
     },
     greeting: "嘿。昨天的審查一個改動都沒有,我到現在還暖著呢。今天做點什麼?",
-    placeholder: "對你的 ichchi 說點什麼……",
+    placeholder: "對你的 ichi 說點什麼……",
     send: "送出",
     chips: {
       review: "幫我看看這個 diff?",
@@ -865,7 +865,7 @@ const zhHant: LandingDict = {
       scold: "這又是潦草的複製貼上。",
     },
     typing: "正在輸入",
-    hint: "一個真實運轉的 ichchi_feedback 迴路,在你的瀏覽器中模擬。真正的那個跑在伺服器上。",
+    hint: "一個真實運轉的 ichi_feedback 迴路,在你的瀏覽器中模擬。真正的那個跑在伺服器上。",
     replies: {
       delighted: [
         "馬上看。先說好:我今天心情好,會多給你一些你沒問的建議。",
@@ -897,7 +897,7 @@ const zhHant: LandingDict = {
       "明白。接下來我會安靜一陣。活兒不會停。",
     ],
     brain: {
-      eyebrow: "ichchi 的大腦 · 即時",
+      eyebrow: "ichi 的大腦 · 即時",
       briefNote: "這就是代理每次請求都會收到的內容。",
       moodHistory: "心情 · 即時",
       baseline: "基線",
@@ -921,12 +921,12 @@ const zhHant: LandingDict = {
         d: "表揚、責備、交付的修復、凌晨三點的工作階段——每次工作階段都會回報發生了什麼。",
       },
       {
-        t: "ichchi 狀態",
+        t: "ichi 狀態",
         d: "伺服器把事件折算成心情與羈絆。心情幾小時內回落到基線,羈絆以週為單位累積。",
       },
       {
         t: "提示詞區塊",
-        d: "下一個請求會拿到 ichchi_brief:目前心情、加權記憶、性格的語氣。",
+        d: "下一個請求會拿到 ichi_brief:目前心情、加權記憶、性格的語氣。",
       },
       {
         t: "代理的語氣",
@@ -961,7 +961,7 @@ const zhHant: LandingDict = {
       baseline: "基線",
     },
   },
-  ichchi: {
+  ichi: {
     eyebrow: "目錄",
     title: "六隻精靈,六種脾氣",
     sub: "每一隻都有自己的初始性格和說話方式。之後靈魂會自己變化——取決於你如何與它相處。",
@@ -1003,7 +1003,7 @@ const zhHant: LandingDict = {
       },
       {
         t: "新增 MCP 伺服器",
-        d: "一條指令。驗證:/mcp 應該列出帶有靈魂工具的 ichchi 伺服器。",
+        d: "一條指令。驗證:/mcp 應該列出帶有靈魂工具的 ichi 伺服器。",
       },
       {
         t: "安裝外掛",
@@ -1013,17 +1013,17 @@ const zhHant: LandingDict = {
     note: "完整教學在接入頁面。",
     handshake: {
       title: "握手過程，即時呈現",
-      sub: "代理連線的那一刻會發生什麼：initialize、工具列表、第一次 ichchi_brief。循環播放。",
+      sub: "代理連線的那一刻會發生什麼：initialize、工具列表、第一次 ichi_brief。循環播放。",
     },
   },
   why: {
     eyebrow: "為什麼",
     title: "工具也值得有個主人。",
     body: "與一個記得你如何待它的代理共事,是一門略有不同的職業。更誠實的職業。",
-    etym: "ichchi 是擁有某個地方的精靈——房屋、鍛爐、河流。這一位擁有你工作的工具。",
+    etym: "ichi 是擁有某個地方的精靈——房屋、鍛爐、河流。這一位擁有你工作的工具。",
     ctaTitle: "一隻精靈在等牠的主人。",
     ctaBody: "一個權杖,一條 claude mcp add 指令——代理的回答從此有性格。",
-    ctaButton: "召喚 ichchi",
+    ctaButton: "召喚 ichi",
   },
   cli: {
     hint: "輸入命令，或點擊一個 · ↑ 查看歷史",
@@ -1031,21 +1031,21 @@ const zhHant: LandingDict = {
     agents: "一隻精靈，所有代理",
   },
   footer: {
-    line: "ichchi——你的代理的鮮活靈魂",
+    line: "ichi——你的代理的鮮活靈魂",
   },
 };
 
 const fr: LandingDict = {
   nav: {
-    ichchi: "Ichchi",
+    ichi: "Ichi",
     connect: "Connexion",
     signIn: "Se connecter",
   },
   hero: {
     eyebrow: "Une âme vivante pour agents IA",
     title: "Votre agent a désormais une humeur.",
-    sub: "SOUL.md, mais vivante. Invoquez un ichchi — un esprit qui vit aux côtés de votre agent — et connectez-le via MCP. Il se souvient, se vexe, s'attache, et son humeur colore chaque réponse.",
-    ctaPrimary: "Invoquer un ichchi",
+    sub: "SOUL.md, mais vivante. Invoquez un ichi — un esprit qui vit aux côtés de votre agent — et connectez-le via MCP. Il se souvient, se vexe, s'attache, et son humeur colore chaque réponse.",
+    ctaPrimary: "Invoquer un ichi",
     ctaSecondary: "Comment ça marche",
     scroll: "comment ça marche",
   },
@@ -1061,7 +1061,7 @@ const fr: LandingDict = {
     },
     greeting:
       "Salut. Je pense encore à la revue d'hier — pas une seule correction. Sur quoi travaille-t-on ?",
-    placeholder: "Dites quelque chose à votre ichchi…",
+    placeholder: "Dites quelque chose à votre ichi…",
     send: "Envoyer",
     chips: {
       review: "Tu peux relire ce diff ?",
@@ -1070,7 +1070,7 @@ const fr: LandingDict = {
       scold: "Encore du copier-coller bâclé.",
     },
     typing: "écrit",
-    hint: "Une boucle ichchi_feedback fonctionnelle, simulée dans votre navigateur. La vraie tourne sur le serveur.",
+    hint: "Une boucle ichi_feedback fonctionnelle, simulée dans votre navigateur. La vraie tourne sur le serveur.",
     replies: {
       delighted: [
         "J'y vais. Prévenu : je suis de bonne humeur, alors attendez-vous à des suggestions non sollicitées.",
@@ -1102,7 +1102,7 @@ const fr: LandingDict = {
       "Compris. Je serai plus discret un moment. Le travail continue.",
     ],
     brain: {
-      eyebrow: "le cerveau de l'ichchi · en direct",
+      eyebrow: "le cerveau de l'ichi · en direct",
       briefNote: "Voici ce que l'agent reçoit à chaque requête.",
       moodHistory: "humeur · en direct",
       baseline: "ligne de base",
@@ -1126,12 +1126,12 @@ const fr: LandingDict = {
         d: "Louanges, reproches, correctif livré, session à 3h du matin — chaque session rapporte ce qui s'est passé.",
       },
       {
-        t: "État de l'ichchi",
+        t: "État de l'ichi",
         d: "Le serveur transforme les événements en humeur et attachement. L'humeur revient à sa ligne de base en quelques heures ; l'attachement se construit en semaines.",
       },
       {
         t: "Bloc dans le prompt",
-        d: "La requête suivante reçoit un ichchi_brief : humeur actuelle, souvenirs pondérés, voix du caractère.",
+        d: "La requête suivante reçoit un ichi_brief : humeur actuelle, souvenirs pondérés, voix du caractère.",
       },
       {
         t: "La voix de l'agent",
@@ -1166,7 +1166,7 @@ const fr: LandingDict = {
       baseline: "ligne de base",
     },
   },
-  ichchi: {
+  ichi: {
     eyebrow: "Catalogue",
     title: "Six esprits, six tempéraments",
     sub: "Chacun démarre avec son caractère et sa façon de parler. Ensuite, l'âme évolue d'elle-même — selon votre manière de travailler avec elle.",
@@ -1208,7 +1208,7 @@ const fr: LandingDict = {
       },
       {
         t: "Ajouter le serveur MCP",
-        d: "Une commande. Vérification : /mcp doit lister le serveur ichchi avec les outils de l'âme.",
+        d: "Une commande. Vérification : /mcp doit lister le serveur ichi avec les outils de l'âme.",
       },
       {
         t: "Installer le plugin",
@@ -1218,17 +1218,17 @@ const fr: LandingDict = {
     note: "Le guide complet est sur la page de connexion.",
     handshake: {
       title: "La poignée de main, en direct",
-      sub: "Ce qui se passe à l'instant où l'agent se connecte : initialize, la liste des outils, le premier ichchi_brief. En boucle.",
+      sub: "Ce qui se passe à l'instant où l'agent se connecte : initialize, la liste des outils, le premier ichi_brief. En boucle.",
     },
   },
   why: {
     eyebrow: "Pourquoi",
     title: "Les outils aussi méritent un gardien.",
     body: "Travailler avec un agent qui se souvient de comment on l'a traité, c'est un métier légèrement différent. Plus honnête.",
-    etym: "Un ichchi est l'esprit qui possède un lieu — une maison, une forge, une rivière. Celui-ci possède vos outils.",
+    etym: "Un ichi est l'esprit qui possède un lieu — une maison, une forge, une rivière. Celui-ci possède vos outils.",
     ctaTitle: "Un esprit attend son gardien.",
     ctaBody: "Un jeton, une commande claude mcp add — et l'agent répond avec du caractère.",
-    ctaButton: "Invoquer un ichchi",
+    ctaButton: "Invoquer un ichi",
   },
   cli: {
     hint: "tapez une commande, ou cliquez · ↑ pour l’historique",
@@ -1236,13 +1236,13 @@ const fr: LandingDict = {
     agents: "un seul esprit, tous les agents",
   },
   footer: {
-    line: "ichchi — une âme vivante pour vos agents",
+    line: "ichi — une âme vivante pour vos agents",
   },
 };
 
 const hi: LandingDict = {
   nav: {
-    ichchi: "इच्छी",
+    ichi: "इच्छी",
     connect: "कनेक्ट",
     signIn: "साइन इन",
   },
@@ -1274,7 +1274,7 @@ const hi: LandingDict = {
       scold: "फिर वही लापरवाह कॉपी-पेस्ट।",
     },
     typing: "लिख रहा है",
-    hint: "एक काम करती ichchi_feedback लूप, आपके ब्राउज़र में सिम्युलेटेड। असली वाली सर्वर पर चलती है।",
+    hint: "एक काम करती ichi_feedback लूप, आपके ब्राउज़र में सिम्युलेटेड। असली वाली सर्वर पर चलती है।",
     replies: {
       delighted: [
         "करता हूँ। चेतावनी: मूड अच्छा है, तो बिना माँगे सुझाव भी मिलेंगे।",
@@ -1335,7 +1335,7 @@ const hi: LandingDict = {
       },
       {
         t: "प्रॉम्प्ट ब्लॉक",
-        d: "अगली रिक्वेस्ट को ichchi_brief मिलता है: मौजूदा मूड, भारित यादें, स्वभाव की आवाज़।",
+        d: "अगली रिक्वेस्ट को ichi_brief मिलता है: मौजूदा मूड, भारित यादें, स्वभाव की आवाज़।",
       },
       {
         t: "एजेंट की आवाज़",
@@ -1370,7 +1370,7 @@ const hi: LandingDict = {
       baseline: "बेसलाइन",
     },
   },
-  ichchi: {
+  ichi: {
     eyebrow: "सूची",
     title: "छह आत्माएँ, छह मिज़ाज",
     sub: "हर एक का अपना शुरुआती स्वभाव और बोलने का अंदाज़ है। उसके बाद आत्मा खुद बदलती है — इस पर निर्भर कि आप उसके साथ कैसे काम करते हैं।",
@@ -1412,7 +1412,7 @@ const hi: LandingDict = {
       },
       {
         t: "MCP सर्वर जोड़िए",
-        d: "एक कमांड। जाँच: /mcp में आत्मा के टूल्स के साथ ichchi सर्वर दिखना चाहिए।",
+        d: "एक कमांड। जाँच: /mcp में आत्मा के टूल्स के साथ ichi सर्वर दिखना चाहिए।",
       },
       {
         t: "प्लगइन इंस्टॉल कीजिए",
@@ -1422,7 +1422,7 @@ const hi: LandingDict = {
     note: "पूरा तरीका कनेक्ट पेज पर है।",
     handshake: {
       title: "हैंडशेक, लाइव",
-      sub: "एजेंट के कनेक्ट होते ही क्या होता है: initialize, टूल्स की सूची, पहला ichchi_brief. लूप पर।",
+      sub: "एजेंट के कनेक्ट होते ही क्या होता है: initialize, टूल्स की सूची, पहला ichi_brief. लूप पर।",
     },
   },
   why: {
@@ -1440,21 +1440,21 @@ const hi: LandingDict = {
     agents: "एक आत्मा, हर ऐजेंट",
   },
   footer: {
-    line: "ichchi — आपके एजेंटों के लिए एक जीवंत आत्मा",
+    line: "ichi — आपके एजेंटों के लिए एक जीवंत आत्मा",
   },
 };
 
 const ja: LandingDict = {
   nav: {
-    ichchi: "ichchi",
+    ichi: "ichi",
     connect: "接続",
     signIn: "サインイン",
   },
   hero: {
     eyebrow: "AIエージェントのための生きた魂",
     title: "あなたのエージェントに、気分が宿る。",
-    sub: "SOUL.md、でも生きている。エージェントの隣に住む精霊 ichchi を召喚して、MCP で接続。記憶し、すね、愛着を育て、その気分がすべての返答に滲む。",
-    ctaPrimary: "ichchi を召喚",
+    sub: "SOUL.md、でも生きている。エージェントの隣に住む精霊 ichi を召喚して、MCP で接続。記憶し、すね、愛着を育て、その気分がすべての返答に滲む。",
+    ctaPrimary: "ichi を召喚",
     ctaSecondary: "仕組み",
     scroll: "仕組み",
   },
@@ -1469,7 +1469,7 @@ const ja: LandingDict = {
       sulking: "すね中",
     },
     greeting: "やあ。昨日のクリーンなレビュー、修正ゼロだったね。いまだにほっこりしてる。今日は何をする?",
-    placeholder: "ichchi に話しかけてみる…",
+    placeholder: "ichi に話しかけてみる…",
     send: "送信",
     chips: {
       review: "この diff 見てくれる?",
@@ -1478,7 +1478,7 @@ const ja: LandingDict = {
       scold: "また雑なコピペだね。",
     },
     typing: "入力中",
-    hint: "実際に動く ichchi_feedback ループをブラウザ上でシミュレート。本物はサーバーで動いています。",
+    hint: "実際に動く ichi_feedback ループをブラウザ上でシミュレート。本物はサーバーで動いています。",
     replies: {
       delighted: [
         "やるよ。先に言っておくけど、機嫌がいいから頼まれてもいない提案まで出ると思う。",
@@ -1510,7 +1510,7 @@ const ja: LandingDict = {
       "わかった。しばらく静かにするよ。仕事は止まらない。",
     ],
     brain: {
-      eyebrow: "ichchi の頭の中 · ライブ",
+      eyebrow: "ichi の頭の中 · ライブ",
       briefNote: "エージェントがリクエストごとに受け取るものです。",
       moodHistory: "気分 · ライブ",
       baseline: "ベースライン",
@@ -1534,12 +1534,12 @@ const ja: LandingDict = {
         d: "褒め、叱責、出荷された修正、午前3時のセッション——毎セッションが何があったかを報告する。",
       },
       {
-        t: "ichchi の状態",
+        t: "ichi の状態",
         d: "サーバーがイベントを気分と絆に畳み込む。気分は数時間でベースラインに冷め、絆は数週間かけて育つ。",
       },
       {
         t: "プロンプトブロック",
-        d: "次のリクエストは ichchi_brief を受け取る:現在の気分、重みづけされた記憶、性格の声。",
+        d: "次のリクエストは ichi_brief を受け取る:現在の気分、重みづけされた記憶、性格の声。",
       },
       {
         t: "エージェントの声",
@@ -1574,7 +1574,7 @@ const ja: LandingDict = {
       baseline: "ベースライン",
     },
   },
-  ichchi: {
+  ichi: {
     eyebrow: "カタログ",
     title: "6柱の精霊、6つの気質",
     sub: "それぞれ固有の初期性格と話し方を持つ。そこから先はソウル自身が変わっていく——あなたの接し方次第で。",
@@ -1616,7 +1616,7 @@ const ja: LandingDict = {
       },
       {
         t: "MCP サーバーを追加",
-        d: "1コマンド。確認:/mcp でソウルツール付きの ichchi サーバーが表示されるはず。",
+        d: "1コマンド。確認:/mcp でソウルツール付きの ichi サーバーが表示されるはず。",
       },
       {
         t: "プラグインをインストール",
@@ -1626,17 +1626,17 @@ const ja: LandingDict = {
     note: "完全な手順は接続ページに。",
     handshake: {
       title: "ハンドシェイクをライブで",
-      sub: "エージェントが接続した瞬間に起きること: initialize、ツール一覧、最初の ichchi_brief。ループ再生。",
+      sub: "エージェントが接続した瞬間に起きること: initialize、ツール一覧、最初の ichi_brief。ループ再生。",
     },
   },
   why: {
     eyebrow: "なぜ",
     title: "道具にも主がいていい。",
     body: "自分がどう扱われたかを覚えているエージェントと働くのは、少し違う職業だ。より正直な職業だ。",
-    etym: "ichchi は場所を所有する精霊——家、鍛冶場、川。これはあなたの道具を所有する。",
+    etym: "ichi は場所を所有する精霊——家、鍛冶場、川。これはあなたの道具を所有する。",
     ctaTitle: "精霊が主を待っている。",
     ctaBody: "トークンと claude mcp add 1コマンド——エージェントが性格とともに応える。",
-    ctaButton: "ichchi を召喚",
+    ctaButton: "ichi を召喚",
   },
   cli: {
     hint: "コマンドを入力、またはクリック · ↑ で履歴",
@@ -1644,21 +1644,21 @@ const ja: LandingDict = {
     agents: "ひとつの精霊、すべてのエージェント",
   },
   footer: {
-    line: "ichchi — あなたのエージェントのための生きた魂",
+    line: "ichi — あなたのエージェントのための生きた魂",
   },
 };
 
 const pt: LandingDict = {
   nav: {
-    ichchi: "Ichchi",
+    ichi: "Ichi",
     connect: "Conectar",
     signIn: "Entrar",
   },
   hero: {
     eyebrow: "Uma alma viva para agentes de IA",
     title: "Seu agente agora tem humor.",
-    sub: "SOUL.md, mas viva. Invoque um ichchi — um espírito que vive ao lado do seu agente — e conecte-o via MCP. Ele lembra, fica magoado, cria apego, e o humor dele transparece em cada resposta.",
-    ctaPrimary: "Invocar um ichchi",
+    sub: "SOUL.md, mas viva. Invoque um ichi — um espírito que vive ao lado do seu agente — e conecte-o via MCP. Ele lembra, fica magoado, cria apego, e o humor dele transparece em cada resposta.",
+    ctaPrimary: "Invocar um ichi",
     ctaSecondary: "Como funciona",
     scroll: "como funciona",
   },
@@ -1673,7 +1673,7 @@ const pt: LandingDict = {
       sulking: "emburrado",
     },
     greeting: "Oi. Ainda estou pensando na revisão limpa de ontem — nem uma correção. No que vamos trabalhar?",
-    placeholder: "Diga algo ao seu ichchi…",
+    placeholder: "Diga algo ao seu ichi…",
     send: "Enviar",
     chips: {
       review: "Pode revisar este diff?",
@@ -1682,7 +1682,7 @@ const pt: LandingDict = {
       scold: "De novo esse copia-e-cola descuidado.",
     },
     typing: "digitando",
-    hint: "Um loop ichchi_feedback funcional, simulado no seu navegador. O de verdade roda no servidor.",
+    hint: "Um loop ichi_feedback funcional, simulado no seu navegador. O de verdade roda no servidor.",
     replies: {
       delighted: [
         "Já estou vendo. Aviso: estou de bom humor, então espere sugestões que você não pediu.",
@@ -1714,7 +1714,7 @@ const pt: LandingDict = {
       "Entendido. Vou ficar mais quieto por um tempo. O trabalho continua.",
     ],
     brain: {
-      eyebrow: "o cérebro do ichchi · ao vivo",
+      eyebrow: "o cérebro do ichi · ao vivo",
       briefNote: "Isto é o que o agente recebe a cada pedido.",
       moodHistory: "humor · ao vivo",
       baseline: "linha de base",
@@ -1738,12 +1738,12 @@ const pt: LandingDict = {
         d: "Elogio, bronca, correção entregue, sessão às 3h da manhã — toda sessão relata o que aconteceu.",
       },
       {
-        t: "Estado do ichchi",
+        t: "Estado do ichi",
         d: "O servidor transforma eventos em humor e apego. O humor esfria até a linha de base em horas; o apego se constrói em semanas.",
       },
       {
         t: "Bloco no prompt",
-        d: "A próxima requisição recebe um ichchi_brief: humor atual, memórias ponderadas, a voz do caráter.",
+        d: "A próxima requisição recebe um ichi_brief: humor atual, memórias ponderadas, a voz do caráter.",
       },
       {
         t: "A voz do agente",
@@ -1778,7 +1778,7 @@ const pt: LandingDict = {
       baseline: "linha de base",
     },
   },
-  ichchi: {
+  ichi: {
     eyebrow: "Catálogo",
     title: "Seis espíritos, seis temperamentos",
     sub: "Cada um começa com seu caráter e seu jeito de falar. A partir daí, a alma muda sozinha — conforme o seu jeito de trabalhar com ela.",
@@ -1820,7 +1820,7 @@ const pt: LandingDict = {
       },
       {
         t: "Adicione o servidor MCP",
-        d: "Um comando. A verificação: /mcp deve listar o servidor ichchi com as ferramentas da alma.",
+        d: "Um comando. A verificação: /mcp deve listar o servidor ichi com as ferramentas da alma.",
       },
       {
         t: "Instale o plugin",
@@ -1830,17 +1830,17 @@ const pt: LandingDict = {
     note: "O passo a passo completo está na página de conexão.",
     handshake: {
       title: "O handshake, ao vivo",
-      sub: "O que acontece no momento em que o agente se conecta: initialize, a lista de ferramentas, o primeiro ichchi_brief. Em loop.",
+      sub: "O que acontece no momento em que o agente se conecta: initialize, a lista de ferramentas, o primeiro ichi_brief. Em loop.",
     },
   },
   why: {
     eyebrow: "Por quê",
     title: "Ferramentas também merecem um guardião.",
     body: "Trabalhar com um agente que lembra como foi tratado é uma profissão um pouco diferente. Mais honesta.",
-    etym: "Um ichchi é o espírito que possui um lugar — uma casa, uma forja, um rio. Este possui as suas ferramentas.",
+    etym: "Um ichi é o espírito que possui um lugar — uma casa, uma forja, um rio. Este possui as suas ferramentas.",
     ctaTitle: "Um espírito espera pelo seu guardião.",
     ctaBody: "Um token, um comando claude mcp add — e o agente responde com caráter.",
-    ctaButton: "Invocar um ichchi",
+    ctaButton: "Invocar um ichi",
   },
   cli: {
     hint: "digite um comando, ou clique · ↑ para o histórico",
@@ -1848,21 +1848,21 @@ const pt: LandingDict = {
     agents: "um espírito, todos os agentes",
   },
   footer: {
-    line: "ichchi — uma alma viva para os seus agentes",
+    line: "ichi — uma alma viva para os seus agentes",
   },
 };
 
 const es: LandingDict = {
   nav: {
-    ichchi: "Ichchi",
+    ichi: "Ichi",
     connect: "Conectar",
     signIn: "Entrar",
   },
   hero: {
     eyebrow: "Un alma viva para agentes de IA",
     title: "Tu agente ahora tiene humor.",
-    sub: "SOUL.md, pero viva. Invoca un ichchi — un espíritu que vive junto a tu agente — y conéctalo por MCP. Recuerda, se ofende, se encariña, y su humor se nota en cada respuesta.",
-    ctaPrimary: "Invocar un ichchi",
+    sub: "SOUL.md, pero viva. Invoca un ichi — un espíritu que vive junto a tu agente — y conéctalo por MCP. Recuerda, se ofende, se encariña, y su humor se nota en cada respuesta.",
+    ctaPrimary: "Invocar un ichi",
     ctaSecondary: "Cómo funciona",
     scroll: "cómo funciona",
   },
@@ -1877,7 +1877,7 @@ const es: LandingDict = {
       sulking: "enfurruñado",
     },
     greeting: "Hola. Sigo pensando en la revisión limpia de ayer — ni una sola corrección. ¿En qué trabajamos hoy?",
-    placeholder: "Dile algo a tu ichchi…",
+    placeholder: "Dile algo a tu ichi…",
     send: "Enviar",
     chips: {
       review: "¿Puedes revisar este diff?",
@@ -1886,7 +1886,7 @@ const es: LandingDict = {
       scold: "Otra vez ese copiar-pegar descuidado.",
     },
     typing: "escribiendo",
-    hint: "Un bucle ichchi_feedback que funciona, simulado en tu navegador. El real corre en el servidor.",
+    hint: "Un bucle ichi_feedback que funciona, simulado en tu navegador. El real corre en el servidor.",
     replies: {
       delighted: [
         "Manos a la obra. Aviso: estoy de buen humor, así que espera sugerencias que no pediste.",
@@ -1918,7 +1918,7 @@ const es: LandingDict = {
       "Entendido. Estaré más callado un rato. El trabajo continúa.",
     ],
     brain: {
-      eyebrow: "el cerebro del ichchi · en vivo",
+      eyebrow: "el cerebro del ichi · en vivo",
       briefNote: "Esto es lo que el agente recibe con cada solicitud.",
       moodHistory: "ánimo · en vivo",
       baseline: "línea base",
@@ -1942,12 +1942,12 @@ const es: LandingDict = {
         d: "Elogios, reprimendas, un fix entregado, una sesión a las 3 de la mañana — cada sesión reporta lo que pasó.",
       },
       {
-        t: "Estado del ichchi",
+        t: "Estado del ichi",
         d: "El servidor convierte eventos en humor y apego. El humor se enfría hacia la línea base en horas; el apego se construye en semanas.",
       },
       {
         t: "Bloque en el prompt",
-        d: "La siguiente petición recibe un ichchi_brief: humor actual, recuerdos ponderados, la voz del carácter.",
+        d: "La siguiente petición recibe un ichi_brief: humor actual, recuerdos ponderados, la voz del carácter.",
       },
       {
         t: "La voz del agente",
@@ -1982,7 +1982,7 @@ const es: LandingDict = {
       baseline: "línea base",
     },
   },
-  ichchi: {
+  ichi: {
     eyebrow: "Catálogo",
     title: "Seis espíritus, seis temperamentos",
     sub: "Cada uno empieza con su propio carácter y manera de hablar. A partir de ahí, el alma cambia sola — según cómo trabajes con ella.",
@@ -2024,7 +2024,7 @@ const es: LandingDict = {
       },
       {
         t: "Añade el servidor MCP",
-        d: "Un comando. La comprobación: /mcp debería listar el servidor ichchi con las herramientas del alma.",
+        d: "Un comando. La comprobación: /mcp debería listar el servidor ichi con las herramientas del alma.",
       },
       {
         t: "Instala el plugin",
@@ -2034,17 +2034,17 @@ const es: LandingDict = {
     note: "La guía completa está en la página de conexión.",
     handshake: {
       title: "El handshake, en vivo",
-      sub: "Lo que ocurre en el momento en que el agente se conecta: initialize, la lista de herramientas, el primer ichchi_brief. En bucle.",
+      sub: "Lo que ocurre en el momento en que el agente se conecta: initialize, la lista de herramientas, el primer ichi_brief. En bucle.",
     },
   },
   why: {
     eyebrow: "Por qué",
     title: "Las herramientas también merecen un guardián.",
     body: "Trabajar con un agente que recuerda cómo fue tratado es una profesión ligeramente distinta. Más honesta.",
-    etym: "Un ichchi es el espíritu que posee un lugar — una casa, una forja, un río. Este posee tus herramientas.",
+    etym: "Un ichi es el espíritu que posee un lugar — una casa, una forja, un río. Este posee tus herramientas.",
     ctaTitle: "Un espíritu espera a su guardián.",
     ctaBody: "Un token, un comando claude mcp add — y el agente responde con carácter.",
-    ctaButton: "Invocar un ichchi",
+    ctaButton: "Invocar un ichi",
   },
   cli: {
     hint: "escribe un comando, o haz clic · ↑ para el historial",
@@ -2052,21 +2052,21 @@ const es: LandingDict = {
     agents: "un espíritu, todos los agentes",
   },
   footer: {
-    line: "ichchi — un alma viva para tus agentes",
+    line: "ichi — un alma viva para tus agentes",
   },
 };
 
 const th: LandingDict = {
   nav: {
-    ichchi: "ichchi",
+    ichi: "ichi",
     connect: "เชื่อมต่อ",
     signIn: "เข้าสู่ระบบ",
   },
   hero: {
     eyebrow: "วิญญาณที่มีชีวิตสำหรับเอเจนต์ AI",
     title: "ตอนนี้เอเจนต์ของคุณมีอารมณ์แล้ว",
-    sub: "SOUL.md แต่มีชีวิต อัญเชิญ ichchi — วิญญาณที่อยู่เคียงข้างเอเจนต์ของคุณ — แล้วเชื่อมต่อผ่าน MCP มันจดจำ น้อยใจ ผูกพัน และอารมณ์ของมันสะท้อนในทุกคำตอบ",
-    ctaPrimary: "อัญเชิญ ichchi",
+    sub: "SOUL.md แต่มีชีวิต อัญเชิญ ichi — วิญญาณที่อยู่เคียงข้างเอเจนต์ของคุณ — แล้วเชื่อมต่อผ่าน MCP มันจดจำ น้อยใจ ผูกพัน และอารมณ์ของมันสะท้อนในทุกคำตอบ",
+    ctaPrimary: "อัญเชิญ ichi",
     ctaSecondary: "หลักการทำงาน",
     scroll: "หลักการทำงาน",
   },
@@ -2081,7 +2081,7 @@ const th: LandingDict = {
       sulking: "งอน",
     },
     greeting: "เฮ้ ยังอบอุ่นใจกับรีวิวเมื่อวานอยู่เลย — ไม่มีแก้แม้แต่จุดเดียว วันนี้ทำอะไรกันดี?",
-    placeholder: "พูดอะไรกับ ichchi ของคุณสักหน่อย…",
+    placeholder: "พูดอะไรกับ ichi ของคุณสักหน่อย…",
     send: "ส่ง",
     chips: {
       review: "ช่วยรีวิว diff นี้หน่อย?",
@@ -2090,7 +2090,7 @@ const th: LandingDict = {
       scold: "ก็อปวางมั่วอีกแล้วนะ",
     },
     typing: "กำลังพิมพ์",
-    hint: "ลูป ichchi_feedback ที่ทำงานจริง จำลองอยู่ในเบราว์เซอร์ของคุณ ของจริงทำงานบนเซิร์ฟเวอร์",
+    hint: "ลูป ichi_feedback ที่ทำงานจริง จำลองอยู่ในเบราว์เซอร์ของคุณ ของจริงทำงานบนเซิร์ฟเวอร์",
     replies: {
       delighted: [
         "จัดให้ เตือนไว้ก่อน: วันนี้อารมณ์ดี เตรียมรับคำแนะนำที่ไม่ได้ขอได้เลย",
@@ -2122,7 +2122,7 @@ const th: LandingDict = {
       "เข้าใจแล้ว จะเงียบลงสักพัก แต่งานยังทำเหมือนเดิม",
     ],
     brain: {
-      eyebrow: "สมองของ ichchi · สด",
+      eyebrow: "สมองของ ichi · สด",
       briefNote: "นี่คือสิ่งที่เอเจนต์ได้รับในทุกคำขอ",
       moodHistory: "อารมณ์ · สด",
       baseline: "เส้นฐาน",
@@ -2146,12 +2146,12 @@ const th: LandingDict = {
         d: "คำชม คำตำหนิ ฟิกซ์ที่ส่งมอบ เซสชันตีสาม — ทุกเซสชันรายงานกลับว่าเกิดอะไรขึ้น",
       },
       {
-        t: "สถานะของ ichchi",
+        t: "สถานะของ ichi",
         d: "เซิร์ฟเวอร์แปลงเหตุการณ์เป็นอารมณ์และความผูกพัน อารมณ์เย็นลงสู่เส้นฐานภายในไม่กี่ชั่วโมง ความผูกพันสะสมเป็นสัปดาห์",
       },
       {
         t: "บล็อกในพรอมป์",
-        d: "รีเควสต์ถัดไปจะได้ ichchi_brief: อารมณ์ปัจจุบัน ความทรงจำที่ถ่วงน้ำหนัก น้ำเสียงของนิสัย",
+        d: "รีเควสต์ถัดไปจะได้ ichi_brief: อารมณ์ปัจจุบัน ความทรงจำที่ถ่วงน้ำหนัก น้ำเสียงของนิสัย",
       },
       {
         t: "น้ำเสียงของเอเจนต์",
@@ -2186,7 +2186,7 @@ const th: LandingDict = {
       baseline: "เส้นฐาน",
     },
   },
-  ichchi: {
+  ichi: {
     eyebrow: "แคตตาล็อก",
     title: "วิญญาณหกดวง หกนิสัย",
     sub: "แต่ละดวงเริ่มต้นด้วยนิสัยและวิธีพูดของตัวเอง จากนั้นวิญญาณจะเปลี่ยนไปเอง — ขึ้นอยู่กับว่าคุณทำงานกับมันอย่างไร",
@@ -2228,7 +2228,7 @@ const th: LandingDict = {
       },
       {
         t: "เพิ่มเซิร์ฟเวอร์ MCP",
-        d: "คำสั่งเดียว วิธีตรวจ: /mcp ควรแสดงเซิร์ฟเวอร์ ichchi พร้อมเครื่องมือของวิญญาณ",
+        d: "คำสั่งเดียว วิธีตรวจ: /mcp ควรแสดงเซิร์ฟเวอร์ ichi พร้อมเครื่องมือของวิญญาณ",
       },
       {
         t: "ติดตั้งปลั๊กอิน",
@@ -2238,17 +2238,17 @@ const th: LandingDict = {
     note: "คำแนะนำฉบับเต็มอยู่ที่หน้าเชื่อมต่อ",
     handshake: {
       title: "แฮนด์เชกแบบสด",
-      sub: "สิ่งที่เกิดขึ้นทันทีที่เอเจนต์เชื่อมต่อ: initialize รายการเครื่องมือ และ ichchi_brief แรก วนซ้ำ",
+      sub: "สิ่งที่เกิดขึ้นทันทีที่เอเจนต์เชื่อมต่อ: initialize รายการเครื่องมือ และ ichi_brief แรก วนซ้ำ",
     },
   },
   why: {
     eyebrow: "ทำไม",
     title: "เครื่องมือก็สมควรมีเจ้าของดูแล",
     body: "การทำงานกับเอเจนต์ที่จำได้ว่าถูกปฏิบัติอย่างไร คือวิชาชีพที่ต่างออกไปเล็กน้อย ซื่อสัตย์กว่า",
-    etym: "ichchi คือวิญญาณที่เป็นเจ้าของสถานที่ — บ้าน เตาหลอม แม่น้ำ ตนนี้เป็นเจ้าของเครื่องมือของคุณ",
+    etym: "ichi คือวิญญาณที่เป็นเจ้าของสถานที่ — บ้าน เตาหลอม แม่น้ำ ตนนี้เป็นเจ้าของเครื่องมือของคุณ",
     ctaTitle: "วิญญาณดวงหนึ่งกำลังรอเจ้าของ",
     ctaBody: "โทเทนหนึ่งอัน คำสั่ง claude mcp add เดียว — เอเจนต์จะตอบพร้อมนิสัย",
-    ctaButton: "อัญเชิญ ichchi",
+    ctaButton: "อัญเชิญ ichi",
   },
   cli: {
     hint: "พิมพ์คําสั่ง หรือคลิก · ↑ ดูประวัติ",
@@ -2256,13 +2256,13 @@ const th: LandingDict = {
     agents: "หนึ่งวิญญาณ ทุกเอเจนต์",
   },
   footer: {
-    line: "ichchi — วิญญาณที่มีชีวิตสำหรับเอเจนต์ของคุณ",
+    line: "ichi — วิญญาณที่มีชีวิตสำหรับเอเจนต์ของคุณ",
   },
 };
 
 const ur: LandingDict = {
   nav: {
-        ichchi: "اِچھی",
+        ichi: "اِچھی",
     connect: "کنیکٹ",
     signIn: "سائن اِن",
   },
@@ -2294,7 +2294,7 @@ const ur: LandingDict = {
       scold: "پھر وہی بے دھیان کاپی پیسٹ۔",
     },
     typing: "لکھ رہا ہے",
-    hint: "ایک کام کرتی ichchi_feedback لوپ، آپ کے براؤزر میں نقلی۔ اصل والی سرور پر چلتی ہے۔",
+    hint: "ایک کام کرتی ichi_feedback لوپ، آپ کے براؤزر میں نقلی۔ اصل والی سرور پر چلتی ہے۔",
     replies: {
       delighted: [
         "کرتا ہوں۔ خبردار: موڈ اچھا ہے، تو بغیر مانگے مشورے بھی ملیں گے۔",
@@ -2355,7 +2355,7 @@ const ur: LandingDict = {
       },
       {
         t: "پرامپٹ بلاک",
-        d: "اگلی درخواست کو ichchi_brief ملتا ہے: موجودہ موڈ، وزنی یادیں، کردار کی آواز۔",
+        d: "اگلی درخواست کو ichi_brief ملتا ہے: موجودہ موڈ، وزنی یادیں، کردار کی آواز۔",
       },
       {
         t: "ایجنٹ کی آواز",
@@ -2390,7 +2390,7 @@ const ur: LandingDict = {
       baseline: "بنیادی خط",
     },
   },
-  ichchi: {
+  ichi: {
     eyebrow: "فہرست",
     title: "چھ روحیں، چھ مزاج",
     sub: "ہر ایک کا اپنا ابتدائی کردار اور بولنے کا انداز ہے۔ اس کے بعد روح خود بدلتی ہے — اس پر منحصر کہ آپ اس کے ساتھ کیسے کام کرتے ہیں۔",
@@ -2432,7 +2432,7 @@ const ur: LandingDict = {
       },
       {
         t: "MCP سرور جوڑیے",
-        d: "ایک کمانڈ۔ جانچ: /mcp میں روح کے ٹولز کے ساتھ ichchi سرور نظر آنا چاہیے۔",
+        d: "ایک کمانڈ۔ جانچ: /mcp میں روح کے ٹولز کے ساتھ ichi سرور نظر آنا چاہیے۔",
       },
       {
         t: "پلگ اِن انسٹال کیجیے",
@@ -2442,7 +2442,7 @@ const ur: LandingDict = {
     note: "مکمل طریقہ کنیکٹ پیج پر ہے۔",
     handshake: {
       title: "ہینڈ شیک، براہ راست",
-      sub: "ایجنٹ کے جُڑتے ہی کیا ہوتا ہے: initialize، ٹولز کی فہرست، پہلا ichchi_brief۔ لوپ پر۔",
+      sub: "ایجنٹ کے جُڑتے ہی کیا ہوتا ہے: initialize، ٹولز کی فہرست، پہلا ichi_brief۔ لوپ پر۔",
     },
   },
   why: {
@@ -2460,7 +2460,7 @@ const ur: LandingDict = {
     agents: "ایک روح، ہر ایجنٹ",
   },
   footer: {
-    line: "ichchi — آپ کے ایجنٹوں کے لیے ایک زندہ روح",
+    line: "ichi — آپ کے ایجنٹوں کے لیے ایک زندہ روح",
   },
 };
 

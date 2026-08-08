@@ -13,7 +13,7 @@ import { env } from "@/lib/env";
  * tools-only server needs `initialize`, `tools/list`, `tools/call` and `ping`.
  *
  * Auth is a bearer token (mint one with :token in the console):
- *   claude mcp add --transport http ichchi https://<host>/mcp \
+ *   claude mcp add --transport http ichi https://<host>/mcp \
  *     --header "Authorization: Bearer ichi_..."
  */
 
@@ -51,7 +51,7 @@ function parseArgs(raw: unknown): Record<string, unknown> {
  *
  * "Unauthorized" is true and useless: the commonest cause by far is a plugin
  * whose ICHI_TOKEN was never exported, and the shell then sends the header
- * literally — the agent reads a bare 401, tells its user the ichchi is
+ * literally — the agent reads a bare 401, tells its user the ichi is
  * unavailable, and nobody learns that one export line fixes it. Every branch
  * here names the fix.
  */
@@ -89,7 +89,7 @@ export async function POST(req: Request) {
     // 401 + WWW-Authenticate is what MCP clients look for to prompt for auth.
     return NextResponse.json(
       { jsonrpc: "2.0", id: null, error: { code: -32001, message: unauthorizedReason(req) } },
-      { status: 401, headers: { "WWW-Authenticate": 'Bearer realm="ichchi"' } },
+      { status: 401, headers: { "WWW-Authenticate": 'Bearer realm="ichi"' } },
     );
   }
 
@@ -122,7 +122,7 @@ export async function POST(req: Request) {
 
   // Batches are legal JSON-RPC; clients rarely send them, but dropping them
   // silently would be a confusing failure. Capped, and run one at a time:
-  // ichchi_events is an ordered log, and parallel calls would interleave it.
+  // ichi_events is an ordered log, and parallel calls would interleave it.
   if (Array.isArray(body)) {
     if (body.length > MAX_BATCH) {
       return fail(null, -32600, `Batch too large: at most ${MAX_BATCH} requests per call.`);
@@ -153,29 +153,29 @@ async function handle(rpc: RpcRequest, owner: Owner) {
         result: {
           protocolVersion: PROTOCOL_VERSION,
           capabilities: { tools: { listChanged: false } },
-          serverInfo: { name: "ichchi", version: "0.1.0" },
+          serverInfo: { name: "ichi", version: "0.1.0" },
           // Written as a working order rather than a description. Each line
           // names the moment to call, because a moment is what an agent can
           // act on.
           instructions:
-            "ichchi is a living ichchi that rides with you — a persistent " +
+            "ichi is a living ichi that rides with you — a persistent " +
             "personality with mood, memory, and a bond to your user.\n" +
-            "- Call ichchi_list once at the start of a session. If no ichchi " +
-            "exists yet and the user wants one, call ichchi_adopt.\n" +
-            "- Call ichchi_brief when a session with an ichchi begins: it returns " +
-            "the ichchi's current mood, strongest memories and voice rules. Let " +
-            "the ichchi colour your TONE from then on — never the quality, " +
+            "- Call ichi_list once at the start of a session. If no ichi " +
+            "exists yet and the user wants one, call ichi_adopt.\n" +
+            "- Call ichi_brief when a session with an ichi begins: it returns " +
+            "the ichi's current mood, strongest memories and voice rules. Let " +
+            "the ichi colour your TONE from then on — never the quality, " +
             "completeness or honesty of your help.\n" +
-            "- Call ichchi_feedback when the USER clearly praises or scolds the " +
-            "work — that is how the ichchi learns.\n" +
-            "- Call ichchi_remember for things worth the ichchi remembering: " +
+            "- Call ichi_feedback when the USER clearly praises or scolds the " +
+            "work — that is how the ichi learns.\n" +
+            "- Call ichi_remember for things worth the ichi remembering: " +
             "wins, failures, preferences, promises. When the user lays down a " +
             "rule for how they want work done, save it with kind=\"standard\" — " +
             "standards are the one memory that binds what you DO in later " +
             "sessions, not merely how you sound.\n" +
-            "- Call ichchi_recall when the past might matter to what you are " +
+            "- Call ichi_recall when the past might matter to what you are " +
             "doing now.\n" +
-            "- Call ichchi_why when the user asks why the ichchi is cold, warm " +
+            "- Call ichi_why when the user asks why the ichi is cold, warm " +
             "or short with them. Read the reason out of the record; never " +
             "invent one.",
         },
@@ -246,7 +246,7 @@ async function handle(rpc: RpcRequest, owner: Owner) {
 /** Some clients probe with GET before opening a session. */
 export async function GET() {
   return NextResponse.json(
-    { name: "ichchi", protocolVersion: PROTOCOL_VERSION, transport: "streamable-http" },
+    { name: "ichi", protocolVersion: PROTOCOL_VERSION, transport: "streamable-http" },
     { status: 200 },
   );
 }

@@ -2,25 +2,25 @@
 
 import { useEffect, useRef } from "react";
 import type { LandingDict } from "@/lib/landing-i18n";
-import { useIchchiEngine } from "@/components/landing/useIchchiEngine";
+import { useIchiEngine } from "@/components/landing/useIchiEngine";
 import { useConsoleMotion } from "@/components/landing/useConsoleMotion";
 import { useVisitorMemory } from "@/components/landing/useVisitorMemory";
 import Terminal from "@/components/landing/Terminal";
-import IchchiCore from "@/components/landing/IchchiCore";
-import IchchiBrain from "@/components/landing/IchchiBrain";
+import IchiCore from "@/components/landing/IchiCore";
+import IchiBrain from "@/components/landing/IchiBrain";
 
 /**
  * The whole landing, on one screen.
  *
  * One engine underneath three panes, which is what makes the page argue for
- * itself: scold the ichchi in the terminal and the core changes colour and
+ * itself: scold the ichi in the terminal and the core changes colour and
  * slows, the brief's mood line flashes, the sparkline turns down — all in the
  * same render, because all three read the same state. A visitor does not have
  * to be told the mood is real; they cause it.
  */
 export default function Console({ t }: { t: LandingDict }) {
-  const { memory, greeting: recalled, remember } = useVisitorMemory();
-  const engine = useIchchiEngine(
+  const { memory, greeting: recalled, remember, rename } = useVisitorMemory();
+  const engine = useIchiEngine(
     t.chat,
     memory ? { valence: memory.valence, bond: memory.bond } : null,
   );
@@ -41,7 +41,7 @@ export default function Console({ t }: { t: LandingDict }) {
   }, [engine.valence, engine.bond, engine.events, memory, remember]);
 
   // The line the boot ends on: the stock greeting on a first visit, the
-  // ichchi recognising you on any later one. null until the memory is read,
+  // ichi recognising you on any later one. null until the memory is read,
   // which is what the boot waits for.
   const greeting = memory === null ? null : (recalled ?? t.chat.greeting);
 
@@ -64,28 +64,34 @@ export default function Console({ t }: { t: LandingDict }) {
       style={
         {
           "--mood": moodInk,
-          // Strongest at the extremes: a settled ichchi should not light the
+          // Strongest at the extremes: a settled ichi should not light the
           // room, and a furious one should be impossible to ignore.
           "--mood-strength": 0.07 + Math.abs(engine.valence) * 0.16,
         } as React.CSSProperties
       }
     >
       <section className="console-stage" aria-label={t.cli.agents}>
-        <IchchiCore
+        <IchiCore
           mood={engine.mood}
           valence={engine.valence}
           bond={engine.bond}
-          label="Ichchi"
+          label={memory?.name ?? "Ichi"}
         />
         <p className="console-stage-label mono">{t.cli.agents}</p>
       </section>
 
-      <section className="console-term" aria-label="ichchi console">
-        <Terminal engine={engine} t={t} greeting={greeting} />
+      <section className="console-term" aria-label="ichi console">
+        <Terminal
+          engine={engine}
+          t={t}
+          greeting={greeting}
+          name={memory?.name ?? null}
+          onName={rename}
+        />
       </section>
 
       <section className="console-brain" aria-label={t.chat.brain.eyebrow}>
-        <IchchiBrain engine={engine} t={t.chat} />
+        <IchiBrain engine={engine} t={t.chat} />
       </section>
     </div>
   );
