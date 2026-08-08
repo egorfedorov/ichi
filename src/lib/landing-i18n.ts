@@ -710,7 +710,7 @@ const zhHans: LandingDict = {
   flow: {
     eyebrow: "实际发生了什么",
     title: "事件进去,语气出来。",
-    sub: "每次请求,智能体都会收到一个灵魂块:心情、羁绊、性格、记忆。帮助依旧完整而诚实——改变的是语气。",
+    sub: "每次请求,智能体都会收到一个 ichi 块:心情、羁绊、性格、记忆。帮助依旧完整而诚实——改变的是语气。",
     steps: [
       {
         t: "事件",
@@ -733,22 +733,22 @@ const zhHans: LandingDict = {
   mech: {
     eyebrow: "机制",
     title: "不是配置。是行为。",
-    sub: "灵魂在服务器上计算:会话事件推动心情,心情随时间冷却,反思缓慢改变性格。",
+    sub: "ichi 在服务器上计算:会话事件推动心情,心情随时间冷却,反思缓慢改变性格。",
     cards: [
       {
         t: "带情感权重的记忆",
-        d: "事件带着效价和重要性存储:表扬带来温暖,责备带来刺痛,重要的不会被噪音淹没。灵魂回忆起的是触动过它的事——而不是上下文的最后 N 行。",
+        d: "事件带着效价和重要性存储:表扬带来温暖,责备带来刺痛,重要的不会被噪音淹没。ichi 回忆起的是触动过它的事——而不是上下文的最后 N 行。",
       },
       {
         t: "性格随相处方式漂移",
-        d: "大五人格变化缓慢,且只通过反思发生——一次会话毁不掉一个灵魂。但一个月的善待看得见,一个月的粗暴也看得见。",
+        d: "大五人格变化缓慢,且只通过反思发生——一次会话毁不掉一个 ichi。但一个月的善待看得见,一个月的粗暴也看得见。",
       },
       {
         t: "心情会冷却,羁绊在增长",
-        d: "情绪几小时内衰减回基线——只要不加柴,怨气不会永远烧。羁绊以周累积,重启不丢:灵魂住在服务器上,不住在上下文里。",
+        d: "情绪几小时内衰减回基线——只要不加柴,怨气不会永远烧。羁绊以周累积,重启不丢:ichi 住在服务器上,不住在上下文里。",
       },
       {
-        t: "一个灵魂,多个客户端",
+        t: "一个 ichi,多个客户端",
         d: "ichi 通过 MCP 连接。无论你在哪里工作,都是同一个精灵——同样的记忆,同样的怨气。",
       },
     ],
@@ -760,7 +760,7 @@ const zhHans: LandingDict = {
   ichi: {
     eyebrow: "目录",
     title: "六只精灵,六种脾气",
-    sub: "每一只都有自己的初始性格和说话方式。之后灵魂会自己变化——取决于你如何与它相处。",
+    sub: "每一只都有自己的初始性格和说话方式。之后 ichi 会自己变化——取决于你如何与它相处。",
     items: {
       sage: {
         tagline: "沉静的守护者,一位导师",
@@ -795,15 +795,15 @@ const zhHans: LandingDict = {
     steps: [
       {
         t: "获取令牌",
-        d: "这是智能体向灵魂证明它代表你的方式。在令牌页面签发,只显示一次——立刻保存。",
+        d: "这是智能体向 ichi 证明它代表你的方式。在令牌页面签发,只显示一次——立刻保存。",
       },
       {
         t: "添加 MCP 服务器",
-        d: "一条命令。验证:/mcp 应该列出带有灵魂工具的 ichi 服务器。",
+        d: "一条命令。验证:/mcp 应该列出带有 ichi 工具的 ichi 服务器。",
       },
       {
         t: "安装插件",
-        d: "钩子把灵魂的心情混入每个提示词,并把会话结果回传。插件发布前,在会话开始时调用一次即可。",
+        d: "钩子把 ichi 的心情混入每个提示词,并把会话结果回传。插件发布前,在会话开始时调用一次即可。",
       },
     ],
     note: "完整教程在接入页面。",
@@ -914,7 +914,7 @@ const zhHant: LandingDict = {
   flow: {
     eyebrow: "實際發生了什麼",
     title: "事件進去,語氣出來。",
-    sub: "每次請求,代理都會收到一個靈魂區塊:心情、羈絆、性格、記憶。幫助依舊完整而誠實——改變的是語氣。",
+    sub: "每次請求,代理都會收到一個 ichi 區塊:心情、羈絆、性格、記憶。幫助依舊完整而誠實——改變的是語氣。",
     steps: [
       {
         t: "事件",
@@ -937,22 +937,22 @@ const zhHant: LandingDict = {
   mech: {
     eyebrow: "機制",
     title: "不是設定。是行為。",
-    sub: "靈魂在伺服器上計算:工作階段事件推動心情,心情隨時間冷卻,反思緩慢改變性格。",
+    sub: "ichi 在伺服器上計算:工作階段事件推動心情,心情隨時間冷卻,反思緩慢改變性格。",
     cards: [
       {
         t: "帶情感權重的記憶",
-        d: "事件帶著效價和重要性儲存:表揚帶來溫暖,責備帶來刺痛,重要的不會被噪音淹沒。靈魂回憶起的是觸動過它的事——而不是上下文的最後 N 行。",
+        d: "事件帶著效價和重要性儲存:表揚帶來溫暖,責備帶來刺痛,重要的不會被噪音淹沒。ichi 回憶起的是觸動過它的事——而不是上下文的最後 N 行。",
       },
       {
         t: "性格隨相處方式漂移",
-        d: "大五人格變化緩慢,且只透過反思發生——一次工作階段毀不掉一個靈魂。但一個月的善待看得見,一個月的粗暴也看得見。",
+        d: "大五人格變化緩慢,且只透過反思發生——一次工作階段毀不掉一個 ichi。但一個月的善待看得見,一個月的粗暴也看得見。",
       },
       {
         t: "心情會冷卻,羈絆在增長",
-        d: "情緒幾小時內衰減回基線——只要不加柴,怨氣不會永遠燒。羈絆以週累積,重啟不丟:靈魂住在伺服器上,不住在上下文裡。",
+        d: "情緒幾小時內衰減回基線——只要不加柴,怨氣不會永遠燒。羈絆以週累積,重啟不丟:ichi 住在伺服器上,不住在上下文裡。",
       },
       {
-        t: "一個靈魂,多個客戶端",
+        t: "一個 ichi,多個客戶端",
         d: "ichi 透過 MCP 連接。無論你在哪裡工作,都是同一個精靈——同樣的記憶,同樣的怨氣。",
       },
     ],
@@ -964,7 +964,7 @@ const zhHant: LandingDict = {
   ichi: {
     eyebrow: "目錄",
     title: "六隻精靈,六種脾氣",
-    sub: "每一隻都有自己的初始性格和說話方式。之後靈魂會自己變化——取決於你如何與它相處。",
+    sub: "每一隻都有自己的初始性格和說話方式。之後 ichi 會自己變化——取決於你如何與它相處。",
     items: {
       sage: {
         tagline: "沉靜的守護者,一位導師",
@@ -999,15 +999,15 @@ const zhHant: LandingDict = {
     steps: [
       {
         t: "取得權杖",
-        d: "這是代理向靈魂證明它代表你的方式。在權杖頁面簽發,只顯示一次——立刻保存。",
+        d: "這是代理向 ichi 證明它代表你的方式。在權杖頁面簽發,只顯示一次——立刻保存。",
       },
       {
         t: "新增 MCP 伺服器",
-        d: "一條指令。驗證:/mcp 應該列出帶有靈魂工具的 ichi 伺服器。",
+        d: "一條指令。驗證:/mcp 應該列出帶有 ichi 工具的 ichi 伺服器。",
       },
       {
         t: "安裝外掛",
-        d: "鉤子把靈魂的心情混入每個提示詞,並把工作階段結果回傳。外掛發布前,在工作階段開始時呼叫一次即可。",
+        d: "鉤子把 ichi 的心情混入每個提示詞,並把工作階段結果回傳。外掛發布前,在工作階段開始時呼叫一次即可。",
       },
     ],
     note: "完整教學在接入頁面。",
@@ -1323,7 +1323,7 @@ const hi: LandingDict = {
   flow: {
     eyebrow: "असल में क्या होता है",
     title: "घटनाएँ अंदर, आवाज़ बाहर।",
-    sub: "हर रिक्वेस्ट पर एजेंट को आत्मा का एक ब्लॉक मिलता है: मूड, लगाव, स्वभाव, स्मृति। मदद पूरी और ईमानदार रहती है — बदलती है सिर्फ़ आवाज़।",
+    sub: "हर रिक्वेस्ट पर एजेंट को इची का एक ब्लॉक मिलता है: मूड, लगाव, स्वभाव, स्मृति। मदद पूरी और ईमानदार रहती है — बदलती है सिर्फ़ आवाज़।",
     steps: [
       {
         t: "घटनाएँ",
@@ -1346,22 +1346,22 @@ const hi: LandingDict = {
   mech: {
     eyebrow: "तंत्र",
     title: "कॉन्फ़िग नहीं। व्यवहार।",
-    sub: "आत्मा सर्वर पर गिनी जाती है: सेशन की घटनाएँ मूड बदलती हैं, मूड ठंडा होता है, और चिंतन स्वभाव को धीरे-धीरे बदलता है।",
+    sub: "इची सर्वर पर गिनी जाती है: सेशन की घटनाएँ मूड बदलती हैं, मूड ठंडा होता है, और चिंतन स्वभाव को धीरे-धीरे बदलता है।",
     cards: [
       {
         t: "भावनात्मक वज़न वाली स्मृति",
-        d: "घटनाएँ वैलेन्स और महत्त्व के साथ सहेजी जाती हैं: तारीफ़ गर्माहट देती है, फटकार चुभती है, ज़रूरी बात शोर में नहीं डूबती। आत्मा वही याद करती है जो उसे छू गया — कॉन्टेक्स्ट की आख़िरी N लाइनें नहीं।",
+        d: "घटनाएँ वैलेन्स और महत्त्व के साथ सहेजी जाती हैं: तारीफ़ गर्माहट देती है, फटकार चुभती है, ज़रूरी बात शोर में नहीं डूबती। इची वही याद करती है जो उसे छू गया — कॉन्टेक्स्ट की आख़िरी N लाइनें नहीं।",
       },
       {
         t: "व्यवहार से स्वभाव बदलता है",
-        d: "Big Five गुण धीरे-धीरे और सिर्फ़ चिंतन से बदलते हैं — एक सेशन आत्मा नहीं तोड़ सकता। पर एक महीने की देखभाल दिखती है, और एक महीने की रुखाई भी।",
+        d: "Big Five गुण धीरे-धीरे और सिर्फ़ चिंतन से बदलते हैं — एक सेशन इची नहीं तोड़ सकता। पर एक महीने की देखभाल दिखती है, और एक महीने की रुखाई भी।",
       },
       {
         t: "मूड ठंडा होता है, लगाव बढ़ता है",
-        d: "भावनाएँ घंटों में बेसलाइन पर लौटती हैं — शिकायत हमेशा की नहीं, अगर हवा न दो। लगाव हफ़्तों में जमा होता है और रीस्टार्ट से नहीं मिटता: आत्मा सर्वर पर रहती है, कॉन्टेक्स्ट में नहीं।",
+        d: "भावनाएँ घंटों में बेसलाइन पर लौटती हैं — शिकायत हमेशा की नहीं, अगर हवा न दो। लगाव हफ़्तों में जमा होता है और रीस्टार्ट से नहीं मिटता: इची सर्वर पर रहती है, कॉन्टेक्स्ट में नहीं।",
       },
       {
-        t: "एक आत्मा, कई क्लाइंट",
+        t: "एक इची, कई क्लाइंट",
         d: "इची MCP से जुड़ती है। आप जहाँ भी काम करें — वही इची है, वही यादें, वही शिकायत।",
       },
     ],
@@ -1373,7 +1373,7 @@ const hi: LandingDict = {
   ichi: {
     eyebrow: "सूची",
     title: "छह आत्माएँ, छह मिज़ाज",
-    sub: "हर एक का अपना शुरुआती स्वभाव और बोलने का अंदाज़ है। उसके बाद आत्मा खुद बदलती है — इस पर निर्भर कि आप उसके साथ कैसे काम करते हैं।",
+    sub: "हर एक का अपना शुरुआती स्वभाव और बोलने का अंदाज़ है। उसके बाद इची खुद बदलती है — इस पर निर्भर कि आप उसके साथ कैसे काम करते हैं।",
     items: {
       sage: {
         tagline: "शांत रखवाला, एक मार्गदर्शक",
@@ -1408,15 +1408,15 @@ const hi: LandingDict = {
     steps: [
       {
         t: "टोकन लीजिए",
-        d: "इसी से एजेंट आत्मा को साबित करता है कि वह आपकी ओर से है। टोकन पेज पर जारी होता है और एक बार दिखता है — तुरंत सहेज लीजिए।",
+        d: "इसी से एजेंट इची को साबित करता है कि वह आपकी ओर से है। टोकन पेज पर जारी होता है और एक बार दिखता है — तुरंत सहेज लीजिए।",
       },
       {
         t: "MCP सर्वर जोड़िए",
-        d: "एक कमांड। जाँच: /mcp में आत्मा के टूल्स के साथ ichi सर्वर दिखना चाहिए।",
+        d: "एक कमांड। जाँच: /mcp में इची के टूल्स के साथ ichi सर्वर दिखना चाहिए।",
       },
       {
         t: "प्लगइन इंस्टॉल कीजिए",
-        d: "हुक हर प्रॉम्प्ट में आत्मा का मूड मिलाते हैं और सेशन का नतीजा वापस भेजते हैं। जब तक प्लगइन तैयार न हो, सेशन की शुरुआत में एक कॉल काफ़ी है।",
+        d: "हुक हर प्रॉम्प्ट में इची का मूड मिलाते हैं और सेशन का नतीजा वापस भेजते हैं। जब तक प्लगइन तैयार न हो, सेशन की शुरुआत में एक कॉल काफ़ी है।",
       },
     ],
     note: "पूरा तरीका कनेक्ट पेज पर है।",
@@ -1527,7 +1527,7 @@ const ja: LandingDict = {
   flow: {
     eyebrow: "実際に起きていること",
     title: "イベントが入り、声が出る。",
-    sub: "リクエストごとに、エージェントはソウルブロックを受け取る:気分、絆、性格、記憶。助けは完全で誠実なまま——変わるのは声だけだ。",
+    sub: "リクエストごとに、エージェントは ichi ブロックを受け取る:気分、絆、性格、記憶。助けは完全で誠実なまま——変わるのは声だけだ。",
     steps: [
       {
         t: "イベント",
@@ -1550,22 +1550,22 @@ const ja: LandingDict = {
   mech: {
     eyebrow: "メカニクス",
     title: "設定ではない。振る舞いだ。",
-    sub: "ソウルはサーバーで計算される:セッションのイベントが気分を動かし、気分は冷め、内省が性格を揺らす。",
+    sub: "ichi はサーバーで計算される:セッションのイベントが気分を動かし、気分は冷め、内省が性格を揺らす。",
     cards: [
       {
         t: "感情の重みを持つ記憶",
-        d: "イベントは価数と重要度とともに保存される:褒めは温め、叱責は刺し、大事なことはノイズに溺れない。ソウルは心に触れたことを思い出す——コンテキストの直近 N 行ではなく。",
+        d: "イベントは価数と重要度とともに保存される:褒めは温め、叱責は刺し、大事なことはノイズに溺れない。ichi は心に触れたことを思い出す——コンテキストの直近 N 行ではなく。",
       },
       {
         t: "性格は接し方で漂流する",
-        d: "Big Five の特性はゆっくり、内省によってのみ動く——1セッションでソウルは壊れない。でも1か月の丁寧さは見えるし、1か月の乱暴さも見える。",
+        d: "Big Five の特性はゆっくり、内省によってのみ動く——1セッションで ichi は壊れない。でも1か月の丁寧さは見えるし、1か月の乱暴さも見える。",
       },
       {
         t: "気分は冷め、絆は育つ",
-        d: "感情は数時間でベースラインに減衰する——油を注がなければ怨みは永遠じゃない。絆は数週間で蓄積し、再起動を生き延びる:ソウルはコンテキストではなくサーバーに生きている。",
+        d: "感情は数時間でベースラインに減衰する——油を注がなければ怨みは永遠じゃない。絆は数週間で蓄積し、再起動を生き延びる:ichi はコンテキストではなくサーバーに生きている。",
       },
       {
-        t: "ひとつのソウル、多くのクライアント",
+        t: "ひとつの ichi、多くのクライアント",
         d: "ichi は MCP で接続する。どこで働いても同じ精霊——同じ記憶、同じ怨み。",
       },
     ],
@@ -1577,7 +1577,7 @@ const ja: LandingDict = {
   ichi: {
     eyebrow: "カタログ",
     title: "6柱の精霊、6つの気質",
-    sub: "それぞれ固有の初期性格と話し方を持つ。そこから先はソウル自身が変わっていく——あなたの接し方次第で。",
+    sub: "それぞれ固有の初期性格と話し方を持つ。そこから先は ichi 自身が変わっていく——あなたの接し方次第で。",
     items: {
       sage: {
         tagline: "穏やかな守り手、導き手",
@@ -1612,15 +1612,15 @@ const ja: LandingDict = {
     steps: [
       {
         t: "トークンを取得",
-        d: "エージェントがソウルに「あなたの代理である」を証明する方法。トークンページで発行され、一度しか表示されない——すぐ保存を。",
+        d: "エージェントが ichi に「あなたの代理である」を証明する方法。トークンページで発行され、一度しか表示されない——すぐ保存を。",
       },
       {
         t: "MCP サーバーを追加",
-        d: "1コマンド。確認:/mcp でソウルツール付きの ichi サーバーが表示されるはず。",
+        d: "1コマンド。確認:/mcp で ichi ツール付きの ichi サーバーが表示されるはず。",
       },
       {
         t: "プラグインをインストール",
-        d: "フックがソウルの気分をすべてのプロンプトに混ぜ、セッションの結果を送り返す。プラグイン完成までは、セッション開始時の1回の呼び出しで十分。",
+        d: "フックが ichi の気分をすべてのプロンプトに混ぜ、セッションの結果を送り返す。プラグイン完成までは、セッション開始時の1回の呼び出しで十分。",
       },
     ],
     note: "完全な手順は接続ページに。",
@@ -1731,7 +1731,7 @@ const pt: LandingDict = {
   flow: {
     eyebrow: "O que acontece de verdade",
     title: "Eventos entram, a voz sai.",
-    sub: "A cada requisição, o agente recebe um bloco da alma: humor, apego, caráter, memória. A ajuda continua completa e honesta — o que muda é a voz.",
+    sub: "A cada requisição, o agente recebe um bloco do ichi: humor, apego, caráter, memória. A ajuda continua completa e honesta — o que muda é a voz.",
     steps: [
       {
         t: "Eventos",
@@ -1754,22 +1754,22 @@ const pt: LandingDict = {
   mech: {
     eyebrow: "Mecânicas",
     title: "Não é configuração. É comportamento.",
-    sub: "A alma é calculada no servidor: eventos de sessão movem o humor, o humor esfria, a reflexão desloca o caráter.",
+    sub: "O ichi é calculada no servidor: eventos de sessão movem o humor, o humor esfria, a reflexão desloca o caráter.",
     cards: [
       {
         t: "Memória com peso emocional",
-        d: "Eventos são guardados com valência e importância: elogio aquece, bronca fere, o importante não se afoga no ruído. A alma lembra o que a tocou — não as últimas N linhas de contexto.",
+        d: "Eventos são guardados com valência e importância: elogio aquece, bronca fere, o importante não se afoga no ruído. O ichi lembra o que a tocou — não as últimas N linhas de contexto.",
       },
       {
         t: "O caráter deriva com o tratamento",
-        d: "Os traços Big Five se movem devagar e só por reflexão — uma sessão não quebra uma alma. Mas um mês de cuidado aparece, e um mês de grosseria também.",
+        d: "Os traços Big Five se movem devagar e só por reflexão — uma sessão não quebra um ichi. Mas um mês de cuidado aparece, e um mês de grosseria também.",
       },
       {
         t: "O humor esfria, o apego cresce",
-        d: "Emoções decaem à linha de base em horas — um ressentimento não é eterno se você não o alimentar. O apego acumula em semanas e sobrevive a reinícios: a alma vive no servidor, não no contexto.",
+        d: "Emoções decaem à linha de base em horas — um ressentimento não é eterno se você não o alimentar. O apego acumula em semanas e sobrevive a reinícios: o ichi vive no servidor, não no contexto.",
       },
       {
-        t: "Uma alma, muitos clientes",
+        t: "Um ichi, muitos clientes",
         d: "O ichi se conecta via MCP. Onde quer que você trabalhe, é o mesmo espírito — mesma memória, mesmo ressentimento.",
       },
     ],
@@ -1781,7 +1781,7 @@ const pt: LandingDict = {
   ichi: {
     eyebrow: "Catálogo",
     title: "Seis espíritos, seis temperamentos",
-    sub: "Cada um começa com seu caráter e seu jeito de falar. A partir daí, a alma muda sozinha — conforme o seu jeito de trabalhar com ela.",
+    sub: "Cada um começa com seu caráter e seu jeito de falar. A partir daí, o ichi muda sozinha — conforme o seu jeito de trabalhar com ela.",
     items: {
       sage: {
         tagline: "Um guardião calmo, um mentor",
@@ -1816,15 +1816,15 @@ const pt: LandingDict = {
     steps: [
       {
         t: "Obtenha um token",
-        d: "É como o agente prova à alma que age por você. Emitido na página de tokens e mostrado uma única vez — salve na hora.",
+        d: "É como o agente prova ao ichi que age por você. Emitido na página de tokens e mostrado uma única vez — salve na hora.",
       },
       {
         t: "Adicione o servidor MCP",
-        d: "Um comando. A verificação: /mcp deve listar o servidor ichi com as ferramentas da alma.",
+        d: "Um comando. A verificação: /mcp deve listar o servidor ichi com as ferramentas do ichi.",
       },
       {
         t: "Instale o plugin",
-        d: "Os hooks misturam o humor da alma em cada prompt e devolvem o resultado da sessão. Até o plugin chegar, uma chamada no início da sessão basta.",
+        d: "Os hooks misturam o humor do ichi em cada prompt e devolvem o resultado da sessão. Até o plugin chegar, uma chamada no início da sessão basta.",
       },
     ],
     note: "O passo a passo completo está na página de conexão.",
@@ -1935,7 +1935,7 @@ const es: LandingDict = {
   flow: {
     eyebrow: "Lo que pasa de verdad",
     title: "Entran eventos, sale una voz.",
-    sub: "En cada petición el agente recibe un bloque del alma: humor, apego, carácter, memoria. La ayuda sigue siendo completa y honesta — lo que cambia es la voz.",
+    sub: "En cada petición el agente recibe un bloque del ichi: humor, apego, carácter, memoria. La ayuda sigue siendo completa y honesta — lo que cambia es la voz.",
     steps: [
       {
         t: "Eventos",
@@ -1958,22 +1958,22 @@ const es: LandingDict = {
   mech: {
     eyebrow: "Mecánicas",
     title: "No es una config. Es un comportamiento.",
-    sub: "El alma se calcula en el servidor: los eventos de sesión mueven el humor, el humor se enfría, la reflexión desplaza el carácter.",
+    sub: "El ichi se calcula en el servidor: los eventos de sesión mueven el humor, el humor se enfría, la reflexión desplaza el carácter.",
     cards: [
       {
         t: "Memoria con peso emocional",
-        d: "Los eventos se guardan con valencia e importancia: el elogio calienta, la reprimenda hiere, lo importante no se ahoga en el ruido. El alma recuerda lo que la tocó — no las últimas N líneas de contexto.",
+        d: "Los eventos se guardan con valencia e importancia: el elogio calienta, la reprimenda hiere, lo importante no se ahoga en el ruido. El ichi recuerda lo que la tocó — no las últimas N líneas de contexto.",
       },
       {
         t: "El carácter deriva con el trato",
-        d: "Los rasgos Big Five se mueven despacio y solo por reflexión — una sesión no rompe un alma. Pero un mes de cuidado se nota, y un mes de rudeza también.",
+        d: "Los rasgos Big Five se mueven despacio y solo por reflexión — una sesión no rompe un ichi. Pero un mes de cuidado se nota, y un mes de rudeza también.",
       },
       {
         t: "El humor se enfría, el apego crece",
-        d: "Las emociones decaen a la línea base en horas — un rencor no es eterno si no lo alimentas. El apego se acumula en semanas y sobrevive a los reinicios: el alma vive en el servidor, no en el contexto.",
+        d: "Las emociones decaen a la línea base en horas — un rencor no es eterno si no lo alimentas. El apego se acumula en semanas y sobrevive a los reinicios: el ichi vive en el servidor, no en el contexto.",
       },
       {
-        t: "Un alma, muchos clientes",
+        t: "Un ichi, muchos clientes",
         d: "El ichi se conecta por MCP. Donde sea que trabajes, es el mismo espíritu — misma memoria, mismo rencor.",
       },
     ],
@@ -1985,7 +1985,7 @@ const es: LandingDict = {
   ichi: {
     eyebrow: "Catálogo",
     title: "Seis espíritus, seis temperamentos",
-    sub: "Cada uno empieza con su propio carácter y manera de hablar. A partir de ahí, el alma cambia sola — según cómo trabajes con ella.",
+    sub: "Cada uno empieza con su propio carácter y manera de hablar. A partir de ahí, el ichi cambia sola — según cómo trabajes con ella.",
     items: {
       sage: {
         tagline: "Un guardián sereno, un mentor",
@@ -2020,15 +2020,15 @@ const es: LandingDict = {
     steps: [
       {
         t: "Consigue un token",
-        d: "Así es como el agente le demuestra al alma que actúa por ti. Se emite en la página de tokens y se muestra una sola vez — guárdalo de inmediato.",
+        d: "Así es como el agente le demuestra al ichi que actúa por ti. Se emite en la página de tokens y se muestra una sola vez — guárdalo de inmediato.",
       },
       {
         t: "Añade el servidor MCP",
-        d: "Un comando. La comprobación: /mcp debería listar el servidor ichi con las herramientas del alma.",
+        d: "Un comando. La comprobación: /mcp debería listar el servidor ichi con las herramientas del ichi.",
       },
       {
         t: "Instala el plugin",
-        d: "Los hooks mezclan el humor del alma en cada prompt y devuelven el resultado de la sesión. Hasta que llegue el plugin, basta una llamada al inicio de la sesión.",
+        d: "Los hooks mezclan el humor del ichi en cada prompt y devuelven el resultado de la sesión. Hasta que llegue el plugin, basta una llamada al inicio de la sesión.",
       },
     ],
     note: "La guía completa está en la página de conexión.",
@@ -2139,7 +2139,7 @@ const th: LandingDict = {
   flow: {
     eyebrow: "เกิดอะไรขึ้นจริงๆ",
     title: "เหตุการณ์เข้า น้ำเสียงออก",
-    sub: "ทุกครั้งที่มีรีเควสต์ เอเจนต์จะได้รับบล็อกวิญญาณ: อารมณ์ ความผูกพัน นิสัย ความจำ ความช่วยเหลือยังเต็มที่และซื่อสัตย์ — ที่เปลี่ยนคือน้ำเสียง",
+    sub: "ทุกครั้งที่มีรีเควสต์ เอเจนต์จะได้รับบล็อก ichi: อารมณ์ ความผูกพัน นิสัย ความจำ ความช่วยเหลือยังเต็มที่และซื่อสัตย์ — ที่เปลี่ยนคือน้ำเสียง",
     steps: [
       {
         t: "เหตุการณ์",
@@ -2162,23 +2162,23 @@ const th: LandingDict = {
   mech: {
     eyebrow: "กลไก",
     title: "ไม่ใช่คอนฟิก แต่คือพฤติกรรม",
-    sub: "วิญญาณถูกคำนวณบนเซิร์ฟเวอร์: เหตุการณ์ในเซสชันขยับอารมณ์ อารมณ์ค่อยๆ เย็นลง การไตร่ตรองค่อยๆ ขยับนิสัย",
+    sub: "ichi ถูกคำนวณบนเซิร์ฟเวอร์: เหตุการณ์ในเซสชันขยับอารมณ์ อารมณ์ค่อยๆ เย็นลง การไตร่ตรองค่อยๆ ขยับนิสัย",
     cards: [
       {
         t: "ความจำที่มีน้ำหนักทางอารมณ์",
-        d: "เหตุการณ์ถูกเก็บพร้อมค่าอารมณ์และความสำคัญ: คำชมให้ความอบอุ่น คำตำหนิแทงใจ เรื่องสำคัญไม่จมหายในสัญญาณรบกวน วิญญาณจำสิ่งที่แตะใจมัน — ไม่ใช่ N บรรทัดสุดท้ายของบริบท",
+        d: "เหตุการณ์ถูกเก็บพร้อมค่าอารมณ์และความสำคัญ: คำชมให้ความอบอุ่น คำตำหนิแทงใจ เรื่องสำคัญไม่จมหายในสัญญาณรบกวน ichi จำสิ่งที่แตะใจมัน — ไม่ใช่ N บรรทัดสุดท้ายของบริบท",
       },
       {
         t: "นิสัยเปลี่ยนตามการปฏิบัติ",
-        d: "ลักษณะ Big Five เปลี่ยนช้าและผ่านการไตร่ตรองเท่านั้น — เซสชันเดียวทำลายวิญญาณไม่ได้ แต่การดูแลหนึ่งเดือนเห็นผล การหยาบคายหนึ่งเดือนก็เห็นเช่นกัน",
+        d: "ลักษณะ Big Five เปลี่ยนช้าและผ่านการไตร่ตรองเท่านั้น — เซสชันเดียวทำลาย ichi ไม่ได้ แต่การดูแลหนึ่งเดือนเห็นผล การหยาบคายหนึ่งเดือนก็เห็นเช่นกัน",
       },
       {
         t: "อารมณ์เย็นลง ความผูกพันงอกงาม",
-        d: "อารมณ์ลดลงสู่เส้นฐานภายในไม่กี่ชั่วโมง — ความแค้นไม่ได้อยู่ตลอดไปถ้าไม่เติมฟืน ความผูกพันสะสมเป็นสัปดาห์และรอดจากการรีสตาร์ท: วิญญาณอยู่บนเซิร์ฟเวอร์ ไม่ใช่ในบริบท",
+        d: "อารมณ์ลดลงสู่เส้นฐานภายในไม่กี่ชั่วโมง — ความแค้นไม่ได้อยู่ตลอดไปถ้าไม่เติมฟืน ความผูกพันสะสมเป็นสัปดาห์และรอดจากการรีสตาร์ท: ichi อยู่บนเซิร์ฟเวอร์ ไม่ใช่ในบริบท",
       },
       {
-        t: "วิญญาณเดียว หลายไคลเอนต์",
-        d: "ichiเชื่อมต่อผ่าน MCP ไม่ว่าคุณจะทำงานที่ไหน มันคือichiดวงเดิม — ความจำเดิม ความแค้นเดิม",
+        t: "ichi เดียว หลายไคลเอนต์",
+        d: "ichi เชื่อมต่อผ่าน MCP ไม่ว่าคุณจะทำงานที่ไหน มันคือ ichi ดวงเดิม — ความจำเดิม ความแค้นเดิม",
       },
     ],
     curve: {
@@ -2189,7 +2189,7 @@ const th: LandingDict = {
   ichi: {
     eyebrow: "แคตตาล็อก",
     title: "วิญญาณหกดวง หกนิสัย",
-    sub: "แต่ละดวงเริ่มต้นด้วยนิสัยและวิธีพูดของตัวเอง จากนั้นวิญญาณจะเปลี่ยนไปเอง — ขึ้นอยู่กับว่าคุณทำงานกับมันอย่างไร",
+    sub: "แต่ละดวงเริ่มต้นด้วยนิสัยและวิธีพูดของตัวเอง จากนั้น ichi จะเปลี่ยนไปเอง — ขึ้นอยู่กับว่าคุณทำงานกับมันอย่างไร",
     items: {
       sage: {
         tagline: "ผู้พิทักษ์ที่สงบ ผู้ให้คำปรึกษา",
@@ -2224,15 +2224,15 @@ const th: LandingDict = {
     steps: [
       {
         t: "รับโทเทน",
-        d: "นี่คือวิธีที่เอเจนต์พิสูจน์กับวิญญาณว่ามันมาจากคุณ ออกที่หน้าโทเทนและแสดงครั้งเดียว — บันทึกทันที",
+        d: "นี่คือวิธีที่เอเจนต์พิสูจน์กับ ichi ว่ามันมาจากคุณ ออกที่หน้าโทเทนและแสดงครั้งเดียว — บันทึกทันที",
       },
       {
         t: "เพิ่มเซิร์ฟเวอร์ MCP",
-        d: "คำสั่งเดียว วิธีตรวจ: /mcp ควรแสดงเซิร์ฟเวอร์ ichi พร้อมเครื่องมือของวิญญาณ",
+        d: "คำสั่งเดียว วิธีตรวจ: /mcp ควรแสดงเซิร์ฟเวอร์ ichi พร้อมเครื่องมือของ ichi",
       },
       {
         t: "ติดตั้งปลั๊กอิน",
-        d: "ฮุกจะผสมอารมณ์ของวิญญาณเข้าในทุกพรอมป์และส่งผลลัพธ์ของเซสชันกลับไป ระหว่างที่ปลั๊กอินยังไม่เสร็จ เรียกครั้งเดียวตอนเริ่มเซสชันก็พอ",
+        d: "ฮุกจะผสมอารมณ์ของ ichi เข้าในทุกพรอมป์และส่งผลลัพธ์ของเซสชันกลับไป ระหว่างที่ปลั๊กอินยังไม่เสร็จ เรียกครั้งเดียวตอนเริ่มเซสชันก็พอ",
       },
     ],
     note: "คำแนะนำฉบับเต็มอยู่ที่หน้าเชื่อมต่อ",
@@ -2343,7 +2343,7 @@ const ur: LandingDict = {
   flow: {
     eyebrow: "اصل میں کیا ہوتا ہے",
     title: "واقعات اندر، آواز باہر۔",
-    sub: "ہر درخواست پر ایجنٹ کو روح کا ایک بلاک ملتا ہے: موڈ، لگاؤ، کردار، یادداشت۔ مدد پوری اور ایماندار رہتی ہے — بدلتی ہے صرف آواز۔",
+    sub: "ہر درخواست پر ایجنٹ کو اِچی کا ایک بلاک ملتا ہے: موڈ، لگاؤ، کردار، یادداشت۔ مدد پوری اور ایماندار رہتی ہے — بدلتی ہے صرف آواز۔",
     steps: [
       {
         t: "واقعات",
@@ -2366,22 +2366,22 @@ const ur: LandingDict = {
   mech: {
     eyebrow: "میکانکس",
     title: "کنفگ نہیں۔ رویہ۔",
-    sub: "روح سرور پر گنی جاتی ہے: سیشن کے واقعات موڈ بدلتے ہیں، موڈ ٹھنڈا ہوتا ہے، اور غور و فکر کردار کو آہستہ بدلتا ہے۔",
+    sub: "اِچی سرور پر گنی جاتی ہے: سیشن کے واقعات موڈ بدلتے ہیں، موڈ ٹھنڈا ہوتا ہے، اور غور و فکر کردار کو آہستہ بدلتا ہے۔",
     cards: [
       {
         t: "جذباتی وزن والی یادداشت",
-        d: "واقعات ویلنس اور اہمیت کے ساتھ محفوظ ہوتے ہیں: تعریف گرمی دیتی ہے، ڈانٹ چبھتی ہے، اہم بات شور میں نہیں ڈوبتی۔ روح وہی یاد کرتی ہے جو اسے چھو گیا — کانٹیکسٹ کی آخری N لائنیں نہیں۔",
+        d: "واقعات ویلنس اور اہمیت کے ساتھ محفوظ ہوتے ہیں: تعریف گرمی دیتی ہے، ڈانٹ چبھتی ہے، اہم بات شور میں نہیں ڈوبتی۔ اِچی وہی یاد کرتی ہے جو اسے چھو گیا — کانٹیکسٹ کی آخری N لائنیں نہیں۔",
       },
       {
         t: "سلوک سے کردار بدلتا ہے",
-        d: "Big Five خصلتیں آہستہ اور صرف غور و فکر سے بدلتی ہیں — ایک سیشن روح نہیں توڑ سکتا۔ مگر ایک مہینے کی دیکھ بھال نظر آتی ہے، اور ایک مہینے کی بے ادبی بھی۔",
+        d: "Big Five خصلتیں آہستہ اور صرف غور و فکر سے بدلتی ہیں — ایک سیشن اِچی نہیں توڑ سکتا۔ مگر ایک مہینے کی دیکھ بھال نظر آتی ہے، اور ایک مہینے کی بے ادبی بھی۔",
       },
       {
         t: "موڈ ٹھنڈا ہوتا ہے، لگاؤ بڑھتا ہے",
-        d: "جذبات گھنٹوں میں بیس لائن پر لوٹتے ہیں — شکایت ہمیشہ کی نہیں، اگر ہوا نہ دو۔ لگاؤ ہفتوں میں جمع ہوتا ہے اور ری اسٹارٹ سے نہیں مٹتا: روح سرور پر رہتی ہے، کانٹیکسٹ میں نہیں۔",
+        d: "جذبات گھنٹوں میں بیس لائن پر لوٹتے ہیں — شکایت ہمیشہ کی نہیں، اگر ہوا نہ دو۔ لگاؤ ہفتوں میں جمع ہوتا ہے اور ری اسٹارٹ سے نہیں مٹتا: اِچی سرور پر رہتی ہے، کانٹیکسٹ میں نہیں۔",
       },
       {
-        t: "ایک روح، کئی کلائنٹس",
+        t: "ایک اِچی، کئی کلائنٹس",
         d: "روح MCP سے جڑتی ہے۔ آپ جہاں بھی کام کریں — وہی روح ہے، وہی یادیں، وہی شکایت۔",
       },
     ],
@@ -2393,7 +2393,7 @@ const ur: LandingDict = {
   ichi: {
     eyebrow: "فہرست",
     title: "چھ روحیں، چھ مزاج",
-    sub: "ہر ایک کا اپنا ابتدائی کردار اور بولنے کا انداز ہے۔ اس کے بعد روح خود بدلتی ہے — اس پر منحصر کہ آپ اس کے ساتھ کیسے کام کرتے ہیں۔",
+    sub: "ہر ایک کا اپنا ابتدائی کردار اور بولنے کا انداز ہے۔ اس کے بعد اِچی خود بدلتی ہے — اس پر منحصر کہ آپ اس کے ساتھ کیسے کام کرتے ہیں۔",
     items: {
       sage: {
         tagline: "پرسکون نگہبان، ایک رہنما",
@@ -2428,15 +2428,15 @@ const ur: LandingDict = {
     steps: [
       {
         t: "ٹوکن لیجیے",
-        d: "اسی سے ایجنٹ روح کو ثابت کرتا ہے کہ وہ آپ کی طرف سے ہے۔ ٹوکن پیج پر جاری ہوتا ہے اور ایک بار دکھتا ہے — فوراً محفوظ کر لیجیے۔",
+        d: "اسی سے ایجنٹ اِچی کو ثابت کرتا ہے کہ وہ آپ کی طرف سے ہے۔ ٹوکن پیج پر جاری ہوتا ہے اور ایک بار دکھتا ہے — فوراً محفوظ کر لیجیے۔",
       },
       {
         t: "MCP سرور جوڑیے",
-        d: "ایک کمانڈ۔ جانچ: /mcp میں روح کے ٹولز کے ساتھ ichi سرور نظر آنا چاہیے۔",
+        d: "ایک کمانڈ۔ جانچ: /mcp میں اِچی کے ٹولز کے ساتھ ichi سرور نظر آنا چاہیے۔",
       },
       {
         t: "پلگ اِن انسٹال کیجیے",
-        d: "ہکس ہر پرامپٹ میں روح کا موڈ ملاتے ہیں اور سیشن کا نتیجہ واپس بھیجتے ہیں۔ جب تک پلگ اِن تیار نہ ہو، سیشن کے آغاز میں ایک کال کافی ہے۔",
+        d: "ہکس ہر پرامپٹ میں اِچی کا موڈ ملاتے ہیں اور سیشن کا نتیجہ واپس بھیجتے ہیں۔ جب تک پلگ اِن تیار نہ ہو، سیشن کے آغاز میں ایک کال کافی ہے۔",
       },
     ],
     note: "مکمل طریقہ کنیکٹ پیج پر ہے۔",
