@@ -1,0 +1,76 @@
+# Production stack for ichi.mozg.sh.
+#
+# TLS and ports 80/443 belong to the host's nginx, which already serves mozg.sh
+# from the same box — see deploy/nginx-ichi.mozg.sh.conf. The app therefore
+# binds to localhost only and is never reachable from outside except through
+# nginx.
+#
+#   cp .env.example .env   # fill it in — see README "Run your own"
+#   docker compose -f docker-compose.prod.yml up -d --build
+#
+# Port 3400 rather than mozg's 3300: the two stacks share a host, and a
+# collision here would be discovered as a confusing 502 rather than as an
+# error.
+
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ichi
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ichi
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    # NOT published. Unlike the dev compose, nothing outside this network has
+    # any business reaching Postgres directly.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ichi -d ichi"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  app:
+    build:
+      context: .
+      args:
+        GIT_SHA: ${GIT_SHA:-unknown}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://ichi:${POSTGRES_PASSWORD}@db:5432/ichi
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:?set BETTER_AUTH_SECRET in .env}
+      BETTER_AUTH_URL: https://ichi.mozg.sh
+      NEXT_PUBLIC_APP_URL: https://ichi.mozg.sh
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL:-}
+      MODEL_JUDGE: ${MODEL_JUDGE:-claude-haiku-4-5}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID:-}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET:-}
+      NODE_ENV: production
+    ports:
+      - "127.0.0.1:3400:3400"
+
+  worker:
+    build:
+      context: .
+      args:
+        GIT_SHA: ${GIT_SHA:-unknown}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://ichi:${POSTGRES_PASSWORD}@db:5432/ichi
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL:-}
+      MODEL_JUDGE: ${MODEL_JUDGE:-claude-haiku-4-5}
+      BETTER_AUTH_URL: https://ichi.mozg.sh
+      NEXT_PUBLIC_APP_URL: https://ichi.mozg.sh
+      NODE_ENV: production
+    command: ["node", "dist/worker/index.mjs"]
+
+volumes:
+  pgdata:
