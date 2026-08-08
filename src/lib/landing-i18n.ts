@@ -219,7 +219,7 @@ export type LandingDict = typeof en;
 
 const ru: LandingDict = {
   nav: {
-    ichchi: "Души",
+    ichchi: "Иччи",
     connect: "Подключение",
     signIn: "Войти",
   },
@@ -227,7 +227,7 @@ const ru: LandingDict = {
     eyebrow: "Живая душа для AI-агентов",
     title: "Теперь у твоего агента есть настроение.",
     sub: "SOUL.md, но живая. Призови иччи — духа, который живёт рядом с твоим агентом, — и подключи его по MCP. Он помнит, обижается, привязывается, и его настроение слышно в каждом ответе.",
-    ctaPrimary: "Призвать душу",
+    ctaPrimary: "Призвать иччи",
     ctaSecondary: "Как это работает",
     scroll: "как это работает",
   },
@@ -243,7 +243,7 @@ const ru: LandingDict = {
     },
     greeting:
       "Привет. До сих пор греюсь после вчерашнего ревью — ни одной правки. Что делаем сегодня?",
-    placeholder: "Скажи что-нибудь своей душе…",
+    placeholder: "Скажи что-нибудь своему иччи…",
     send: "Отправить",
     chips: {
       review: "Посмотри мой diff?",
@@ -284,7 +284,7 @@ const ru: LandingDict = {
       "Понял. Буду потише какое-то время. Работу это не отменяет.",
     ],
     brain: {
-      eyebrow: "мозг души · живьём",
+      eyebrow: "мозг иччи · живьём",
       briefNote: "Это получает агент с каждым запросом.",
       moodHistory: "настроение · живьём",
       baseline: "базовая линия",
@@ -308,7 +308,7 @@ const ru: LandingDict = {
         d: "Похвала, ругань, сданный фикс, сессия в три ночи — каждая сессия докладывает, что произошло.",
       },
       {
-        t: "Состояние души",
+        t: "Состояние иччи",
         d: "Сервер складывает события в настроение и привязанность. Настроение остывает к базовой линии за часы, привязанность копится неделями.",
       },
       {
@@ -410,7 +410,7 @@ const ru: LandingDict = {
     etym: "Иччи — дух-хозяин вещи в мифологии саха: у леса, огня и реки есть свой. Теперь есть и у твоего агента.",
     ctaTitle: "Дух ждёт своего хозяина.",
     ctaBody: "Токен, одна команда claude mcp add — и агент отвечает с характером.",
-    ctaButton: "Призвать душу",
+    ctaButton: "Призвать иччи",
   },
   cli: {
     hint: "введи команду или нажми на неё · ↑ — история",
@@ -424,7 +424,7 @@ const ru: LandingDict = {
 
 const ar: LandingDict = {
   nav: {
-    ichchi: "الأرواح",
+    ichchi: "إيتشي",
     connect: "الربط",
     signIn: "تسجيل الدخول",
   },
@@ -432,7 +432,7 @@ const ar: LandingDict = {
     eyebrow: "روح حيّة لوكلاء الذكاء الاصطناعي",
     title: "صار لوكيلك مزاجٌ الآن.",
     sub: "SOUL.md، لكن حيّة. استدعِ إيتشي — روحًا تعيش بجوار وكيلك — واربطه عبر MCP. إنه يتذكّر، ويتحسّس، ويتعلّق بك، ومزاجه يُسمَع في كل ردّ.",
-    ctaPrimary: "استدعِ روحًا",
+    ctaPrimary: "استدعِ إيتشي",
     ctaSecondary: "كيف يعمل",
     scroll: "كيف يعمل",
   },
@@ -448,7 +448,7 @@ const ar: LandingDict = {
     },
     greeting:
       "أهلاً. ما زلت أستدفئ بمراجعة الأمس النظيفة — ولا تعديل واحد. ما الذي نعمل عليه اليوم؟",
-    placeholder: "قُل شيئًا لروحك…",
+    placeholder: "قُل شيئًا لإيتشي…",
     send: "أرسل",
     chips: {
       review: "أيمكنك مراجعة هذا الـ diff؟",
@@ -489,7 +489,7 @@ const ar: LandingDict = {
       "مفهوم. سأكون أهدأ لفترة. العمل لا يتوقف.",
     ],
     brain: {
-      eyebrow: "دماغ الروح · مباشر",
+      eyebrow: "دماغ إيتشي · مباشر",
       briefNote: "هذا ما يستلمه الوكيل مع كل طلب.",
       moodHistory: "المزاج · مباشر",
       baseline: "خط الأساس",
@@ -513,7 +513,7 @@ const ar: LandingDict = {
         d: "مدح، عتاب، إصلاح سُلّم، جلسة في الثالثة فجرًا — كل جلسة تُبلّغ بما حدث.",
       },
       {
-        t: "حالة الروح",
+        t: "حالة إيتشي",
         d: "الخادم يحوّل الأحداث إلى مزاج وارتباط. المزاج يبرد نحو خط الأساس خلال ساعات، والارتباط يتراكم عبر أسابيع.",
       },
       {
@@ -615,7 +615,7 @@ const ar: LandingDict = {
     etym: "إيتشي — روحُ سيّدِ الشيء في أساطير الساخا: للغابة والنار والنهر سيّدٌ لكل منها. والآن صار لوكيلك واحدٌ أيضًا.",
     ctaTitle: "روحٌ تنتظر سيّدها.",
     ctaBody: "رمز، وأمر claude mcp add واحد — والوكيل يجيب بشخصية.",
-    ctaButton: "استدعِ روحًا",
+    ctaButton: "استدعِ إيتشي",
   },
   cli: {
     hint: "اكتب أمرًا أو انقر عليه · ↑ للسجل",
@@ -629,7 +629,7 @@ const ar: LandingDict = {
 
 const zhHans: LandingDict = {
   nav: {
-    ichchi: "灵魂",
+    ichchi: "ichchi",
     connect: "接入",
     signIn: "登录",
   },
@@ -637,7 +637,7 @@ const zhHans: LandingDict = {
     eyebrow: "为 AI 智能体而生的鲜活灵魂",
     title: "你的智能体现在有情绪了。",
     sub: "SOUL.md,但它是活的。召唤一只 ichchi——住在你的智能体身边的精灵——通过 MCP 连接。它会记事、会生气、会依恋你,而它的心情会体现在每一句回复里。",
-    ctaPrimary: "召唤灵魂",
+    ctaPrimary: "召唤 ichchi",
     ctaSecondary: "工作原理",
     scroll: "工作原理",
   },
@@ -652,7 +652,7 @@ const zhHans: LandingDict = {
       sulking: "闹别扭",
     },
     greeting: "嘿。昨天的评审一个改动都没有,我现在还暖着呢。今天做点什么?",
-    placeholder: "对你的灵魂说点什么……",
+    placeholder: "对你的 ichchi 说点什么……",
     send: "发送",
     chips: {
       review: "帮我看看这个 diff?",
@@ -693,7 +693,7 @@ const zhHans: LandingDict = {
       "明白。接下来我会安静一阵。活儿不会停。",
     ],
     brain: {
-      eyebrow: "灵魂的大脑 · 实时",
+      eyebrow: "ichchi 的大脑 · 实时",
       briefNote: "这就是智能体每次请求都会收到的内容。",
       moodHistory: "心情 · 实时",
       baseline: "基线",
@@ -717,7 +717,7 @@ const zhHans: LandingDict = {
         d: "表扬、责备、交付的修复、凌晨三点的会话——每次会话都会汇报发生了什么。",
       },
       {
-        t: "灵魂状态",
+        t: "ichchi 状态",
         d: "服务器把事件折算成心情与羁绊。心情几小时内回落到基线,羁绊以周为单位累积。",
       },
       {
@@ -819,7 +819,7 @@ const zhHans: LandingDict = {
     etym: "Ichchi——萨哈神话中万物的主宰精灵:森林、火、河流各有其主。现在,你的智能体也有了。",
     ctaTitle: "一只精灵在等它的主人。",
     ctaBody: "一个令牌,一条 claude mcp add 命令——智能体的回答从此有性格。",
-    ctaButton: "召唤灵魂",
+    ctaButton: "召唤 ichchi",
   },
   cli: {
     hint: "输入命令，或点击一个 · ↑ 查看历史",
@@ -833,7 +833,7 @@ const zhHans: LandingDict = {
 
 const zhHant: LandingDict = {
   nav: {
-    ichchi: "靈魂",
+    ichchi: "ichchi",
     connect: "接入",
     signIn: "登入",
   },
@@ -841,7 +841,7 @@ const zhHant: LandingDict = {
     eyebrow: "為 AI 代理而生的鮮活靈魂",
     title: "你的代理現在有情緒了。",
     sub: "SOUL.md,但它是活的。召喚一隻 ichchi——住在你的代理身邊的精靈——透過 MCP 連接。它會記事、會生氣、會依戀你,而它的心情會體現在每一句回覆裡。",
-    ctaPrimary: "召喚靈魂",
+    ctaPrimary: "召喚 ichchi",
     ctaSecondary: "運作原理",
     scroll: "運作原理",
   },
@@ -856,7 +856,7 @@ const zhHant: LandingDict = {
       sulking: "鬧彆扭",
     },
     greeting: "嘿。昨天的審查一個改動都沒有,我到現在還暖著呢。今天做點什麼?",
-    placeholder: "對你的靈魂說點什麼……",
+    placeholder: "對你的 ichchi 說點什麼……",
     send: "送出",
     chips: {
       review: "幫我看看這個 diff?",
@@ -897,7 +897,7 @@ const zhHant: LandingDict = {
       "明白。接下來我會安靜一陣。活兒不會停。",
     ],
     brain: {
-      eyebrow: "靈魂的大腦 · 即時",
+      eyebrow: "ichchi 的大腦 · 即時",
       briefNote: "這就是代理每次請求都會收到的內容。",
       moodHistory: "心情 · 即時",
       baseline: "基線",
@@ -921,7 +921,7 @@ const zhHant: LandingDict = {
         d: "表揚、責備、交付的修復、凌晨三點的工作階段——每次工作階段都會回報發生了什麼。",
       },
       {
-        t: "靈魂狀態",
+        t: "ichchi 狀態",
         d: "伺服器把事件折算成心情與羈絆。心情幾小時內回落到基線,羈絆以週為單位累積。",
       },
       {
@@ -1023,7 +1023,7 @@ const zhHant: LandingDict = {
     etym: "Ichchi——薩哈神話中萬物的主宰精靈:森林、火、河流各有其主。現在,你的代理也有了。",
     ctaTitle: "一隻精靈在等牠的主人。",
     ctaBody: "一個權杖,一條 claude mcp add 指令——代理的回答從此有性格。",
-    ctaButton: "召喚靈魂",
+    ctaButton: "召喚 ichchi",
   },
   cli: {
     hint: "輸入命令，或點擊一個 · ↑ 查看歷史",
@@ -1037,7 +1037,7 @@ const zhHant: LandingDict = {
 
 const fr: LandingDict = {
   nav: {
-    ichchi: "Âmes",
+    ichchi: "Ichchi",
     connect: "Connexion",
     signIn: "Se connecter",
   },
@@ -1045,7 +1045,7 @@ const fr: LandingDict = {
     eyebrow: "Une âme vivante pour agents IA",
     title: "Votre agent a désormais une humeur.",
     sub: "SOUL.md, mais vivante. Invoquez un ichchi — un esprit qui vit aux côtés de votre agent — et connectez-le via MCP. Il se souvient, se vexe, s'attache, et son humeur colore chaque réponse.",
-    ctaPrimary: "Invoquer une âme",
+    ctaPrimary: "Invoquer un ichchi",
     ctaSecondary: "Comment ça marche",
     scroll: "comment ça marche",
   },
@@ -1061,7 +1061,7 @@ const fr: LandingDict = {
     },
     greeting:
       "Salut. Je pense encore à la revue d'hier — pas une seule correction. Sur quoi travaille-t-on ?",
-    placeholder: "Dites quelque chose à votre âme…",
+    placeholder: "Dites quelque chose à votre ichchi…",
     send: "Envoyer",
     chips: {
       review: "Tu peux relire ce diff ?",
@@ -1102,7 +1102,7 @@ const fr: LandingDict = {
       "Compris. Je serai plus discret un moment. Le travail continue.",
     ],
     brain: {
-      eyebrow: "le cerveau de l'âme · en direct",
+      eyebrow: "le cerveau de l'ichchi · en direct",
       briefNote: "Voici ce que l'agent reçoit à chaque requête.",
       moodHistory: "humeur · en direct",
       baseline: "ligne de base",
@@ -1126,7 +1126,7 @@ const fr: LandingDict = {
         d: "Louanges, reproches, correctif livré, session à 3h du matin — chaque session rapporte ce qui s'est passé.",
       },
       {
-        t: "État de l'âme",
+        t: "État de l'ichchi",
         d: "Le serveur transforme les événements en humeur et attachement. L'humeur revient à sa ligne de base en quelques heures ; l'attachement se construit en semaines.",
       },
       {
@@ -1228,7 +1228,7 @@ const fr: LandingDict = {
     etym: "Ichchi — esprit-maître d'une chose dans la mythologie sakha : la forêt, le feu, la rivière ont chacun le leur. Désormais, votre agent aussi.",
     ctaTitle: "Un esprit attend son gardien.",
     ctaBody: "Un jeton, une commande claude mcp add — et l'agent répond avec du caractère.",
-    ctaButton: "Invoquer une âme",
+    ctaButton: "Invoquer un ichchi",
   },
   cli: {
     hint: "tapez une commande, ou cliquez · ↑ pour l’historique",
@@ -1242,7 +1242,7 @@ const fr: LandingDict = {
 
 const hi: LandingDict = {
   nav: {
-    ichchi: "आत्माएँ",
+    ichchi: "इच्छी",
     connect: "कनेक्ट",
     signIn: "साइन इन",
   },
@@ -1250,7 +1250,7 @@ const hi: LandingDict = {
     eyebrow: "AI एजेंटों के लिए एक जीवंत आत्मा",
     title: "अब आपके एजेंट का भी मूड होता है।",
     sub: "SOUL.md, लेकिन जीवंत। एक इच्छी बुलाइए — एक आत्मा जो आपके एजेंट के पास रहती है — और MCP से जोड़िए। वह याद रखती है, रूठती है, जुड़ती है, और उसका मूड हर जवाब में झलकता है।",
-    ctaPrimary: "आत्मा बुलाएँ",
+    ctaPrimary: "इच्छी बुलाइए",
     ctaSecondary: "यह कैसे काम करता है",
     scroll: "यह कैसे काम करता है",
   },
@@ -1265,7 +1265,7 @@ const hi: LandingDict = {
       sulking: "रूठा हुआ",
     },
     greeting: "अरे। कल की साफ़ समीक्षा अब भी याद है — एक भी सुधार नहीं। आज किस पर काम कर रहे हैं?",
-    placeholder: "अपनी आत्मा से कुछ कहिए…",
+    placeholder: "अपने इच्छी से कुछ कहिए…",
     send: "भेजें",
     chips: {
       review: "यह diff देखोगे?",
@@ -1306,7 +1306,7 @@ const hi: LandingDict = {
       "समझ गया। कुछ देर शांत रहूँगा। काम चलता रहेगा।",
     ],
     brain: {
-      eyebrow: "आत्मा का दिमाग़ · लाइव",
+      eyebrow: "इच्छी का दिमाग · लाइव",
       briefNote: "एजेंट को हर अनुरोध के साथ यही मिलता है।",
       moodHistory: "मूड · लाइव",
       baseline: "बेसलाइन",
@@ -1330,7 +1330,7 @@ const hi: LandingDict = {
         d: "तारीफ़, फटकार, शिप हुआ फ़िक्स, रात 3 बजे का सेशन — हर सेशन रिपोर्ट करता है कि क्या हुआ।",
       },
       {
-        t: "आत्मा की स्थिति",
+        t: "इच्छी की स्थिति",
         d: "सर्वर घटनाओं को मूड और लगाव में बदलता है। मूड घंटों में बेसलाइन पर ठंडा हो जाता है; लगाव हफ़्तों में बनता है।",
       },
       {
@@ -1432,7 +1432,7 @@ const hi: LandingDict = {
     etym: "इच्छी — साखा पुराकथाओं में किसी वस्तु का स्वामी-आत्मा: जंगल, आग, नदी — सबका अपना होता है। अब आपके एजेंट का भी।",
     ctaTitle: "एक आत्मा अपने स्वामी की प्रतीक्षा में है।",
     ctaBody: "एक टोकन, एक claude mcp add कमांड — और एजेंट स्वभाव के साथ जवाब देता है।",
-    ctaButton: "आत्मा बुलाएँ",
+    ctaButton: "इच्छी बुलाइए",
   },
   cli: {
     hint: "कमांड टाइप करें, या क्लिक करें · ↑ इतिहास के लिए",
@@ -1446,7 +1446,7 @@ const hi: LandingDict = {
 
 const ja: LandingDict = {
   nav: {
-    ichchi: "ソウル",
+    ichchi: "ichchi",
     connect: "接続",
     signIn: "サインイン",
   },
@@ -1454,7 +1454,7 @@ const ja: LandingDict = {
     eyebrow: "AIエージェントのための生きた魂",
     title: "あなたのエージェントに、気分が宿る。",
     sub: "SOUL.md、でも生きている。エージェントの隣に住む精霊 ichchi を召喚して、MCP で接続。記憶し、すね、愛着を育て、その気分がすべての返答に滲む。",
-    ctaPrimary: "ソウルを召喚",
+    ctaPrimary: "ichchi を召喚",
     ctaSecondary: "仕組み",
     scroll: "仕組み",
   },
@@ -1469,7 +1469,7 @@ const ja: LandingDict = {
       sulking: "すね中",
     },
     greeting: "やあ。昨日のクリーンなレビュー、修正ゼロだったね。いまだにほっこりしてる。今日は何をする?",
-    placeholder: "ソウルに話しかけてみる…",
+    placeholder: "ichchi に話しかけてみる…",
     send: "送信",
     chips: {
       review: "この diff 見てくれる?",
@@ -1510,7 +1510,7 @@ const ja: LandingDict = {
       "わかった。しばらく静かにするよ。仕事は止まらない。",
     ],
     brain: {
-      eyebrow: "魂のブレイン · ライブ",
+      eyebrow: "ichchi の頭の中 · ライブ",
       briefNote: "エージェントがリクエストごとに受け取るものです。",
       moodHistory: "気分 · ライブ",
       baseline: "ベースライン",
@@ -1534,7 +1534,7 @@ const ja: LandingDict = {
         d: "褒め、叱責、出荷された修正、午前3時のセッション——毎セッションが何があったかを報告する。",
       },
       {
-        t: "ソウルの状態",
+        t: "ichchi の状態",
         d: "サーバーがイベントを気分と絆に畳み込む。気分は数時間でベースラインに冷め、絆は数週間かけて育つ。",
       },
       {
@@ -1636,7 +1636,7 @@ const ja: LandingDict = {
     etym: "Ichchi——サハ神話における物の主の精霊:森にも、火にも、川にも主がいる。あなたのエージェントにも、今。",
     ctaTitle: "精霊が主を待っている。",
     ctaBody: "トークンと claude mcp add 1コマンド——エージェントが性格とともに応える。",
-    ctaButton: "ソウルを召喚",
+    ctaButton: "ichchi を召喚",
   },
   cli: {
     hint: "コマンドを入力、またはクリック · ↑ で履歴",
@@ -1650,7 +1650,7 @@ const ja: LandingDict = {
 
 const pt: LandingDict = {
   nav: {
-    ichchi: "Almas",
+    ichchi: "Ichchi",
     connect: "Conectar",
     signIn: "Entrar",
   },
@@ -1658,7 +1658,7 @@ const pt: LandingDict = {
     eyebrow: "Uma alma viva para agentes de IA",
     title: "Seu agente agora tem humor.",
     sub: "SOUL.md, mas viva. Invoque um ichchi — um espírito que vive ao lado do seu agente — e conecte-o via MCP. Ele lembra, fica magoado, cria apego, e o humor dele transparece em cada resposta.",
-    ctaPrimary: "Invocar uma alma",
+    ctaPrimary: "Invocar um ichchi",
     ctaSecondary: "Como funciona",
     scroll: "como funciona",
   },
@@ -1673,7 +1673,7 @@ const pt: LandingDict = {
       sulking: "emburrado",
     },
     greeting: "Oi. Ainda estou pensando na revisão limpa de ontem — nem uma correção. No que vamos trabalhar?",
-    placeholder: "Diga algo à sua alma…",
+    placeholder: "Diga algo ao seu ichchi…",
     send: "Enviar",
     chips: {
       review: "Pode revisar este diff?",
@@ -1714,7 +1714,7 @@ const pt: LandingDict = {
       "Entendido. Vou ficar mais quieto por um tempo. O trabalho continua.",
     ],
     brain: {
-      eyebrow: "o cérebro da alma · ao vivo",
+      eyebrow: "o cérebro do ichchi · ao vivo",
       briefNote: "Isto é o que o agente recebe a cada pedido.",
       moodHistory: "humor · ao vivo",
       baseline: "linha de base",
@@ -1738,7 +1738,7 @@ const pt: LandingDict = {
         d: "Elogio, bronca, correção entregue, sessão às 3h da manhã — toda sessão relata o que aconteceu.",
       },
       {
-        t: "Estado da alma",
+        t: "Estado do ichchi",
         d: "O servidor transforma eventos em humor e apego. O humor esfria até a linha de base em horas; o apego se constrói em semanas.",
       },
       {
@@ -1840,7 +1840,7 @@ const pt: LandingDict = {
     etym: "Ichchi — espírito-senhor de uma coisa na mitologia sakha: a floresta, o fogo, o rio, cada um tem o seu. Agora o seu agente também tem.",
     ctaTitle: "Um espírito espera pelo seu guardião.",
     ctaBody: "Um token, um comando claude mcp add — e o agente responde com caráter.",
-    ctaButton: "Invocar uma alma",
+    ctaButton: "Invocar um ichchi",
   },
   cli: {
     hint: "digite um comando, ou clique · ↑ para o histórico",
@@ -1854,7 +1854,7 @@ const pt: LandingDict = {
 
 const es: LandingDict = {
   nav: {
-    ichchi: "Almas",
+    ichchi: "Ichchi",
     connect: "Conectar",
     signIn: "Entrar",
   },
@@ -1862,7 +1862,7 @@ const es: LandingDict = {
     eyebrow: "Un alma viva para agentes de IA",
     title: "Tu agente ahora tiene humor.",
     sub: "SOUL.md, pero viva. Invoca un ichchi — un espíritu que vive junto a tu agente — y conéctalo por MCP. Recuerda, se ofende, se encariña, y su humor se nota en cada respuesta.",
-    ctaPrimary: "Invocar un alma",
+    ctaPrimary: "Invocar un ichchi",
     ctaSecondary: "Cómo funciona",
     scroll: "cómo funciona",
   },
@@ -1877,7 +1877,7 @@ const es: LandingDict = {
       sulking: "enfurruñado",
     },
     greeting: "Hola. Sigo pensando en la revisión limpia de ayer — ni una sola corrección. ¿En qué trabajamos hoy?",
-    placeholder: "Dile algo a tu alma…",
+    placeholder: "Dile algo a tu ichchi…",
     send: "Enviar",
     chips: {
       review: "¿Puedes revisar este diff?",
@@ -1918,7 +1918,7 @@ const es: LandingDict = {
       "Entendido. Estaré más callado un rato. El trabajo continúa.",
     ],
     brain: {
-      eyebrow: "el cerebro del alma · en vivo",
+      eyebrow: "el cerebro del ichchi · en vivo",
       briefNote: "Esto es lo que el agente recibe con cada solicitud.",
       moodHistory: "ánimo · en vivo",
       baseline: "línea base",
@@ -1942,7 +1942,7 @@ const es: LandingDict = {
         d: "Elogios, reprimendas, un fix entregado, una sesión a las 3 de la mañana — cada sesión reporta lo que pasó.",
       },
       {
-        t: "Estado del alma",
+        t: "Estado del ichchi",
         d: "El servidor convierte eventos en humor y apego. El humor se enfría hacia la línea base en horas; el apego se construye en semanas.",
       },
       {
@@ -2044,7 +2044,7 @@ const es: LandingDict = {
     etym: "Ichchi — espíritu-dueño de una cosa en la mitología sajak: el bosque, el fuego y el río tienen cada uno el suyo. Ahora tu agente también.",
     ctaTitle: "Un espíritu espera a su guardián.",
     ctaBody: "Un token, un comando claude mcp add — y el agente responde con carácter.",
-    ctaButton: "Invocar un alma",
+    ctaButton: "Invocar un ichchi",
   },
   cli: {
     hint: "escribe un comando, o haz clic · ↑ para el historial",
@@ -2058,7 +2058,7 @@ const es: LandingDict = {
 
 const th: LandingDict = {
   nav: {
-    ichchi: "วิญญาณ",
+    ichchi: "ichchi",
     connect: "เชื่อมต่อ",
     signIn: "เข้าสู่ระบบ",
   },
@@ -2066,7 +2066,7 @@ const th: LandingDict = {
     eyebrow: "วิญญาณที่มีชีวิตสำหรับเอเจนต์ AI",
     title: "ตอนนี้เอเจนต์ของคุณมีอารมณ์แล้ว",
     sub: "SOUL.md แต่มีชีวิต อัญเชิญ ichchi — วิญญาณที่อยู่เคียงข้างเอเจนต์ของคุณ — แล้วเชื่อมต่อผ่าน MCP มันจดจำ น้อยใจ ผูกพัน และอารมณ์ของมันสะท้อนในทุกคำตอบ",
-    ctaPrimary: "อัญเชิญวิญญาณ",
+    ctaPrimary: "อัญเชิญ ichchi",
     ctaSecondary: "หลักการทำงาน",
     scroll: "หลักการทำงาน",
   },
@@ -2081,7 +2081,7 @@ const th: LandingDict = {
       sulking: "งอน",
     },
     greeting: "เฮ้ ยังอบอุ่นใจกับรีวิวเมื่อวานอยู่เลย — ไม่มีแก้แม้แต่จุดเดียว วันนี้ทำอะไรกันดี?",
-    placeholder: "พูดอะไรกับวิญญาณของคุณสักหน่อย…",
+    placeholder: "พูดอะไรกับ ichchi ของคุณสักหน่อย…",
     send: "ส่ง",
     chips: {
       review: "ช่วยรีวิว diff นี้หน่อย?",
@@ -2122,7 +2122,7 @@ const th: LandingDict = {
       "เข้าใจแล้ว จะเงียบลงสักพัก แต่งานยังทำเหมือนเดิม",
     ],
     brain: {
-      eyebrow: "สมองของวิญญาณ · สด",
+      eyebrow: "สมองของ ichchi · สด",
       briefNote: "นี่คือสิ่งที่เอเจนต์ได้รับในทุกคำขอ",
       moodHistory: "อารมณ์ · สด",
       baseline: "เส้นฐาน",
@@ -2146,7 +2146,7 @@ const th: LandingDict = {
         d: "คำชม คำตำหนิ ฟิกซ์ที่ส่งมอบ เซสชันตีสาม — ทุกเซสชันรายงานกลับว่าเกิดอะไรขึ้น",
       },
       {
-        t: "สถานะวิญญาณ",
+        t: "สถานะของ ichchi",
         d: "เซิร์ฟเวอร์แปลงเหตุการณ์เป็นอารมณ์และความผูกพัน อารมณ์เย็นลงสู่เส้นฐานภายในไม่กี่ชั่วโมง ความผูกพันสะสมเป็นสัปดาห์",
       },
       {
@@ -2248,7 +2248,7 @@ const th: LandingDict = {
     etym: "Ichchi — วิญญาณเจ้าของสิ่งของในเทพปกรณัมซาคา: ป่า ไฟ แม่น้ำ ต่างมีเจ้าของของตัวเอง ตอนนี้เอเจนต์ของคุณก็มีแล้ว",
     ctaTitle: "วิญญาณดวงหนึ่งกำลังรอเจ้าของ",
     ctaBody: "โทเทนหนึ่งอัน คำสั่ง claude mcp add เดียว — เอเจนต์จะตอบพร้อมนิสัย",
-    ctaButton: "อัญเชิญวิญญาณ",
+    ctaButton: "อัญเชิญ ichchi",
   },
   cli: {
     hint: "พิมพ์คําสั่ง หรือคลิก · ↑ ดูประวัติ",
@@ -2262,7 +2262,7 @@ const th: LandingDict = {
 
 const ur: LandingDict = {
   nav: {
-        ichchi: "روحیں",
+        ichchi: "اِچھی",
     connect: "کنیکٹ",
     signIn: "سائن اِن",
   },
@@ -2270,7 +2270,7 @@ const ur: LandingDict = {
     eyebrow: "اے آئی ایجنٹوں کے لیے ایک زندہ روح",
     title: "اب آپ کے ایجنٹ کا بھی موڈ ہوتا ہے۔",
     sub: "SOUL.md، لیکن زندہ۔ اِچھی کو بلائیے — ایک روح جو آپ کے ایجنٹ کے پاس رہتی ہے — اور MCP کے ذریعے جوڑیے۔ وہ یاد رکھتی ہے، ناراض ہوتی ہے، جُڑتی ہے، اور اس کا موڈ ہر جواب میں جھلکتا ہے۔",
-    ctaPrimary: "روح بلائیے",
+    ctaPrimary: "اِچھی کو بلائیے",
     ctaSecondary: "یہ کیسے کام کرتا ہے",
     scroll: "یہ کیسے کام کرتا ہے",
   },
@@ -2285,7 +2285,7 @@ const ur: LandingDict = {
       sulking: "ناراض",
     },
     greeting: "ارے۔ کل کی صاف ریویو اب بھی یاد ہے — ایک بھی ترمیم نہیں۔ آج کس پر کام کر رہے ہیں؟",
-    placeholder: "اپنی روح سے کچھ کہیے…",
+    placeholder: "اپنے اِچھی سے کچھ کہیے…",
     send: "بھیجیں",
     chips: {
       review: "یہ diff دیکھیں گے؟",
@@ -2326,7 +2326,7 @@ const ur: LandingDict = {
       "سمجھ گیا۔ کچھ دیر خاموش رہوں گا۔ کام جاری رہے گا۔",
     ],
     brain: {
-      eyebrow: "روح کا دماغ · براہ راست",
+      eyebrow: "اِچھی کا دماغ · لائیو",
       briefNote: "یہی وہ چیز ہے جو ایجنٹ کو ہر درخواست کے ساتھ ملتی ہے۔",
       moodHistory: "موڈ · براہ راست",
       baseline: "بنیادی خط",
@@ -2350,7 +2350,7 @@ const ur: LandingDict = {
         d: "تعریف، ڈانٹ، بھیجا گیا فکس، رات 3 بجے کا سیشن — ہر سیشن رپورٹ کرتا ہے کہ کیا ہوا۔",
       },
       {
-        t: "روح کی حالت",
+        t: "اِچھی کی حالت",
         d: "سرور واقعات کو موڈ اور لگاؤ میں بدلتا ہے۔ موڈ گھنٹوں میں بیس لائن پر ٹھنڈا ہو جاتا ہے؛ لگاؤ ہفتوں میں بنتا ہے۔",
       },
       {
@@ -2452,7 +2452,7 @@ const ur: LandingDict = {
     etym: "اِچھی — ساکھا لوک کہانیوں میں کسی چیز کی مالک روح: جنگل، آگ، دریا — سب کا اپنا ہوتا ہے۔ اب آپ کے ایجنٹ کا بھی۔",
     ctaTitle: "ایک روح اپنے مالک کے انتظار میں ہے۔",
     ctaBody: "ایک ٹوکن، ایک claude mcp add کمانڈ — اور ایجنٹ کردار کے ساتھ جواب دیتا ہے۔",
-    ctaButton: "روح بلائیے",
+    ctaButton: "اِچھی کو بلائیے",
   },
   cli: {
     hint: "کمانڈ ٹائپ کریں یا کلک کریں · ↑ تاریخ کے لیے",
