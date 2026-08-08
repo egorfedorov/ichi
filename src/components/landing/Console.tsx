@@ -45,8 +45,31 @@ export default function Console({ t }: { t: LandingDict }) {
   // which is what the boot waits for.
   const greeting = memory === null ? null : (recalled ?? t.chat.greeting);
 
+  // Valence → the room's colour and how much of it there is. Written as CSS
+  // variables so one React value drives the wash, the core and the rail
+  // without any of them importing the palette.
+  const moodInk =
+    engine.valence >= 0.35
+      ? "var(--color-riso-green)"
+      : engine.valence >= -0.15
+        ? "var(--color-frost)"
+        : engine.valence >= -0.5
+          ? "var(--color-riso-orange)"
+          : "var(--color-riso-red)";
+
   return (
-    <div className="console" ref={root}>
+    <div
+      className="console"
+      ref={root}
+      style={
+        {
+          "--mood": moodInk,
+          // Strongest at the extremes: a settled ichchi should not light the
+          // room, and a furious one should be impossible to ignore.
+          "--mood-strength": 0.07 + Math.abs(engine.valence) * 0.16,
+        } as React.CSSProperties
+      }
+    >
       <section className="console-stage" aria-label={t.cli.agents}>
         <IchchiCore
           mood={engine.mood}

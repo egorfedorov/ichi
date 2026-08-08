@@ -453,18 +453,57 @@ body {
  * it is a bug with a mood board.
  */
 .console {
+  position: relative;
   display: grid;
   gap: 1px;
-  background: var(--rule-paper);
-  border-bottom: 1px solid var(--rule-paper);
+  background: #23272e;
+  border-bottom: 1px solid #23272e;
   grid-template-columns: 1fr;
   grid-template-areas: "stage" "term" "brain";
+  /* Set from the live valence — every surface below reads it. */
+  --mood: var(--color-frost);
+  --mood-strength: 0.1;
 }
 
 .console > * {
+  position: relative;
+  z-index: 1;
   background: var(--ink);
   min-width: 0;
   min-height: 0;
+}
+
+/*
+ * The mood is the room, not a badge.
+ *
+ * A wash behind every pane, coloured by the ichchi's current valence and
+ * strongest where the core sits. Scold it and the whole screen goes cold and
+ * red; praise it and the room warms — the state stops being a number in a
+ * panel and becomes the light you are reading by.
+ *
+ * Behind the panes rather than over them (z-index above), so it never touches
+ * text contrast: the panes are opaque and the wash only shows through the
+ * 1px grid lines and the stage's own transparency.
+ */
+.console::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(
+      120% 90% at 72% 18%,
+      color-mix(in srgb, var(--mood) calc(var(--mood-strength) * 100%), transparent),
+      transparent 70%
+    ),
+    var(--ink);
+  transition: background 1.2s ease;
+  pointer-events: none;
+}
+
+/* The stage lets the wash through — it is the one pane that is the room. */
+.console-stage {
+  background: transparent !important;
 }
 
 .console-stage {
@@ -499,13 +538,20 @@ body {
     /* The whole viewport — there is no bar above it any more. svh, not vh:
        mobile browsers lie about vh. */
     height: 100svh;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-    /* The brain carries the most content of the three panes, so it gets the
-       taller row; the core reads fine small because it is one shape. */
-    grid-template-rows: minmax(0, 38%) minmax(0, 62%);
+    /*
+     * The ichchi is the subject of this page, so it gets the room: a stage
+     * across the top two thirds, the terminal as a command strip beneath it,
+     * and the instruments as a narrow rail down the side.
+     *
+     * The earlier arrangement gave all three panes similar weight, which read
+     * as a dashboard — three widgets of equal importance, none of them the
+     * point. A landing has one subject or it has none.
+     */
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 22%);
+    grid-template-rows: minmax(0, 58%) minmax(0, 42%);
     grid-template-areas:
-      "term stage"
-      "term brain";
+      "stage brain"
+      "term  brain";
   }
 }
 

@@ -6,6 +6,7 @@ import type { LandingDict } from "@/lib/landing-i18n";
 import type { IchchiEngine } from "@/components/landing/useIchchiEngine";
 import { COMMANDS, complete, findCommand, type Line } from "@/components/landing/commands";
 import { TOOLS } from "@/lib/mcp-tools";
+import { LOCALES, LOCALE_COOKIE } from "@/lib/locales";
 import { useReducedMotion } from "@/components/landing/useReducedMotion";
 import {
   advance,
@@ -31,6 +32,20 @@ import {
 
 const PROMPT = "ichchi";
 const TOOL_COUNT = TOOLS.length;
+
+/**
+ * Choose a language and reload.
+ *
+ * Module scope on purpose: writing to document.cookie from inside a component
+ * body is exactly the kind of external mutation the React compiler refuses,
+ * and it is right to — this is an effect on the document, not render logic.
+ * The dictionary is picked on the server from this cookie, so the reload is
+ * the honest implementation rather than a shortcut.
+ */
+function chooseLocale(code: string): void {
+  document.cookie = `${LOCALE_COOKIE}=${code}; Path=/; Max-Age=31536000; SameSite=Lax`;
+  setTimeout(() => location.reload(), 260);
+}
 
 /** Words that read as praise or a scolding without a chip being clicked. */
 const PRAISE = /\b(thanks|thank you|nice|great|perfect|good job|well done|love it|спасибо|отлично|супер)\b/i;
@@ -210,6 +225,35 @@ export default function Terminal({
       setLines((prev) => [...prev, ...r.lines]);
       return;
     }
+    // Language. The picker lived in the bar that is gone, so it is a command
+    // now — and a bare `:lang` lists what is on offer rather than guessing.
+    if (input === ":lang" || input.startsWith(":lang ")) {
+      const code = input.slice(5).trim();
+      const hit = LOCALES.find((l) => l.code.toLowerCase() === code.toLowerCase());
+      if (!code) {
+        setLines((prev) => [
+          ...prev,
+          { kind: "head", text: "LANGUAGES" },
+          ...LOCALES.map((l) => ({
+            kind: "out" as const,
+            text: `  :lang ${l.code.padEnd(8)} ${l.native}`,
+          })),
+          { kind: "out", text: "" },
+        ]);
+        return;
+      }
+      if (!hit) {
+        setLines((prev) => [
+          ...prev,
+          { kind: "err", text: `no such language: ${code} — :lang lists them` },
+          { kind: "out", text: "" },
+        ]);
+        return;
+      }
+      setLines((prev) => [...prev, { kind: "accent", text: `→ ${hit.native}` }]);
+      chooseLocale(hit.code);
+      return;
+    }
     if (input === ":whoami") {
       setLines((prev) => [
         ...prev,
@@ -321,7 +365,7 @@ export default function Terminal({
             {c.name}
           </button>
         ))}
-        {[session.email ? ":mine" : ":signin", ":token", ":tokens"].map((n) => (
+        {[session.email ? ":mine" : ":signin", ":token", ":lang"].map((n) => (
           <button key={n} type="button" className="cli-chip" onClick={() => submit(n)}>
             {n}
           </button>
