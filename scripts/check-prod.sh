@@ -45,10 +45,20 @@ if [ "$in" != "200" ]; then
 fi
 check "signed in as the probe account" "$([ "$in" = "200" ] && echo 1 || echo 0)" "got $in"
 
-TOKEN=$(curl -s -b "$JAR" --max-time 25 -X POST "$BASE/api/tokens" \
-  -H 'Content-Type: application/json' -d '{"name":"prod-check"}' \
-  | sed -n 's/.*"token":"\([^"]*\)".*/\1/p')
-check "minted a token" "$([ -n "$TOKEN" ] && echo 1 || echo 0)" "empty response"
+# Tokens are issued on mozg's account page now, not here — both products share
+# one account. Check that ichi refuses to mint, then take one the way a person
+# actually would.
+mint=$(curl -s -b "$JAR" -o /dev/null -w '%{http_code}' --max-time 25 -X POST "$BASE/api/tokens" \
+  -H 'Content-Type: application/json' -d '{"name":"prod-check"}')
+check "ichi refuses to issue tokens itself" "$([ "$mint" = "410" ] && echo 1 || echo 0)" "got $mint"
+
+TOKEN="${ICHI_PROBE_TOKEN:-}"
+if [ -z "$TOKEN" ]; then
+  echo "  · set ICHI_PROBE_TOKEN (mint one at ${SIBLING:-https://mozg.sh}/settings/tokens?t=ichi)"
+  printf '\n%d passed, %d failed\n' "$pass" "$fail"
+  exit 1
+fi
+check "have a token to test with" 1
 [ -z "$TOKEN" ] && { printf '\n%d passed, %d failed\n' "$pass" "$fail"; exit 1; }
 
 mcp() {

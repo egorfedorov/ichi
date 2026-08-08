@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { query } from "@/db";
 import type { IchiToken } from "@/db/types";
 import { requireUser } from "@/lib/session";
-import { issueLimitReached, issueToken, revokeToken } from "@/lib/tokens";
+import { revokeToken } from "@/lib/tokens";
 
 /**
  * Session-authenticated token management for the settings page. The MCP
@@ -28,27 +28,23 @@ export async function GET(req: Request) {
   return NextResponse.json({ tokens });
 }
 
-export async function POST(req: Request) {
-  let user;
-  try {
-    user = await requireUser(req);
-  } catch {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-  }
-
-  if (await issueLimitReached(user.id)) {
-    return NextResponse.json(
-      { error: "too many active tokens — revoke one first" },
-      { status: 429 },
-    );
-  }
-
-  const body = (await req.json().catch(() => ({}))) as { name?: string };
-  const name = typeof body.name === "string" ? body.name.slice(0, 60) : undefined;
-
-  const issued = await issueToken(user.id, name || undefined);
-  // The plaintext goes out in this response and is never retrievable again.
-  return NextResponse.json(issued, { status: 201 });
+/**
+ * Minting moved to mozg's account page.
+ *
+ * Both products share one account, and credentials for both are managed in one
+ * place — /settings/tokens on mozg — so nobody has to remember which product
+ * owns which token. Left as an explicit 410 rather than deleted: a route that
+ * quietly 404s reads as a bug, and anything still POSTing here deserves to be
+ * told where the door moved.
+ */
+export async function POST() {
+  return NextResponse.json(
+    {
+      error:
+        "Tokens are issued at https://mozg.sh/settings/tokens?t=ichi — same account, both products in one place.",
+    },
+    { status: 410 },
+  );
 }
 
 export async function DELETE(req: Request) {

@@ -131,41 +131,27 @@ export async function advance(
 }
 
 /**
- * Mint an MCP token and print it once.
+ * Where tokens come from.
  *
- * Printed into the transcript deliberately, with the warning next to it: the
- * plaintext exists exactly once and the server keeps only a hash, so a token
- * shown somewhere the reader might scroll past is a token lost.
+ * ichi does not issue them any more: both products share one account, and
+ * every credential is managed on mozg's account page so a person revoking
+ * access never has to remember which product owns what. The console says so
+ * plainly rather than offering a button that would 410.
  */
 export async function mintToken(session: SessionState): Promise<StepResult> {
-  if (!session.email) {
-    return {
-      lines: [err("not signed in — run :signin first")],
-      session,
-    };
-  }
-  try {
-    const res = await fetch("/api/tokens", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: "console" }),
-    });
-    if (!res.ok) {
-      const body = (await res.json().catch(() => ({}))) as { error?: string };
-      return { lines: [err(body.error ?? "could not mint a token")], session };
-    }
-    const data = (await res.json()) as { token: string };
-    return {
-      lines: [
-        ok(data.token),
-        dim("  Shown once. The server keeps only a hash — copy it now."),
-        dim("  :connect turns it into the command for your client."),
-      ],
-      session,
-    };
-  } catch {
-    return { lines: [err("the server did not answer")], session };
-  }
+  return {
+    lines: [
+      ok("Tokens live on your mozg account."),
+      dim("  https://mozg.sh/settings/tokens?t=ichi"),
+      dim(
+        session.email
+          ? `  Same account as this one (${session.email}). The page prints the`
+          : "  Sign in there with the same account. The page prints the",
+      ),
+      dim("  claude mcp add command with the token already in it."),
+    ],
+    session,
+  };
 }
 
 /** The ichi this account carries, listed in the console. */
