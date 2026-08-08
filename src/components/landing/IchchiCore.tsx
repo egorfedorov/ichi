@@ -29,10 +29,16 @@ import { useReducedMotion } from "@/components/landing/useReducedMotion";
 
 const AGENTS = ["Claude Code", "Cursor", "Codex", "ChatGPT", "your agent"];
 
-const W = 440;
-const H = 250;
-const CORE = { x: W / 2, y: 66 };
-const FOOT_Y = 198;
+/**
+ * The canvas is deliberately wide. The stage is a landscape band across the
+ * top of the console, and a squarer viewBox letterboxed inside it — leaving
+ * dead space either side of the subject, which read as a mistake rather than
+ * as composition.
+ */
+const W = 900;
+const H = 340;
+const CORE = { x: W / 2, y: 96 };
+const FOOT_Y = 276;
 
 /**
  * The point everything in the core scales about, in SVG user units.
@@ -71,12 +77,16 @@ export default function IchchiCore({
   const uid = useId().replace(/:/g, "");
   const ink = MOOD_INK[mood];
   const dur = pace(valence);
-  const bondArc = (Math.max(0, Math.min(100, bond)) / 100) * 2 * Math.PI * 38;
+  const bondArc = (Math.max(0, Math.min(100, bond)) / 100) * 2 * Math.PI * 60;
 
-  const xs = AGENTS.map((_, i) => ((i + 0.5) / AGENTS.length) * W);
+  // Spread edge to edge with a margin, so the wires reach rather than huddle.
+  const MARGIN = 78;
+  const xs = AGENTS.map(
+    (_, i) => MARGIN + (i / (AGENTS.length - 1)) * (W - MARGIN * 2),
+  );
   const paths = xs.map(
     (x) =>
-      `M ${CORE.x} ${CORE.y + 28} C ${CORE.x} ${CORE.y + 112}, ${x} ${FOOT_Y - 98}, ${x} ${FOOT_Y - 26}`,
+      `M ${CORE.x} ${CORE.y + 40} C ${CORE.x} ${CORE.y + 150}, ${x} ${FOOT_Y - 140}, ${x} ${FOOT_Y - 30}`,
   );
 
   return (
@@ -88,6 +98,13 @@ export default function IchchiCore({
         aria-label={`${label}: ${mood}, bond ${Math.round(bond)} of 100`}
       >
         <defs>
+          {/* The body reads as a lit sphere rather than a sticker: hot at the
+              top-left where the light is, falling to the ink at the rim. */}
+          <radialGradient id={`body${uid}`} cx="38%" cy="32%" r="72%">
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
+            <stop offset="42%" stopColor={ink} stopOpacity="1" />
+            <stop offset="100%" stopColor={ink} stopOpacity="0.72" />
+          </radialGradient>
           <radialGradient id={`glow${uid}`}>
             <stop offset="0%" stopColor={ink} stopOpacity="0.6" />
             <stop offset="55%" stopColor={ink} stopOpacity="0.12" />
@@ -119,7 +136,7 @@ export default function IchchiCore({
         </defs>
 
         {/* Halo. Scaled by the boot timeline, flared on praise. */}
-        <circle className="core-halo" cx={CORE.x} cy={CORE.y} r="66" fill={`url(#glow${uid})`} />
+        <circle className="core-halo" cx={CORE.x} cy={CORE.y} r="104" fill={`url(#glow${uid})`} />
 
         <g filter={`url(#pencil${uid})`}>
           {/* Wires — infrastructure, drawn faint. */}
@@ -150,7 +167,7 @@ export default function IchchiCore({
                 strokeWidth="1"
                 vectorEffect="non-scaling-stroke"
               />
-              <text x={xs[i]} y={FOOT_Y + 6} textAnchor="middle" className="core-label">
+              <text x={xs[i]} y={FOOT_Y + 8} textAnchor="middle" className="core-label">
                 {a}
               </text>
             </g>
@@ -196,20 +213,32 @@ export default function IchchiCore({
             className={reduced ? undefined : "core-ring"}
             cx={CORE.x}
             cy={CORE.y}
-            r="27"
+            r="82"
             fill="none"
             stroke={ink}
-            strokeOpacity="0.5"
+            strokeOpacity="0.35"
             strokeWidth="1"
             vectorEffect="non-scaling-stroke"
           />
 
-          {/* Bond as an arc: the slow number, drawn slowly. */}
+          {/* Bond as a gauge. The faint full circle is the track: an arc with
+              nothing behind it reads as a ring that has broken, not as a
+              measure that is partly filled. */}
+          <circle
+            cx={CORE.x}
+            cy={CORE.y}
+            r="60"
+            fill="none"
+            stroke={ink}
+            strokeOpacity="0.14"
+            strokeWidth="2"
+            vectorEffect="non-scaling-stroke"
+          />
           <circle
             className="core-bond"
             cx={CORE.x}
             cy={CORE.y}
-            r="38"
+            r="60"
             fill="none"
             stroke={ink}
             strokeOpacity="0.9"
@@ -217,7 +246,7 @@ export default function IchchiCore({
             strokeLinecap="round"
             vectorEffect="non-scaling-stroke"
             transform={`rotate(-90 ${CORE.x} ${CORE.y})`}
-            strokeDasharray={`${bondArc} ${2 * Math.PI * 38}`}
+            strokeDasharray={`${bondArc} ${2 * Math.PI * 60}`}
             style={{ transition: "stroke-dasharray 700ms cubic-bezier(.22,1,.36,1)" }}
           />
 
@@ -225,8 +254,8 @@ export default function IchchiCore({
             className="core-body"
             cx={CORE.x}
             cy={CORE.y}
-            r="13"
-            fill={ink}
+            r="21"
+            fill={`url(#body${uid})`}
           />
         </g>
       </svg>

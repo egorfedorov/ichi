@@ -171,6 +171,50 @@ export function useConsoleMotion(
     return () => ctx.revert();
   }, [valence, root]);
 
+  /**
+   * The core leans toward the pointer.
+   *
+   * Small — a few pixels at the edge of the screen. The point is not parallax
+   * for its own sake; it is that a thing which tracks you reads as watching,
+   * and "there is something in here" is the entire pitch. Overdo it and it
+   * becomes a toy.
+   *
+   * Driven by quickTo rather than a tween per mousemove: one interpolator,
+   * retargeted, instead of a new tween sixty times a second.
+   */
+  useEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // A pointer that cannot hover (touch) has no position to lean toward.
+    if (!window.matchMedia("(hover: hover)").matches) return;
+
+    const group = el.querySelector(".core-group");
+    const halo = el.querySelector(".core-halo");
+    if (!group || !halo) return;
+
+    const ease = "power3.out";
+    const gx = gsap.quickTo(group, "x", { duration: 0.9, ease });
+    const gy = gsap.quickTo(group, "y", { duration: 0.9, ease });
+    // The halo lags further behind, which reads as depth rather than as the
+    // whole picture sliding.
+    const hx = gsap.quickTo(halo, "x", { duration: 1.5, ease });
+    const hy = gsap.quickTo(halo, "y", { duration: 1.5, ease });
+
+    const onMove = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+      const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+      gx(dx * 16);
+      gy(dy * 10);
+      hx(dx * 26);
+      hy(dy * 16);
+    };
+
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, [root]);
+
   // The tear must never outlive the component that drew it.
   useEffect(
     () => () => {
