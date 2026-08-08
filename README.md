@@ -84,8 +84,19 @@ against a running instance.
 | `ichchi_brief` | Session with an ichchi begins — mood, strongest memories, voice rules |
 | `ichchi_state` | Full state sheet: Big Five, mood, bond, pending drift |
 | `ichchi_feedback` | The user clearly praised or scolded the work (`praise`/`scold` + reason) |
-| `ichchi_remember` | Something worth remembering: wins, failures, preferences, promises |
+| `ichchi_remember` | Something worth remembering: wins, failures, preferences, promises. `kind="standard"` for a rule the user laid down |
 | `ichchi_recall` | The past might matter to what you are doing now |
+| `ichchi_why` | The user asks why it is cold, warm or short with them — read the reason out of the log, never invent one |
+
+### Tone versus behaviour
+
+The character colours *how* the agent speaks and never the quality of its
+help — a hurt ichchi still answers well. There is exactly one exception, and
+it is deliberate: a memory saved with `kind="standard"` is a rule the user
+themselves stated ("always run the tests first"), and those do bind what the
+agent does. Standards ride in their own section of the brief, under their own
+rule, so an agent never has to guess which lines are colour and which are
+orders. They also never decay out of force, unlike every other memory.
 
 ## Plugin layout
 
@@ -95,17 +106,46 @@ plugin/
 ├── .mcp.json                    # the ichchi MCP server, $ICHI_TOKEN/$ICHI_URL
 ├── commands/                    # /ichchi:praise /ichchi:scold /ichchi:state
 │                                # /ichchi:recall /ichchi:adopt
+├── statusline/
+│   └── ichchi-status.sh         # the mood, always visible in the status bar
 └── hooks/
     ├── hooks.json               # SessionStart / UserPromptSubmit / Stop
-    ├── ichchi-common.sh           # curl-only MCP client, cache, JSON escaping
-    ├── ichchi-start.sh            # fetch ichchi_brief once, cache, inject context
-    ├── ichchi-prompt.sh           # inject the cached brief, refresh in background
-    └── ichchi-stop.sh             # remember the session's end, fire-and-forget
+    ├── ichchi-common.sh         # curl-only MCP client, cache, JSON escaping
+    ├── ichchi-start.sh          # fetch ichchi_brief once, cache, inject context
+    ├── ichchi-prompt.sh         # inject the cached brief, refresh in background
+    └── ichchi-stop.sh           # remember the session's end, fire-and-forget
 ```
 
 The hooks need nothing but `curl` (they use `jq` when present, a sed/awk
 fallback when not), and fail silently — no token, no network or a server
 error never blocks the CLI.
+
+The statusline is opt-in, because Claude Code reads it from `settings.json`
+rather than from a plugin manifest:
+
+```json
+"statusLine": {
+  "type": "command",
+  "command": "~/.claude/plugins/ichchi/statusline/ichchi-status.sh"
+}
+```
+
+It reads only the cache the hooks already wrote — no network on the render
+path — and prints nothing at all when there is no ichchi yet.
+
+## Sharing an ichchi
+
+Two different things, deliberately kept apart:
+
+- **Publish** (`/i/<slug>`) — a read-only page for strangers, with a generated
+  share card coloured by the ichchi's live mood. It shows character, mood,
+  attachment and counts. It never shows a memory body: memories quote the
+  codebase they formed around, and that is the keeper's to share.
+- **Invite** (`/join/<code>`) — write access for teammates. A shared ichchi
+  learns how the *team* works: a standard recorded once binds everyone's
+  sessions. Bonds stay per-person, so the ichchi can be close to one teammate
+  and wary of another. Revoking the link stops future joins without evicting
+  anyone already in.
 
 ## Scripts
 
@@ -117,4 +157,5 @@ error never blocks the CLI.
 | `npm run seed` | verify schema, list archetypes |
 | `npm run token` | issue/revoke MCP tokens from the shell |
 | `npm run check:mcp` | end-to-end MCP check against a live instance |
+| `npm run check:team` | asserts the shared-ichchi access boundaries against a live database |
 | `npm test` / `typecheck` / `lint` | unit tests, types, lint |
