@@ -20,18 +20,14 @@ export default async function SiteHeader() {
           иччи
         </Link>
 
+        {/* Connection, tokens and sign-in all live in the console now, so
+            this bar carries only the way back to it and the way out. */}
         <nav className="flex items-center gap-5 text-sm text-snow-2">
           <Link href="/ichchi" className="transition-colors hover:text-snow">
             Иччи
           </Link>
-          <Link href="/connect" className="transition-colors hover:text-snow">
-            Подключение
-          </Link>
-          <Link
-            href="/settings/tokens"
-            className="transition-colors hover:text-snow"
-          >
-            Токены
+          <Link href="/" className="transition-colors hover:text-snow">
+            Консоль
           </Link>
         </nav>
 
@@ -45,7 +41,7 @@ export default async function SiteHeader() {
             </>
           ) : (
             <Link
-              href="/sign-in"
+              href="/"
               className="rounded-lg border border-rule bg-night-2 px-4 py-1.5 text-sm transition-colors hover:border-aurora"
             >
               Войти

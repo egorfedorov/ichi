@@ -44,7 +44,7 @@ export const TOOLS: ToolDef[] = [
       properties: {
         archetype: {
           type: "string",
-          description: "Archetype id from ichchi_list, e.g. \"baiyanai\".",
+          description: "Archetype id from ichchi_list, e.g. \"sage\".",
         },
         name: {
           type: "string",

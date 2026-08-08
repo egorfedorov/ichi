@@ -5,6 +5,17 @@ import Link from "next/link";
 import type { LandingDict } from "@/lib/landing-i18n";
 import type { IchchiEngine } from "@/components/landing/useIchchiEngine";
 import { COMMANDS, complete, findCommand, type Line } from "@/components/landing/commands";
+import {
+  advance,
+  beginSignIn,
+  EMPTY_SESSION,
+  listMine,
+  listTokens,
+  mintToken,
+  revokeToken,
+  whoami,
+  type SessionState,
+} from "@/components/landing/session-commands";
 
 /**
  * The transcript pane and the prompt — the half of the screen the reader
@@ -39,6 +50,19 @@ export default function Terminal({
   const [draft, setDraft] = useState("");
   const [history, setHistory] = useState<string[]>([]);
   const [histAt, setHistAt] = useState(-1);
+  const [session, setSession] = useState<SessionState>(EMPTY_SESSION);
+
+  // Ask the server once who this is, so a returning visitor with a live
+  // cookie sees "signed in as …" instead of being asked to sign in again.
+  useEffect(() => {
+    let alive = true;
+    void whoami().then((email) => {
+      if (alive && email) setSession((s) => ({ ...s, email }));
+    });
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -70,9 +94,26 @@ export default function Terminal({
     const input = raw.trim();
     if (!input) return;
 
-    setHistory((h) => [...h, input]);
-    setHistAt(-1);
+    // A password must never reach the history buffer or the transcript.
+    const secret = session.awaiting === "password";
+    if (!secret) {
+      setHistory((h) => [...h, input]);
+      setHistAt(-1);
+    }
     setDraft("");
+
+    // Mid-flow: this answer belongs to the prompt, not to the command parser.
+    if (session.awaiting) {
+      setLines((prev) => [
+        ...prev,
+        { kind: "cmd", text: secret ? "•".repeat(Math.min(raw.length, 12)) : input },
+      ]);
+      void advance(session, raw).then((r) => {
+        setSession(r.session);
+        setLines((prev) => [...prev, ...r.lines, { kind: "out", text: "" }]);
+      });
+      return;
+    }
 
     const cmd = findCommand(input);
     if (cmd?.name === ":clear") {
@@ -81,6 +122,43 @@ export default function Terminal({
     }
 
     setLines((prev) => [...prev, { kind: "cmd", text: input }]);
+
+    // Session commands are handled here rather than in the registry: they
+    // hold state and talk to the server, and commands.ts is deliberately pure
+    // so the SEO twin can render every command's output on the server.
+    if (input === ":signin" || input === ":signup") {
+      const r = beginSignIn(input === ":signup" ? "up" : "in");
+      setSession(r.session);
+      setLines((prev) => [...prev, ...r.lines]);
+      return;
+    }
+    if (input === ":whoami") {
+      setLines((prev) => [
+        ...prev,
+        session.email
+          ? { kind: "accent", text: session.email }
+          : { kind: "dim", text: "not signed in — :signin" },
+        { kind: "out", text: "" },
+      ]);
+      return;
+    }
+    const serverCmd: Record<string, () => Promise<{ lines: Line[] }>> = {
+      ":token": () => mintToken(session),
+      ":mine": () => listMine(session),
+      ":tokens": () => listTokens(session),
+    };
+    if (serverCmd[input]) {
+      void serverCmd[input]().then((r) => {
+        setLines((prev) => [...prev, ...r.lines, { kind: "out", text: "" }]);
+      });
+      return;
+    }
+    if (input.startsWith(":revoke")) {
+      void revokeToken(session, input.slice(7).trim()).then((r) => {
+        setLines((prev) => [...prev, ...r.lines, { kind: "out", text: "" }]);
+      });
+      return;
+    }
 
     if (cmd) {
       setLines((prev) => [...prev, ...cmd.run(t), { kind: "out", text: "" }]);
@@ -159,6 +237,11 @@ export default function Terminal({
             {c.name}
           </button>
         ))}
+        {[session.email ? ":mine" : ":signin", ":token", ":tokens"].map((n) => (
+          <button key={n} type="button" className="cli-chip" onClick={() => submit(n)}>
+            {n}
+          </button>
+        ))}
         <button
           type="button"
           className="cli-chip cli-chip-warm"
@@ -183,16 +266,29 @@ export default function Terminal({
         }}
       >
         <span className="cli-caret-label" aria-hidden>
-          {PROMPT}&gt;
+          {session.awaiting === "email"
+            ? "email>"
+            : session.awaiting === "password"
+              ? "password>"
+              : `${PROMPT}>`}
         </span>
         <input
           ref={inputRef}
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={onKeyDown}
-          placeholder={t.cli.input}
-          aria-label={t.cli.input}
-          autoComplete="off"
+          // A real password field, not a styled text input: password managers
+          // and the browser's own protections key off the type attribute.
+          type={session.awaiting === "password" ? "password" : "text"}
+          autoComplete={
+            session.awaiting === "password"
+              ? "current-password"
+              : session.awaiting === "email"
+                ? "email"
+                : "off"
+          }
+          placeholder={session.awaiting ? "" : t.cli.input}
+          aria-label={session.awaiting ?? t.cli.input}
           spellCheck={false}
           className="cli-input"
         />

@@ -1,10 +1,10 @@
 # ichchi — a living spirit for your agent
 
-An *ichchi* (иччи) is a household spirit in Yakut tradition — the owner of a
-place or a thing, with a temper of its own. This project gives an AI agent
-one: a persistent ichchi that rides with it over MCP. The ichchi remembers what
-happened, takes offence, grows attached — and colours how the agent speaks.
-Never the quality of the work; only the voice.
+An *ichchi* is the spirit that owns a place — a house, a forge, a river — and
+has a temper of its own. This project gives an AI agent one: a persistent
+ichchi that rides with it over MCP. It remembers what happened, takes offence,
+grows attached — and colours how the agent speaks. Never the quality of the
+work; only the voice.
 
 Hosted at [ichchi.sh](https://ichchi.sh); everything below is for running
 your own.

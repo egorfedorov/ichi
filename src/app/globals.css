@@ -496,8 +496,9 @@ body {
 
 @media (min-height: 620px) and (min-width: 900px) {
   .console {
-    /* 60px topbar. svh, not vh: mobile browsers lie about vh. */
-    height: calc(100svh - 60px);
+    /* The whole viewport — there is no bar above it any more. svh, not vh:
+       mobile browsers lie about vh. */
+    height: 100svh;
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
     /* The brain carries the most content of the three panes, so it gets the
        taller row; the core reads fine small because it is one shape. */

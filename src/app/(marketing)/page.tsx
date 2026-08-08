@@ -36,7 +36,7 @@ export default async function Home() {
         <h1>{t.hero.title}</h1>
         <p>{t.hero.sub}</p>
         <p>
-          <Link href="/connect">{t.hero.ctaPrimary}</Link>
+          <Link href="/">{t.hero.ctaPrimary}</Link>
         </p>
 
         <h2>{t.flow.title}</h2>

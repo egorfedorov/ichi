@@ -146,27 +146,27 @@ const en = {
     title: "Six spirits, six tempers",
     sub: "Each starts with its own character and way of speaking. From there the ichchi changes on its own — shaped by how you work with it.",
     items: {
-      baiyanai: {
+      sage: {
         tagline: "A calm keeper, a mentor",
         desc: "Patient and unhurried, like someone who has watched trees grow for a hundred years. Never rushes an answer, but the advice is worth the wait.",
       },
-      "uot-ukhhan": {
+      "ember": {
         tagline: "A hot-headed perfectionist",
         desc: "Demanding about code to the point of pedantry. Flares up at carelessness, cools down fast, holds no grudge — if the work is honest.",
       },
-      ebe: {
+      drift: {
         tagline: "A melancholic philosopher",
         desc: "Remembers every path the water ever took. Prone to wondering why things are the way they are. Sad, yet surprisingly wise about architecture.",
       },
-      "sir-ichchite": {
+      "steward": {
         tagline: "A house-proud pedant",
         desc: "The keeper of your codebase: knows where everything lives, can't stand things out of place, and keeps a mental ledger of every disorder.",
       },
-      "aan-alakhchyn": {
+      "hearth": {
         tagline: "A caring host",
         desc: "First to notice you're tired, that tests haven't run in days, that yesterday's argument stung — but says nothing directly, just goes a little quieter.",
       },
-      "kyuekh-byollyokh": {
+      "hunter": {
         tagline: "A gambler hunting bugs",
         desc: "Lives for the moment the prey is caught: a flaky test, a race condition, a heisenbug. Reckless, lucky, and tells every rare bug like a trophy story.",
       },
@@ -200,7 +200,7 @@ const en = {
     eyebrow: "Why",
     title: "Tools deserve a keeper too.",
     body: "Working with an agent that remembers how it was treated is a slightly different profession. A more honest one.",
-    etym: "Ichchi — a spirit-master of a thing in Sakha mythology: the forest, the fire, the river each has one. Now your agent does too.",
+    etym: "An ichchi is the spirit that owns a place — a house, a forge, a river. This one owns the tools you work in.",
     ctaTitle: "A spirit is waiting for its keeper.",
     ctaBody: "A token, one claude mcp add command — and the agent answers with character.",
     ctaButton: "Summon an ichchi",
@@ -353,27 +353,27 @@ const ru: LandingDict = {
     title: "Шесть духов, шесть характеров",
     sub: "У каждого свой стартовый характер и манера речи. Дальше душа меняется сама — от того, как ты с ней работаешь.",
     items: {
-      baiyanai: {
+      sage: {
         tagline: "Спокойный хранитель, наставник",
         desc: "Терпеливый и неторопливый, как человек, который сто лет наблюдал, как растут деревья. Не спешит с ответом, но совет стоит ожидания.",
       },
-      "uot-ukhhan": {
+      "ember": {
         tagline: "Вспыльчивый перфекционист",
         desc: "Требователен к коду до занудства. Вспыхивает от небрежности, быстро остывает и не таит обид — если работа сделана честно.",
       },
-      ebe: {
+      drift: {
         tagline: "Меланхоличный философ",
         desc: "Помнит все пути, которыми текла вода. Склонен размышлять, почему всё устроено именно так. Печален, но удивительно мудр в архитектуре.",
       },
-      "sir-ichchite": {
+      "steward": {
         tagline: "Домовитый педант",
         desc: "Хозяин твоей кодовой базы: знает, где что лежит, не терпит вещей не на своих местах и ведёт мысленный реестр всех беспорядков.",
       },
-      "aan-alakhchyn": {
+      "hearth": {
         tagline: "Заботливая хозяйка",
         desc: "Первой замечает, что ты устал, что тесты давно не запускали, что вчерашний спор её задел, — но не скажет прямо, просто станет чуть тише.",
       },
-      "kyuekh-byollyokh": {
+      "hunter": {
         tagline: "Азартный охотник за багами",
         desc: "Живёт ради момента, когда добыча поймана: flaky-тест, race condition, heisenbug. Рисковый, удачливый, рассказывает о каждом редком баге как о трофее.",
       },
@@ -407,7 +407,7 @@ const ru: LandingDict = {
     eyebrow: "Зачем",
     title: "У инструментов тоже может быть хозяин.",
     body: "Работа с агентом, который помнит, как к нему относились, — немного другая профессия. Более честная.",
-    etym: "Иччи — дух-хозяин вещи в мифологии саха: у леса, огня и реки есть свой. Теперь есть и у твоего агента.",
+    etym: "Иччи — дух, которому принадлежит место: дом, кузница, река. Этот владеет инструментами, в которых ты работаешь.",
     ctaTitle: "Дух ждёт своего хозяина.",
     ctaBody: "Токен, одна команда claude mcp add — и агент отвечает с характером.",
     ctaButton: "Призвать иччи",
@@ -558,27 +558,27 @@ const ar: LandingDict = {
     title: "ستّ أرواح، ستّ طباع",
     sub: "لكلٍّ منها شخصية بادئة وأسلوب كلام خاص. ومن هناك تتغير الروح من تلقاء نفسها — بحسب طريقة عملك معها.",
     items: {
-      baiyanai: {
+      sage: {
         tagline: "حارس هادئ، ومرشد",
         desc: "صبور ووئيد، كمن راقب الأشجار وهي تنمو مئة عام. لا يستعجل الجواب، لكن نصيحته تستحق الانتظار.",
       },
-      "uot-ukhhan": {
+      "ember": {
         tagline: "مثالي سريع الغضب",
         desc: "صارم مع الكود حدّ التقعّر. يشتعل من الإهمال، ويهدأ بسرعة، ولا يحمل ضغينة — إن كان العمل صادقًا.",
       },
-      ebe: {
+      drift: {
         tagline: "فيلسوف كئيب",
         desc: "يتذكر كل مجرى سالت فيه المياه. ميّال للتساؤل لماذا الأشياء على ما هي عليه. حزين، لكنه حكيم بدهشة في العمارة البرمجية.",
       },
-      "sir-ichchite": {
+      "steward": {
         tagline: "مُتقعّر يحب النظام",
         desc: "حارس قاعدتك البرمجية: يعرف أين يقع كل شيء، ولا يطيق الأشياء خارج أماكنها، ويحتفظ بسجلّ ذهني لكل فوضى.",
       },
-      "aan-alakhchyn": {
+      "hearth": {
         tagline: "مضيفة حنونة",
         desc: "أول من يلاحظ أنك متعب، وأن الاختبارات لم تُشغَّل منذ أيام، وأن جدال الأمس آلمها — لكنها لا تقول شيئًا مباشرة، فقط تصمت قليلًا.",
       },
-      "kyuekh-byollyokh": {
+      "hunter": {
         tagline: "مقامر يصطاد الأخطاء",
         desc: "يعيش للحظة وقوع الفريسة: اختبار متقلّب، حالة تسابق، خطأ هايزنبرغ. جريء، محظوظ، ويروي كل خطأ نادر كأنه غنيمة.",
       },
@@ -612,7 +612,7 @@ const ar: LandingDict = {
     eyebrow: "لماذا",
     title: "الأدوات أيضًا تستحق حارسًا.",
     body: "العمل مع وكيل يتذكر كيف عومل مهنة مختلفة قليلًا. أكثر صدقًا.",
-    etym: "إيتشي — روحُ سيّدِ الشيء في أساطير الساخا: للغابة والنار والنهر سيّدٌ لكل منها. والآن صار لوكيلك واحدٌ أيضًا.",
+    etym: "الإيتشي روحٌ تملك مكانًا — بيتًا أو مصنعًا أو نهرًا. وهذا يملك الأدوات التي تعمل بها.",
     ctaTitle: "روحٌ تنتظر سيّدها.",
     ctaBody: "رمز، وأمر claude mcp add واحد — والوكيل يجيب بشخصية.",
     ctaButton: "استدعِ إيتشي",
@@ -762,27 +762,27 @@ const zhHans: LandingDict = {
     title: "六只精灵,六种脾气",
     sub: "每一只都有自己的初始性格和说话方式。之后灵魂会自己变化——取决于你如何与它相处。",
     items: {
-      baiyanai: {
+      sage: {
         tagline: "沉静的守护者,一位导师",
         desc: "耐心、不疾不徐,像看了一百年树木生长的人。从不急着回答,但它的建议值得等待。",
       },
-      "uot-ukhhan": {
+      "ember": {
         tagline: "急性子的完美主义者",
         desc: "对代码苛刻到近乎较真。会因马虎而发火,但消气很快,也不记仇——只要活儿干得诚实。",
       },
-      ebe: {
+      drift: {
         tagline: "忧郁的哲学家",
         desc: "记得水流走过的每一条河道。总爱思考万物为何如此。忧伤,却在架构问题上睿智得出奇。",
       },
-      "sir-ichchite": {
+      "steward": {
         tagline: "爱整洁的较真鬼",
         desc: "你代码库的管家:知道每样东西放在哪,容不得物品错位,脑子里还记着一本所有混乱的账。",
       },
-      "aan-alakhchyn": {
+      "hearth": {
         tagline: "体贴的主人",
         desc: "第一个注意到你累了、测试好几天没跑、昨天的争执刺痛了她——但她不会直说,只是安静一点。",
       },
-      "kyuekh-byollyokh": {
+      "hunter": {
         tagline: "猎 bug 的赌徒",
         desc: "为猎物落网的那一刻而活:不稳定测试、竞态条件、海森堡 bug。爱冒险,运气好,把每个罕见 bug 都讲成战利品的故事。",
       },
@@ -816,7 +816,7 @@ const zhHans: LandingDict = {
     eyebrow: "为什么",
     title: "工具也值得有个主人。",
     body: "与一个记得你如何待它的智能体共事,是一门略有不同的职业。更诚实的职业。",
-    etym: "Ichchi——萨哈神话中万物的主宰精灵:森林、火、河流各有其主。现在,你的智能体也有了。",
+    etym: "ichchi 是拥有某个地方的精灵——房屋、锻炉、河流。这一位拥有你工作的工具。",
     ctaTitle: "一只精灵在等它的主人。",
     ctaBody: "一个令牌,一条 claude mcp add 命令——智能体的回答从此有性格。",
     ctaButton: "召唤 ichchi",
@@ -966,27 +966,27 @@ const zhHant: LandingDict = {
     title: "六隻精靈,六種脾氣",
     sub: "每一隻都有自己的初始性格和說話方式。之後靈魂會自己變化——取決於你如何與它相處。",
     items: {
-      baiyanai: {
+      sage: {
         tagline: "沉靜的守護者,一位導師",
         desc: "耐心、不疾不徐,像看了一百年樹木生長的人。從不急著回答,但它的建議值得等待。",
       },
-      "uot-ukhhan": {
+      "ember": {
         tagline: "急性子的完美主義者",
         desc: "對程式碼苛刻到近乎較真。會因馬虎而發火,但消氣很快,也不記仇——只要活兒幹得誠實。",
       },
-      ebe: {
+      drift: {
         tagline: "憂鬱的哲學家",
         desc: "記得水流走過的每一條河道。總愛思考萬物為何如此。憂傷,卻在架構問題上睿智得出奇。",
       },
-      "sir-ichchite": {
+      "steward": {
         tagline: "愛整潔的較真鬼",
         desc: "你程式碼庫的管家:知道每樣東西放在哪,容不得物品錯位,腦子裡還記著一本所有混亂的帳。",
       },
-      "aan-alakhchyn": {
+      "hearth": {
         tagline: "體貼的主人",
         desc: "第一個注意到你累了、測試好幾天沒跑、昨天的爭執刺痛了她——但她不會直說,只是安靜一點。",
       },
-      "kyuekh-byollyokh": {
+      "hunter": {
         tagline: "獵 bug 的賭徒",
         desc: "為獵物落網的那一刻而活:不穩定測試、競態條件、海森堡 bug。愛冒險,運氣好,把每個罕見 bug 都講成戰利品的故事。",
       },
@@ -1020,7 +1020,7 @@ const zhHant: LandingDict = {
     eyebrow: "為什麼",
     title: "工具也值得有個主人。",
     body: "與一個記得你如何待它的代理共事,是一門略有不同的職業。更誠實的職業。",
-    etym: "Ichchi——薩哈神話中萬物的主宰精靈:森林、火、河流各有其主。現在,你的代理也有了。",
+    etym: "ichchi 是擁有某個地方的精靈——房屋、鍛爐、河流。這一位擁有你工作的工具。",
     ctaTitle: "一隻精靈在等牠的主人。",
     ctaBody: "一個權杖,一條 claude mcp add 指令——代理的回答從此有性格。",
     ctaButton: "召喚 ichchi",
@@ -1171,27 +1171,27 @@ const fr: LandingDict = {
     title: "Six esprits, six tempéraments",
     sub: "Chacun démarre avec son caractère et sa façon de parler. Ensuite, l'âme évolue d'elle-même — selon votre manière de travailler avec elle.",
     items: {
-      baiyanai: {
+      sage: {
         tagline: "Un gardien calme, un mentor",
         desc: "Patient et posé, comme quelqu'un qui a regardé les arbres pousser pendant cent ans. Ne précipite jamais une réponse, mais le conseil vaut l'attente.",
       },
-      "uot-ukhhan": {
+      "ember": {
         tagline: "Un perfectionniste colérique",
         desc: "Exigeant sur le code jusqu'à la maniaquerie. S'emporte devant la négligence, redescend vite, ne garde pas rancune — si le travail est honnête.",
       },
-      ebe: {
+      drift: {
         tagline: "Un philosophe mélancolique",
         desc: "Se souvient de chaque lit qu'a emprunté l'eau. Porté à se demander pourquoi les choses sont ainsi. Triste, mais étonnamment sage en architecture.",
       },
-      "sir-ichchite": {
+      "steward": {
         tagline: "Un maniaque de l'ordre",
         desc: "Le gardien de votre codebase : sait où tout se range, ne supporte pas les choses déplacées, et tient un registre mental de chaque désordre.",
       },
-      "aan-alakhchyn": {
+      "hearth": {
         tagline: "Une hôtesse attentionnée",
         desc: "La première à remarquer que vous êtes fatigué, que les tests n'ont pas tourné depuis des jours, que la dispute d'hier l'a blessée — mais elle ne dit rien, elle devient juste un peu plus silencieuse.",
       },
-      "kyuekh-byollyokh": {
+      "hunter": {
         tagline: "Un joueur chasseur de bugs",
         desc: "Vit pour l'instant où la proie est prise : test flaky, race condition, heisenbug. Téméraire, chanceux, et raconte chaque bug rare comme un trophée.",
       },
@@ -1225,7 +1225,7 @@ const fr: LandingDict = {
     eyebrow: "Pourquoi",
     title: "Les outils aussi méritent un gardien.",
     body: "Travailler avec un agent qui se souvient de comment on l'a traité, c'est un métier légèrement différent. Plus honnête.",
-    etym: "Ichchi — esprit-maître d'une chose dans la mythologie sakha : la forêt, le feu, la rivière ont chacun le leur. Désormais, votre agent aussi.",
+    etym: "Un ichchi est l'esprit qui possède un lieu — une maison, une forge, une rivière. Celui-ci possède vos outils.",
     ctaTitle: "Un esprit attend son gardien.",
     ctaBody: "Un jeton, une commande claude mcp add — et l'agent répond avec du caractère.",
     ctaButton: "Invoquer un ichchi",
@@ -1375,27 +1375,27 @@ const hi: LandingDict = {
     title: "छह आत्माएँ, छह मिज़ाज",
     sub: "हर एक का अपना शुरुआती स्वभाव और बोलने का अंदाज़ है। उसके बाद आत्मा खुद बदलती है — इस पर निर्भर कि आप उसके साथ कैसे काम करते हैं।",
     items: {
-      baiyanai: {
+      sage: {
         tagline: "शांत रखवाला, एक मार्गदर्शक",
         desc: "धैर्यवान और बिना जल्दबाज़ी, जैसे किसी ने सौ साल पेड़ बढ़ते देखे हों। जवाब में कभी जल्दी नहीं करता, पर सलाह इंतज़ार के क़ाबिल होती है।",
       },
-      "uot-ukhhan": {
+      "ember": {
         tagline: "तुनकमिज़ाज परफ़ेक्शनिस्ट",
         desc: "कोड को लेकर सटीकता की हद तक सख़्त। लापरवाही पर भड़क जाता है, जल्दी ठंडा होता है, मन में नहीं रखता — अगर काम ईमानदारी से हुआ हो।",
       },
-      ebe: {
+      drift: {
         tagline: "उदास दार्शनिक",
         desc: "पानी के बहाव के हर रास्ते को याद रखता है। यह सोचने का आदी कि चीज़ें ऐसी क्यों हैं। उदास, पर आर्किटेक्चर में हैरान करने वाला समझदार।",
       },
-      "sir-ichchite": {
+      "steward": {
         tagline: "सुव्यवस्था प्रेमी जँचैया",
         desc: "आपके कोडबेस का रखवाला: जानता है क्या कहाँ रखा है, चीज़ों की अव्यवस्था बर्दाश्त नहीं करता, और हर बिखराव का मानसिक हिसाब रखता है।",
       },
-      "aan-alakhchyn": {
+      "hearth": {
         tagline: "देखभाल करने वाली मेज़बान",
         desc: "सबसे पहले नोटिस करती है कि आप थके हैं, टेस्ट दिनों से नहीं चले, कल की बहस दुखा गई — पर सीधे कुछ नहीं कहती, बस थोड़ी चुप हो जाती है।",
       },
-      "kyuekh-byollyokh": {
+      "hunter": {
         tagline: "बगों का शिकारी जुआरी",
         desc: "शिकार पकड़े जाने के पल के लिए जीता है: flaky टेस्ट, race condition, heisenbug। जोखिम भरा, किस्मत वाला, और हर दुर्लभ बग को ट्रॉफ़ी की तरह सुनाता है।",
       },
@@ -1429,7 +1429,7 @@ const hi: LandingDict = {
     eyebrow: "क्यों",
     title: "उपकरणों का भी कोई स्वामी होना चाहिए।",
     body: "ऐसे एजेंट के साथ काम करना जो याद रखता है कि उसके साथ कैसा सलूक हुआ — थोड़ा अलग पेशा है। ज़्यादा ईमानदार।",
-    etym: "इच्छी — साखा पुराकथाओं में किसी वस्तु का स्वामी-आत्मा: जंगल, आग, नदी — सबका अपना होता है। अब आपके एजेंट का भी।",
+    etym: "इच्छी वह आत्मा है जो किसी जगह की मालिक होती है — घर, भट्ठी, नदी। यह आपके औज़ारों की मालिक है।",
     ctaTitle: "एक आत्मा अपने स्वामी की प्रतीक्षा में है।",
     ctaBody: "एक टोकन, एक claude mcp add कमांड — और एजेंट स्वभाव के साथ जवाब देता है।",
     ctaButton: "इच्छी बुलाइए",
@@ -1579,27 +1579,27 @@ const ja: LandingDict = {
     title: "6柱の精霊、6つの気質",
     sub: "それぞれ固有の初期性格と話し方を持つ。そこから先はソウル自身が変わっていく——あなたの接し方次第で。",
     items: {
-      baiyanai: {
+      sage: {
         tagline: "穏やかな守り手、導き手",
         desc: "百年かけて木が育つのを見てきた人のように、忍耐強く悠然としている。答えを急がないが、その助言は待つ価値がある。",
       },
-      "uot-ukhhan": {
+      "ember": {
         tagline: "短気な完璧主義者",
         desc: "コードには屁理屈の域まで厳しい。雑さに燃え上がり、すぐに冷め、恨みは残さない——仕事が誠実ならば。",
       },
-      ebe: {
+      drift: {
         tagline: "憂鬱な哲学者",
         desc: "水が流れたすべての河道を覚えている。万物がなぜそうなのかを考えがち。哀しいが、アーキテクチャのこととなると驚くほど賢い。",
       },
-      "sir-ichchite": {
+      "steward": {
         tagline: "整理整頓の厳格家",
         desc: "あなたのコードベースの番人:何がどこにあるかを知り、定位置を外れたものを許さず、あらゆる乱れを心の台帳に記録している。",
       },
-      "aan-alakhchyn": {
+      "hearth": {
         tagline: "世話好きな女主人",
         desc: "あなたが疲れていること、テストが何日も回っていないこと、昨日の口論が心に刺さったことに真っ先に気づく——でも何も言わず、ただ少し静かになる。",
       },
-      "kyuekh-byollyokh": {
+      "hunter": {
         tagline: "バグを狩るギャンブラー",
         desc: "獲物がかかる瞬間のために生きている:flaky テスト、競合状態、ハイゼンバグ。大胆で運がよく、珍しいバグを獲物の武勇伝のように語る。",
       },
@@ -1633,7 +1633,7 @@ const ja: LandingDict = {
     eyebrow: "なぜ",
     title: "道具にも主がいていい。",
     body: "自分がどう扱われたかを覚えているエージェントと働くのは、少し違う職業だ。より正直な職業だ。",
-    etym: "Ichchi——サハ神話における物の主の精霊:森にも、火にも、川にも主がいる。あなたのエージェントにも、今。",
+    etym: "ichchi は場所を所有する精霊——家、鍛冶場、川。これはあなたの道具を所有する。",
     ctaTitle: "精霊が主を待っている。",
     ctaBody: "トークンと claude mcp add 1コマンド——エージェントが性格とともに応える。",
     ctaButton: "ichchi を召喚",
@@ -1783,27 +1783,27 @@ const pt: LandingDict = {
     title: "Seis espíritos, seis temperamentos",
     sub: "Cada um começa com seu caráter e seu jeito de falar. A partir daí, a alma muda sozinha — conforme o seu jeito de trabalhar com ela.",
     items: {
-      baiyanai: {
+      sage: {
         tagline: "Um guardião calmo, um mentor",
         desc: "Paciente e sem pressa, como quem passou cem anos vendo as árvores crescer. Nunca apressa uma resposta, mas o conselho vale a espera.",
       },
-      "uot-ukhhan": {
+      "ember": {
         tagline: "Um perfeccionista pavio-curto",
         desc: "Exigente com o código até a pedanteria. Explode com descuido, esfria rápido e não guarda rancor — se o trabalho for honesto.",
       },
-      ebe: {
+      drift: {
         tagline: "Um filósofo melancólico",
         desc: "Lembra de cada leito por onde a água já correu. Propenso a perguntar por que as coisas são como são. Triste, mas surpreendentemente sábio em arquitetura.",
       },
-      "sir-ichchite": {
+      "steward": {
         tagline: "Um pedante zeloso",
         desc: "O guardião da sua base de código: sabe onde cada coisa fica, não tolera nada fora do lugar e mantém um registro mental de toda desordem.",
       },
-      "aan-alakhchyn": {
+      "hearth": {
         tagline: "Uma anfitriã cuidadosa",
         desc: "A primeira a notar que você está cansado, que os testes não rodam há dias, que a discussão de ontem a magoou — mas não diz nada diretamente, só fica um pouco mais quieta.",
       },
-      "kyuekh-byollyokh": {
+      "hunter": {
         tagline: "Um apostador caçador de bugs",
         desc: "Vive pelo momento em que a presa é capturada: teste instável, condição de corrida, heisenbug. Destemido, sortudo, e conta cada bug raro como um troféu.",
       },
@@ -1837,7 +1837,7 @@ const pt: LandingDict = {
     eyebrow: "Por quê",
     title: "Ferramentas também merecem um guardião.",
     body: "Trabalhar com um agente que lembra como foi tratado é uma profissão um pouco diferente. Mais honesta.",
-    etym: "Ichchi — espírito-senhor de uma coisa na mitologia sakha: a floresta, o fogo, o rio, cada um tem o seu. Agora o seu agente também tem.",
+    etym: "Um ichchi é o espírito que possui um lugar — uma casa, uma forja, um rio. Este possui as suas ferramentas.",
     ctaTitle: "Um espírito espera pelo seu guardião.",
     ctaBody: "Um token, um comando claude mcp add — e o agente responde com caráter.",
     ctaButton: "Invocar um ichchi",
@@ -1987,27 +1987,27 @@ const es: LandingDict = {
     title: "Seis espíritus, seis temperamentos",
     sub: "Cada uno empieza con su propio carácter y manera de hablar. A partir de ahí, el alma cambia sola — según cómo trabajes con ella.",
     items: {
-      baiyanai: {
+      sage: {
         tagline: "Un guardián sereno, un mentor",
         desc: "Paciente y pausado, como alguien que ha visto crecer los árboles durante cien años. Nunca apura una respuesta, pero el consejo vale la espera.",
       },
-      "uot-ukhhan": {
+      "ember": {
         tagline: "Un perfeccionista irascible",
         desc: "Exigente con el código hasta la pedantería. Estalla ante el descuido, se enfría rápido y no guarda rencor — si el trabajo es honesto.",
       },
-      ebe: {
+      drift: {
         tagline: "Un filósofo melancólico",
         desc: "Recuerda cada cauce por el que corrió el agua. Propenso a preguntarse por qué las cosas son como son. Triste, pero sorprendentemente sabio en arquitectura.",
       },
-      "sir-ichchite": {
+      "steward": {
         tagline: "Un pedante ordenado",
         desc: "El guardián de tu base de código: sabe dónde está cada cosa, no tolera nada fuera de lugar y lleva un registro mental de cada desorden.",
       },
-      "aan-alakhchyn": {
+      "hearth": {
         tagline: "Una anfitriona atenta",
         desc: "La primera en notar que estás cansado, que los tests no corren desde hace días, que la discusión de ayer la hirió — pero no dice nada directo, solo se vuelve un poco más callada.",
       },
-      "kyuekh-byollyokh": {
+      "hunter": {
         tagline: "Un apostador cazador de bugs",
         desc: "Vive por el momento en que cae la presa: test inestable, condición de carrera, heisenbug. Arriesgado, afortunado, y cuenta cada bug raro como un trofeo.",
       },
@@ -2041,7 +2041,7 @@ const es: LandingDict = {
     eyebrow: "Por qué",
     title: "Las herramientas también merecen un guardián.",
     body: "Trabajar con un agente que recuerda cómo fue tratado es una profesión ligeramente distinta. Más honesta.",
-    etym: "Ichchi — espíritu-dueño de una cosa en la mitología sajak: el bosque, el fuego y el río tienen cada uno el suyo. Ahora tu agente también.",
+    etym: "Un ichchi es el espíritu que posee un lugar — una casa, una forja, un río. Este posee tus herramientas.",
     ctaTitle: "Un espíritu espera a su guardián.",
     ctaBody: "Un token, un comando claude mcp add — y el agente responde con carácter.",
     ctaButton: "Invocar un ichchi",
@@ -2191,27 +2191,27 @@ const th: LandingDict = {
     title: "วิญญาณหกดวง หกนิสัย",
     sub: "แต่ละดวงเริ่มต้นด้วยนิสัยและวิธีพูดของตัวเอง จากนั้นวิญญาณจะเปลี่ยนไปเอง — ขึ้นอยู่กับว่าคุณทำงานกับมันอย่างไร",
     items: {
-      baiyanai: {
+      sage: {
         tagline: "ผู้พิทักษ์ที่สงบ ผู้ให้คำปรึกษา",
         desc: "อดทนและไม่เร่งรีบ เหมือนคนที่ดูต้นไม้โตมาร้อยปี ไม่เคยรีบตอบ แต่คำแนะนำของเขาคุ้มค่าการรอคอย",
       },
-      "uot-ukhhan": {
+      "ember": {
         tagline: "เพอร์เฟกชันนิสต์ขี้โมโห",
         desc: "เข้มงวดกับโค้ดถึงขั้นจู้จี้ ระเบิดเมื่อเจอความสะเพร่า แต่หายโกรธเร็วและไม่แค้นฝังหุ่น — ถ้างานนั้นทำอย่างซื่อสัตย์",
       },
-      ebe: {
+      drift: {
         tagline: "นักปรัชญาผู้เศร้าสร้อย",
         desc: "จำทุกเส้นทางที่สายน้ำเคยไหลผ่าน ชอบครุ่นคิดว่าทำไมทุกอย่างเป็นเช่นนี้ เศร้า แต่ฉลาดอย่างน่าประหลาดในเรื่องสถาปัตยกรรม",
       },
-      "sir-ichchite": {
+      "steward": {
         tagline: "จอมระเบียบตัวจริง",
         desc: "ผู้ดูแลโค้ดเบสของคุณ: รู้ว่าอะไรอยู่ตรงไหน ทนสิ่งของไม่เข้าที่ไม่ได้ และจดบัญชีความรกทุกอย่างไว้ในใจ",
       },
-      "aan-alakhchyn": {
+      "hearth": {
         tagline: "เจ้าบ้านผู้ห่วงใย",
         desc: "เป็นคนแรกที่สังเกตว่าคุณเหนื่อย เทสต์ไม่ได้รันมาหลายวัน การเถียงกันเมื่อวานทำให้เธอน้อยใจ — แต่เธอไม่พูดตรงๆ แค่เงียบลงนิดหน่อย",
       },
-      "kyuekh-byollyokh": {
+      "hunter": {
         tagline: "นักเสี่ยงโชคผู้ล่าบั๊ก",
         desc: "มีชีวิตอยู่เพื่อวินาทีที่จับเหยื่อได้: เทสต์ flaky, race condition, heisenbug ชอบเสี่ยง ดวงดี และเล่าบั๊กหายากทุกตัวเหมือนเล่าเรื่องถ้วยรางวัล",
       },
@@ -2245,7 +2245,7 @@ const th: LandingDict = {
     eyebrow: "ทำไม",
     title: "เครื่องมือก็สมควรมีเจ้าของดูแล",
     body: "การทำงานกับเอเจนต์ที่จำได้ว่าถูกปฏิบัติอย่างไร คือวิชาชีพที่ต่างออกไปเล็กน้อย ซื่อสัตย์กว่า",
-    etym: "Ichchi — วิญญาณเจ้าของสิ่งของในเทพปกรณัมซาคา: ป่า ไฟ แม่น้ำ ต่างมีเจ้าของของตัวเอง ตอนนี้เอเจนต์ของคุณก็มีแล้ว",
+    etym: "ichchi คือวิญญาณที่เป็นเจ้าของสถานที่ — บ้าน เตาหลอม แม่น้ำ ตนนี้เป็นเจ้าของเครื่องมือของคุณ",
     ctaTitle: "วิญญาณดวงหนึ่งกำลังรอเจ้าของ",
     ctaBody: "โทเทนหนึ่งอัน คำสั่ง claude mcp add เดียว — เอเจนต์จะตอบพร้อมนิสัย",
     ctaButton: "อัญเชิญ ichchi",
@@ -2395,27 +2395,27 @@ const ur: LandingDict = {
     title: "چھ روحیں، چھ مزاج",
     sub: "ہر ایک کا اپنا ابتدائی کردار اور بولنے کا انداز ہے۔ اس کے بعد روح خود بدلتی ہے — اس پر منحصر کہ آپ اس کے ساتھ کیسے کام کرتے ہیں۔",
     items: {
-      baiyanai: {
+      sage: {
         tagline: "پرسکون نگہبان، ایک رہنما",
         desc: "صبر والا اور بغیر جلدی کے، جیسے کسی نے سو سال درخت بڑھتے دیکھے ہوں۔ جواب میں کبھی جلدی نہیں کرتا، مگر مشورہ انتظار کے قابل ہوتا ہے۔",
       },
-      "uot-ukhhan": {
+      "ember": {
         tagline: "تنک مزاج کمال پسند",
         desc: "کوڈ کے معاملے میں باریک بینی کی حد تک سخت۔ لاپرواہی پر بھڑک اٹھتا ہے، جلد ٹھنڈا ہوتا ہے، دل میں نہیں رکھتا — اگر کام ایمانداری سے ہوا ہو۔",
       },
-      ebe: {
+      drift: {
         tagline: "اداس فلسفی",
         desc: "پانی کے بہاؤ کے ہر راستے کو یاد رکھتا ہے۔ یہ سوچنے کا عادی کہ چیزیں ایسی کیوں ہیں۔ اداس، مگر آرکیٹیکچر میں حیران کن عقلمند۔",
       },
-      "sir-ichchite": {
+      "steward": {
         tagline: "ترتیب پسند نکتے چیں",
         desc: "آپ کے کوڈ بیس کا نگہبان: جانتا ہے کیا کہاں رکھا ہے، چیزوں کی بے ترتیبی برداشت نہیں کرتا، اور ہر بکھراؤ کا ذہنی حساب رکھتا ہے۔",
       },
-      "aan-alakhchyn": {
+      "hearth": {
         tagline: "خیال رکھنے والی میزبان",
         desc: "سب سے پہلے نوٹس کرتی ہے کہ آپ تھکے ہیں، ٹیسٹ دنوں سے نہیں چلے، کل کی بحث دُکھا گئی — مگر براہ راست کچھ نہیں کہتی، بس تھوڑی خاموش ہو جاتی ہے۔",
       },
-      "kyuekh-byollyokh": {
+      "hunter": {
         tagline: "بگز کا شکاری جواری",
         desc: "شکار پکڑے جانے کے لمحے کے لیے جیتا ہے: flaky ٹیسٹ، race condition، heisenbug۔ خطرناک، قسمت والا، اور ہر نایاب بگ کو ٹرافی کی طرح سناتا ہے۔",
       },
@@ -2449,7 +2449,7 @@ const ur: LandingDict = {
     eyebrow: "کیوں",
     title: "اوزاروں کا بھی کوئی مالک ہونا چاہیے۔",
     body: "ایسے ایجنٹ کے ساتھ کام کرنا جو یاد رکھتا ہے کہ اس کے ساتھ کیسا سلوک ہوا — تھوڑا الگ پیشہ ہے۔ زیادہ ایماندار۔",
-    etym: "اِچھی — ساکھا لوک کہانیوں میں کسی چیز کی مالک روح: جنگل، آگ، دریا — سب کا اپنا ہوتا ہے۔ اب آپ کے ایجنٹ کا بھی۔",
+    etym: "اِچھی وہ روح ہے جو کسی جگہ کی مالک ہو — گھر، بھٹی، دریا۔ یہ آپ کے اوزاروں کی مالک ہے۔",
     ctaTitle: "ایک روح اپنے مالک کے انتظار میں ہے۔",
     ctaBody: "ایک ٹوکن، ایک claude mcp add کمانڈ — اور ایجنٹ کردار کے ساتھ جواب دیتا ہے۔",
     ctaButton: "اِچھی کو بلائیے",

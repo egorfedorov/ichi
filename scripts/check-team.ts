@@ -19,7 +19,7 @@ async function main() {
                  values ($1,$1,$2,true,now(),now()) on conflict (id) do nothing`, [id, email]);
   }
   await query(`delete from ichchi where owner_id = $1`, [owner]);
-  const i = await adoptIchchi(owner, "sir-ichchite", "Repo Keeper");
+  const i = await adoptIchchi(owner, "steward", "Repo Keeper");
 
   const before = await getAccessibleIchchi(mate, i.slug);
   console.log("mate before join      :", before ? "ACCESS (BUG)" : "no access  ✓");

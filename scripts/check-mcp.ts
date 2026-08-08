@@ -136,7 +136,7 @@ async function main() {
     console.log("\nadopting an ichchi");
     const adopt = await rpc(
       "tools/call",
-      { name: "ichchi_adopt", arguments: { archetype: "baiyanai", name: ichchiName } },
+      { name: "ichchi_adopt", arguments: { archetype: "sage", name: ichchiName } },
       token,
     );
     const adoptText = textOf(adopt.body.result);

@@ -12,7 +12,7 @@ import { env } from "@/lib/env";
  * between them is more moving parts than the protocol itself. A stateless
  * tools-only server needs `initialize`, `tools/list`, `tools/call` and `ping`.
  *
- * Auth is a bearer token (see /settings/tokens):
+ * Auth is a bearer token (mint one with :token in the console):
  *   claude mcp add --transport http ichchi https://<host>/mcp \
  *     --header "Authorization: Bearer ichi_..."
  */
@@ -60,7 +60,7 @@ function unauthorizedReason(req: Request): string {
   const raw = req.headers.get("authorization");
   if (!raw) {
     return (
-      `Unauthorized: no token. Make one at ${base}/connect and set it as ` +
+      `Unauthorized: no token. Make one at ${base} (:signin then :token) and set it as ` +
       "ICHI_TOKEN in your shell profile (the plugin sends it)."
     );
   }
@@ -70,7 +70,7 @@ function unauthorizedReason(req: Request): string {
     return (
       "Unauthorized: the token placeholder was sent unexpanded — your shell did " +
       `not have ICHI_TOKEN set when the MCP server started. Export it in your ` +
-      `profile (get one at ${base}/connect) and restart the client.`
+      `profile (get one at ${base}) and restart the client.`
     );
   }
   if (!/^bearer\s/i.test(raw)) {
@@ -78,7 +78,7 @@ function unauthorizedReason(req: Request): string {
   }
   return (
     "Unauthorized: this token is unknown, revoked, or belongs to a deleted " +
-    `account. Check ${base}/settings/tokens — issuing a new one takes a click.`
+    `account. Check ${base} — run :signin then :token in the console.`
   );
 }
 

@@ -23,7 +23,7 @@ interface Props {
 export default async function DescendPage({ params }: Props) {
   const { slug } = await params;
   const user = await currentUser();
-  if (!user) redirect(`/sign-in?next=${encodeURIComponent(`/descend/${slug}`)}`);
+  if (!user) redirect(`/sign-in`);
 
   const parent = await getPublicIchchi(slug);
   if (!parent) {
@@ -43,7 +43,7 @@ export default async function DescendPage({ params }: Props) {
   async function create(formData: FormData) {
     "use server";
     const me = await currentUser();
-    if (!me) redirect("/sign-in");
+    if (!me) redirect("/");
     const raw = String(formData.get("name") ?? "").trim();
     if (raw.length < 2 || raw.length > 40) return;
     const child = await descendFrom(slug, me.id, raw.slice(0, 40));

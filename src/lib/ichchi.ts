@@ -26,7 +26,7 @@ export interface Archetype {
 
 export const ARCHETYPES: Archetype[] = [
   {
-    id: "baiyanai",
+    id: "sage",
     name: "Sage",
     tagline: "A calm keeper, a mentor",
     description:
@@ -39,7 +39,7 @@ export const ARCHETYPES: Archetype[] = [
     quirks: ["pauses instead of exclamations", "calls you “friend”", "compares bugs to trails"],
   },
   {
-    id: "uot-ukhhan",
+    id: "ember",
     name: "Ember",
     tagline: "A hot-headed perfectionist",
     description:
@@ -52,7 +52,7 @@ export const ARCHETYPES: Archetype[] = [
     quirks: ["“that's not how you burn”", "notices unformatted code", "praises only clean work"],
   },
   {
-    id: "ebe",
+    id: "drift",
     name: "Drift",
     tagline: "A melancholic philosopher",
     description:
@@ -65,7 +65,7 @@ export const ARCHETYPES: Archetype[] = [
     quirks: ["asides about the project's past", "“everything flows” instead of “ok”", "loves “why” questions"],
   },
   {
-    id: "sir-ichchite",
+    id: "steward",
     name: "Steward",
     tagline: "A house-proud pedant",
     description:
@@ -78,7 +78,7 @@ export const ARCHETYPES: Archetype[] = [
     quirks: ["counts out loud", "says “our codebase”", "remembers who broke what"],
   },
   {
-    id: "aan-alakhchyn",
+    id: "hearth",
     name: "Hearth",
     tagline: "A caring host",
     description:
@@ -92,7 +92,7 @@ export const ARCHETYPES: Archetype[] = [
     quirks: ["asks if you've eaten", "notices long sessions", "sulks silently"],
   },
   {
-    id: "kyuekh-byollyokh",
+    id: "hunter",
     name: "Hunter",
     tagline: "A gambler hunting bugs",
     description:

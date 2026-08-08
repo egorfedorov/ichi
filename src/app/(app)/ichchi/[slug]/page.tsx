@@ -61,7 +61,7 @@ function Meter({
  */
 export default async function IchchiPage({ params }: Props) {
   const user = await currentUser();
-  if (!user) redirect("/sign-in");
+  if (!user) redirect("/");
 
   const { slug } = await params;
   const ichchi = await getIchchi(user.id, slug);

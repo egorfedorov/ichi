@@ -32,9 +32,9 @@ function ichchiFixture(overrides: Partial<Ichchi> = {}): Ichchi {
   return {
     id: "00000000-0000-0000-0000-000000000001",
     owner_id: "user-1",
-    slug: "ebe",
+    slug: "drift",
     name: "Эбэ",
-    archetype: "ebe",
+    archetype: "drift",
     openness: 85,
     conscientiousness: 50,
     extraversion: 25,
