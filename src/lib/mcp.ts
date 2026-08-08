@@ -60,6 +60,25 @@ const MEMORY_START: Record<MemoryKind, { valence: number; salience: number }> = 
   standard: { valence: 0, salience: 0.9 },
 };
 
+/**
+ * Validate a caller-supplied memory kind against MEMORY_START.
+ *
+ * Derived from that table rather than written out again, because the previous
+ * hand-written list is exactly how "standard" got lost: it was added to the
+ * type, the migration, both tool schemas, the decay floor and the renderer —
+ * and silently downgraded to "event" here, so the flagship feature stored
+ * nothing that could ever ride in a brief. One source of truth, so adding a
+ * kind cannot half-land again.
+ */
+export function memoryKind(raw: unknown): MemoryKind {
+  // hasOwn, not `in`: `in` walks the prototype chain, so "toString" and
+  // "constructor" would pass as memory kinds and reach the database, where
+  // the CHECK constraint is the only thing left to catch them.
+  return typeof raw === "string" && Object.hasOwn(MEMORY_START, raw)
+    ? (raw as MemoryKind)
+    : "event";
+}
+
 /** Standards shown in a brief. Past a handful the agent stops honouring them. */
 const STANDARDS_IN_BRIEF = 5;
 
@@ -438,10 +457,7 @@ async function ichiRemember(
 ): Promise<ToolOutcome> {
   const ref = typeof args.ichi === "string" ? args.ichi : "";
   const text = typeof args.text === "string" ? args.text.trim().slice(0, 1000) : "";
-  const kind: MemoryKind =
-    args.kind === "insult" || args.kind === "praise" || args.kind === "belief" || args.kind === "fact"
-      ? args.kind
-      : "event";
+  const kind = memoryKind(args.kind);
 
   if (!text) {
     return { text: "ichi_remember needs text — the memory, in a sentence or two.", isError: true };
