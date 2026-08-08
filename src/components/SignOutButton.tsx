@@ -19,7 +19,7 @@ export default function SignOutButton() {
       }}
       className="cursor-pointer text-sm text-snow-3 transition-colors hover:text-snow"
     >
-      Выйти
+      Sign out
     </a>
   );
 }

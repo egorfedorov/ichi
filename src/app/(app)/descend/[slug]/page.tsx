@@ -4,7 +4,7 @@ import { currentUser } from "@/lib/session";
 import { archetypeById, descendFrom, getPublicIchi } from "@/lib/ichi";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Взять потомка — ичи" };
+export const metadata = { title: "Take a descendant — ichi" };
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -29,12 +29,12 @@ export default async function DescendPage({ params }: Props) {
   if (!parent) {
     return (
       <main className="mx-auto w-full max-w-xl px-6 py-16">
-        <h1 className="text-2xl font-semibold text-snow">Ичи не найден</h1>
+        <h1 className="text-2xl font-semibold text-snow">No such ichi</h1>
         <p className="mt-3 text-sm text-snow-2">
-          Страница закрыта или ссылки никогда не было.
+          The page is private, or the link never existed.
         </p>
         <Link href="/ichi" className="mt-8 inline-block text-sm text-frost">
-          ← мои ичи
+          ← your ichi
         </Link>
       </main>
     );
@@ -53,26 +53,26 @@ export default async function DescendPage({ params }: Props) {
   return (
     <main className="mx-auto w-full max-w-xl px-6 py-16">
       <h1 className="text-2xl font-semibold text-snow">
-        Потомок {parent.name}
+        A descendant of {parent.name}
       </h1>
       <p className="mt-3 text-sm leading-relaxed text-snow-2">
-        Унаследует характер, в который {parent.name} вырос:{" "}
+        It inherits the character {parent.name} actually grew into:{" "}
         <span className="font-mono text-frost">
           O{parent.openness} C{parent.conscientiousness} E{parent.extraversion} A
           {parent.agreeableness} N{parent.neuroticism}
         </span>
-        {parent.voice_notes ? ` — и голос: «${parent.voice_notes}»` : ""}. Родом
-        всё ещё из архетипа{" "}
+        {parent.voice_notes ? ` — and the voice: “${parent.voice_notes}”` : ""}. Still
+        descended from the archetype{" "}
         {archetypeById(parent.archetype)?.name ?? parent.archetype}.
       </p>
       <p className="mt-3 text-sm leading-relaxed text-snow-3">
-        Память не наследуется. Потомок встретит тебя незнакомцем — со
-        сложившимся нравом, но без единого чужого воспоминания.
+        Memory is not inherited. It meets you as a stranger — with a formed
+        temperament, and not one of somebody else’s memories.
       </p>
 
       <form action={create} className="mt-8">
         <label htmlFor="name" className="block text-sm text-snow-2">
-          Имя потомка
+          Its name
         </label>
         <input
           id="name"
@@ -87,7 +87,7 @@ export default async function DescendPage({ params }: Props) {
           type="submit"
           className="mt-4 cursor-pointer rounded-md border border-snow-3 px-4 py-2 text-sm text-snow hover:border-snow"
         >
-          Принять потомка
+          Take it
         </button>
       </form>
     </main>

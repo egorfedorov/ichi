@@ -7,8 +7,8 @@ export default function SiteFooter() {
     <footer className="mt-auto border-t border-rule">
       <div className="mx-auto max-w-4xl px-6 py-6">
         <p className="text-xs leading-relaxed text-snow-3">
-          Ичи — духи-хозяева в якутской мифологии: у леса, огня, реки и каждого
-          места есть свой хозяин. Теперь есть и у твоего агента.
+          An ichi is the spirit that owns a place — a house, a forge, a river — and
+          has a temper of its own. Now your tools have one.
         </p>
       </div>
     </footer>

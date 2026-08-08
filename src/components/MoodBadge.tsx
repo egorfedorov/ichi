@@ -1,5 +1,5 @@
 import type { Ichi } from "@/db/types";
-import { moodWordsRu } from "./words";
+import { moodWords } from "@/lib/voice";
 
 /**
  * Mood as a coloured pill. Colour comes from valence alone: green warm,
@@ -18,7 +18,7 @@ export default function MoodBadge({ ichi }: { ichi: Ichi }) {
     <span
       className={`inline-block rounded-full border px-2.5 py-0.5 text-xs ${color}`}
     >
-      {moodWordsRu(ichi)}
+      {moodWords(ichi)}
     </span>
   );
 }

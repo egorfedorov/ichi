@@ -5,7 +5,7 @@ import { query } from "@/db";
 import type { Letter, Memory, IchiEvent } from "@/db/types";
 import { currentUser } from "@/lib/session";
 import { archetypeById, bondFor, getIchi } from "@/lib/ichi";
-import { bondWordsRu } from "@/components/words";
+import { bondWords } from "@/lib/voice";
 import MoodBadge from "@/components/MoodBadge";
 import TraitBars from "@/components/TraitBars";
 import MemoryLog from "@/components/MemoryLog";
@@ -22,10 +22,10 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const user = await currentUser();
-  if (!user) return { title: "Ичи" };
+  if (!user) return { title: "ichi" };
   const { slug } = await params;
   const ichi = await getIchi(user.id, slug);
-  return { title: ichi ? `${ichi.name} — ичи` : "Ичи" };
+  return { title: ichi ? `${ichi.name} — ichi` : "ichi" };
 }
 
 /** A small labelled 0..1 bar for stress and energy — same idiom as TraitBars. */
@@ -98,7 +98,7 @@ export default async function IchiPage({ params }: Props) {
   return (
     <main className="mx-auto w-full max-w-4xl px-6 py-12">
       <Link href="/ichi" className="text-xs text-snow-3 hover:text-snow">
-        ← все ичи
+        ← all ichi
       </Link>
 
       {/* Header */}
@@ -124,79 +124,79 @@ export default async function IchiPage({ params }: Props) {
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
         {/* Traits */}
         <section className="rounded-lg border border-rule bg-night-2 p-5">
-          <h2 className="mb-4 text-sm font-semibold text-snow">Характер</h2>
+          <h2 className="mb-4 text-sm font-semibold text-snow">Character</h2>
           <TraitBars ichi={ichi} />
           {drift.length > 0 && (
             <p className="mt-4 text-xs text-snow-3">
-              Накопленный дрейф (
+              Pending drift (
               {drift.map(([k, v]) => `${k} ${v > 0 ? "+" : ""}${v.toFixed(2)}`).join(", ")}
-              ) — закрепится после рефлексии.
+              ) — commits at the next reflection.
             </p>
           )}
         </section>
 
         {/* Relationship + condition */}
         <section className="rounded-lg border border-rule bg-night-2 p-5">
-          <h2 className="mb-4 text-sm font-semibold text-snow">Состояние</h2>
+          <h2 className="mb-4 text-sm font-semibold text-snow">State</h2>
           <div className="space-y-2.5">
             <div className="flex items-baseline justify-between text-sm">
-              <span className="text-snow-2">Связь</span>
+              <span className="text-snow-2">Bond</span>
               <span className="text-snow">
-                {bond.bond}/100 · {bondWordsRu(bond.bond)}
+                {bond.bond}/100 · {bondWords(bond.bond)}
               </span>
             </div>
             <div className="flex items-baseline justify-between text-sm">
-              <span className="text-snow-2">Доверие</span>
+              <span className="text-snow-2">Trust</span>
               <span className="text-snow">{bond.trust}/100</span>
             </div>
-            <Meter label="Стресс" value={ichi.stress} color="bg-berry" />
-            <Meter label="Энергия" value={ichi.energy} color="bg-frost" />
+            <Meter label="Stress" value={ichi.stress} color="bg-berry" />
+            <Meter label="Energy" value={ichi.energy} color="bg-frost" />
           </div>
           <p className="mt-4 text-xs text-snow-3">
-            взаимодействий: {ichi.interactions}
+            {ichi.interactions} interactions
             {ichi.reflected_at
-              ? ` · последняя рефлексия ${ichi.reflected_at.toLocaleDateString("ru-RU")}`
-              : " · рефлексии ещё не было"}
+              ? ` · last reflection ${ichi.reflected_at.toISOString().slice(0, 10)}`
+              : " · never reflected"}
           </p>
         </section>
       </div>
 
       {/* Voice */}
       <section className="mt-4 rounded-lg border border-rule bg-night-2 p-5">
-        <h2 className="mb-2 text-sm font-semibold text-snow">Голос</h2>
+        <h2 className="mb-2 text-sm font-semibold text-snow">Voice</h2>
         <p className="text-sm leading-relaxed text-snow-2">
           {ichi.voice_notes ?? archetype?.voice ?? "—"}
         </p>
         {ichi.voice_notes && archetype && (
           <p className="mt-2 text-xs text-snow-3">
-            изначально: {archetype.voice}
+            originally: {archetype.voice}
           </p>
         )}
       </section>
 
       {/* The one thing on this page written TO the reader. */}
       <section className="mt-10">
-        <h2 className="text-lg font-semibold text-snow">Письма</h2>
+        <h2 className="text-lg font-semibold text-snow">Letters</h2>
         <p className="mt-1 mb-4 text-sm text-snow-3">
-          Раз в неделю ичи рассказывает своими словами, как прошла неделя.
+          Once a week the ichi puts the week into its own words.
         </p>
         <Letters letters={letters} />
       </section>
 
       {/* What the ichi learned */}
       <section className="mt-10">
-        <h2 className="text-lg font-semibold text-snow">Память</h2>
+        <h2 className="text-lg font-semibold text-snow">Memory</h2>
         <p className="mt-1 mb-4 text-sm text-snow-3">
-          Самые значимые воспоминания. Точка — окраска, полоска — как крепко
-          держится.
+          The strongest memories. The dot is emotional charge, the bar is how firmly
+          it is held.
         </p>
         <MemoryLog memories={memories} />
       </section>
 
       <section className="mt-10 mb-4">
-        <h2 className="text-lg font-semibold text-snow">События</h2>
+        <h2 className="text-lg font-semibold text-snow">Events</h2>
         <p className="mt-1 mb-4 text-sm text-snow-3">
-          Последние {events.length} — вызовы, отзывы, рефлексии, остывание.
+          The last {events.length} — calls, feedback, reflections, cooling.
         </p>
         <EventLog events={events} />
       </section>

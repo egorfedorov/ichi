@@ -1,11 +1,11 @@
 import type { Ichi, TraitName } from "@/db/types";
 
 const LABELS: Record<TraitName, string> = {
-  openness: "Открытость",
-  conscientiousness: "Добросовестность",
-  extraversion: "Экстраверсия",
-  agreeableness: "Доброжелательность",
-  neuroticism: "Невротизм",
+  openness: "openness",
+  conscientiousness: "conscientiousness",
+  extraversion: "extraversion",
+  agreeableness: "agreeableness",
+  neuroticism: "neuroticism",
 };
 
 const ORDER: TraitName[] = [

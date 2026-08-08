@@ -8,7 +8,7 @@ import AdoptForm from "@/components/AdoptForm";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = { title: "Мои ичи" };
+export const metadata = { title: "Your ichi" };
 
 interface IchiRow extends Ichi {
   bond: number | null;
@@ -35,12 +35,12 @@ export default async function IchiListPage() {
 
   return (
     <main className="mx-auto w-full max-w-4xl px-6 py-12">
-      <h1 className="text-2xl font-semibold">Мои ичи</h1>
+      <h1 className="text-2xl font-semibold">Your ichi</h1>
 
       {ichi.length === 0 ? (
         <p className="mt-4 max-w-md text-sm leading-relaxed text-snow-2">
-          Пока ни одной. Призови первую — выбери духа, дай имя, и он появится
-          здесь со своим характером.
+          None yet. Summon the first one — pick an archetype, give it a name, and it
+          shows up here with a character of its own.
         </p>
       ) : (
         <div className="mt-6 grid gap-4 sm:grid-cols-2">

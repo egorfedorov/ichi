@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Ichi } from "@/db/types";
 import { archetypeById } from "@/lib/ichi";
-import { bondWordsRu } from "./words";
+import { bondWords } from "@/lib/voice";
 import MoodBadge from "./MoodBadge";
 
 /**
@@ -33,9 +33,9 @@ export default function IchiCard({
         {archetype ? ` — ${archetype.tagline}` : ""}
       </p>
       <p className="mt-3 text-xs text-snow-3">
-        связь: {bond === null ? "ещё нет" : `${bond}/100, ${bondWordsRu(bond)}`}
+        bond: {bond === null ? "none yet" : `${bond}/100, ${bondWords(bond)}`}
         {" · "}
-        воспоминаний: {memoryCount}
+        memories: {memoryCount}
       </p>
     </Link>
   );

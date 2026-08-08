@@ -23,13 +23,13 @@ export async function POST(req: Request) {
 
   const archetype = typeof body.archetype === "string" ? body.archetype : "";
   if (!archetypeById(archetype)) {
-    return NextResponse.json({ error: "неизвестный архетип" }, { status: 400 });
+    return NextResponse.json({ error: "unknown archetype" }, { status: 400 });
   }
 
   const name = typeof body.name === "string" ? body.name.trim() : "";
   if (name.length < 2 || name.length > 40) {
     return NextResponse.json(
-      { error: "имя — от 2 до 40 символов" },
+      { error: "a name is 2 to 40 characters" },
       { status: 400 },
     );
   }

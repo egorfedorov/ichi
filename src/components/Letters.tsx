@@ -13,8 +13,8 @@ export default function Letters({ letters }: { letters: Letter[] }) {
   if (letters.length === 0) {
     return (
       <p className="text-sm text-snow-3">
-        Писем ещё нет. Ичи пишет раз в неделю, по понедельникам — и только
-        если на неделе было о чём рассказать.
+        No letters yet. An ichi writes once a week, on Monday mornings, and only
+        when the week had something worth telling.
       </p>
     );
   }
@@ -31,14 +31,14 @@ export default function Letters({ letters }: { letters: Letter[] }) {
         return (
           <article key={l.id} className="border-l-2 border-rule ps-4">
             <p className="font-mono text-xs text-snow-3">
-              неделя с {new Date(l.period_start).toISOString().slice(0, 10)}
+              week of {new Date(l.period_start).toISOString().slice(0, 10)}
             </p>
             <p className="mt-2 text-sm leading-relaxed whitespace-pre-line text-snow">
               {l.body}
             </p>
             <p className="mt-3 font-mono text-xs text-snow-3">
-              {s.events ?? 0} обращений · {s.praise ?? 0} похвал ·{" "}
-              {s.scold ?? 0} упрёков · {s.memories ?? 0} запомнено
+              {s.events ?? 0} calls · {s.praise ?? 0} praised ·{" "}
+              {s.scold ?? 0} scolded · {s.memories ?? 0} remembered
             </p>
           </article>
         );

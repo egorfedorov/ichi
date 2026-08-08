@@ -2,12 +2,12 @@ import type { Memory, MemoryKind } from "@/db/types";
 import { ago } from "./words";
 
 const KIND_LABELS: Record<MemoryKind, string> = {
-  event: "событие",
-  insult: "обида",
-  praise: "похвала",
-  belief: "убеждение",
-  fact: "факт",
-  standard: "правило",
+  event: "event",
+  insult: "insult",
+  praise: "praise",
+  belief: "belief",
+  fact: "fact",
+  standard: "standard",
 };
 
 /**
@@ -19,7 +19,7 @@ export default function MemoryLog({ memories }: { memories: Memory[] }) {
   if (memories.length === 0) {
     return (
       <p className="text-sm text-snow-3">
-        Пока ничего не помнит. Первые воспоминания появятся после общения через
+        Nothing remembered yet. The first memories arrive once an agent talks to it through
         MCP.
       </p>
     );
@@ -44,7 +44,7 @@ export default function MemoryLog({ memories }: { memories: Memory[] }) {
             </span>
             <span
               className="h-1 w-16 shrink-0 rounded-full bg-night-3"
-              title={`значимость ${m.salience.toFixed(2)}`}
+              title={`salience ${m.salience.toFixed(2)}`}
             >
               <span
                 className="block h-1 rounded-full bg-frost"

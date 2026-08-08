@@ -28,7 +28,7 @@ export default function AdoptForm({ archetypes }: { archetypes: Archetype[] }) {
     });
     setBusy(false);
     if (!res.ok) {
-      setError(((await res.json()) as { error?: string }).error ?? "не вышло");
+      setError(((await res.json()) as { error?: string }).error ?? "could not");
       return;
     }
     const { slug } = (await res.json()) as { slug: string };
@@ -37,9 +37,9 @@ export default function AdoptForm({ archetypes }: { archetypes: Archetype[] }) {
 
   return (
     <div className="rounded-lg border border-rule bg-night-2 p-5">
-      <h2 className="text-lg font-semibold">Призвать ичи</h2>
+      <h2 className="text-lg font-semibold">Summon an ichi</h2>
 
-      <label className="mt-4 block text-xs text-snow-3">Дух</label>
+      <label className="mt-4 block text-xs text-snow-3">Archetype</label>
       <select
         value={archetypeId}
         onChange={(e) => setArchetypeId(e.target.value)}
@@ -58,11 +58,11 @@ export default function AdoptForm({ archetypes }: { archetypes: Archetype[] }) {
         </p>
       )}
 
-      <label className="mt-4 block text-xs text-snow-3">Имя</label>
+      <label className="mt-4 block text-xs text-snow-3">Name</label>
       <input
         value={name}
         onChange={(e) => setName(e.target.value)}
-        placeholder="как зовут твоего духа"
+        placeholder="what you will call it"
         maxLength={40}
         className="mt-1 w-full rounded-lg border border-rule bg-night px-3 py-2 text-sm outline-none placeholder:text-snow-3 focus:border-aurora"
       />
@@ -72,7 +72,7 @@ export default function AdoptForm({ archetypes }: { archetypes: Archetype[] }) {
         disabled={busy || !archetypeId || name.trim().length < 2}
         className="mt-4 w-full rounded-lg bg-aurora px-4 py-2.5 text-sm font-medium text-night disabled:opacity-50"
       >
-        Призвать
+        Summon
       </button>
 
       {error && <p className="mt-3 text-sm text-berry">{error}</p>}

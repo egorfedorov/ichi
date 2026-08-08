@@ -5,15 +5,15 @@ import { ago } from "./words";
 function describe(ev: IchiEvent): string {
   switch (ev.kind) {
     case "feedback":
-      if (ev.signal === "praise") return "похвала";
-      if (ev.signal === "scold") return "ругань";
-      return "отзыв";
+      if (ev.signal === "praise") return "praise";
+      if (ev.signal === "scold") return "scold";
+      return "feedback";
     case "reflect":
-      return "рефлексия";
+      return "reflection";
     case "decay":
-      return "остывание";
+      return "decay";
     case "call":
-      return ev.tool ? `вызов ${ev.tool}` : "вызов";
+      return ev.tool ? `call ${ev.tool}` : "call";
   }
 }
 
@@ -26,7 +26,7 @@ export default function EventLog({ events }: { events: IchiEvent[] }) {
   if (events.length === 0) {
     return (
       <p className="text-sm text-snow-3">
-        Событий ещё нет — они появляются с первого обращения к ичи.
+        No events yet. They start with the first call an agent makes to this ichi.
       </p>
     );
   }

@@ -5,7 +5,7 @@ import { archetypeById, joinByCode } from "@/lib/ichi";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = { title: "Присоединиться к ичи" };
+export const metadata = { title: "Join an ichi" };
 
 interface Props {
   params: Promise<{ code: string }>;
@@ -35,36 +35,35 @@ export default async function JoinPage({ params }: Props) {
       {ichi ? (
         <>
           <h1 className="text-2xl font-semibold text-snow">
-            Теперь ты работаешь с {ichi.name}
+            You now work with {ichi.name}
           </h1>
           <p className="mt-3 text-sm leading-relaxed text-snow-2">
-            {archetypeById(ichi.archetype)?.name ?? ichi.archetype}. Ичи общий:
-            стандарты, которые он помнит, действуют во всех сессиях команды. А связь
-            у него с каждым своя — с тобой она начинается с нуля.
+            {archetypeById(ichi.archetype)?.name ?? ichi.archetype}. This ichi is shared:
+            the standards it remembers apply in everyone’s sessions. Its bond is
+            personal to each of you, and with you it starts from nothing.
           </p>
           <p className="mt-6 text-sm text-snow-2">
-            В агенте вызови <code className="font-mono text-frost">ichi_brief</code> со
-            слагом <code className="font-mono text-frost">{ichi.slug}</code>.
+            In your agent, call <code className="font-mono text-frost">ichi_brief</code> with
+            the slug <code className="font-mono text-frost">{ichi.slug}</code>.
           </p>
           <Link
             href={`/ichi/${ichi.slug}`}
             className="mt-8 inline-block rounded-md border border-snow-3 px-4 py-2 text-sm text-snow hover:border-snow"
           >
-            Открыть страницу ичи
+            Open its page
           </Link>
         </>
       ) : (
         <>
-          <h1 className="text-2xl font-semibold text-snow">Приглашение не действует</h1>
+          <h1 className="text-2xl font-semibold text-snow">This invitation is not valid</h1>
           <p className="mt-3 text-sm leading-relaxed text-snow-2">
-            Ссылку отозвали или её никогда не было. Попроси владельца ичи выпустить
-            новую.
+            The link was revoked, or never existed. Ask the ichi’s owner for a new one.
           </p>
           <Link
             href="/ichi"
             className="mt-8 inline-block rounded-md border border-snow-3 px-4 py-2 text-sm text-snow hover:border-snow"
           >
-            ← мои ичи
+            ← your ichi
           </Link>
         </>
       )}

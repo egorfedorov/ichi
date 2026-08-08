@@ -52,7 +52,7 @@ export default function PublishToggle({
         mortal?: boolean;
       };
     } catch {
-      setError("Не получилось — попробуй ещё раз.");
+      setError("That did not work — try again.");
       return null;
     } finally {
       setBusy(false);
@@ -81,7 +81,7 @@ export default function PublishToggle({
       setTimeout(() => setCopied(null), 1600);
     } catch {
       // Clipboard is permission-gated; the URL is on screen either way.
-      setError("Скопируй ссылку вручную.");
+      setError("Copy the link by hand.");
     }
   }
 
@@ -96,7 +96,7 @@ export default function PublishToggle({
             disabled={busy}
             className="cursor-pointer rounded-md border border-snow-3 px-3 py-1.5 text-sm text-snow transition-colors hover:border-snow disabled:opacity-50"
           >
-            {publicSlug ? "Скрыть страницу" : "Опубликовать страницу"}
+            {publicSlug ? "Unpublish" : "Publish a page"}
           </button>
 
           {url && (
@@ -105,15 +105,15 @@ export default function PublishToggle({
               onClick={() => copy(url, "public")}
               className="cursor-pointer font-mono text-xs text-frost underline underline-offset-4"
             >
-              {copied === "public" ? "скопировано" : url}
+              {copied === "public" ? "copied" : url}
             </button>
           )}
         </div>
 
         <p className="mt-3 text-xs leading-relaxed text-snow-3">
           {publicSlug
-            ? "Страница открыта всем, у кого есть ссылка. Видно характер, настроение, привязанность и число воспоминаний — сами воспоминания не показываются никогда."
-            : "Публичная страница показывает характер, настроение и привязанность. Содержимое воспоминаний не раскрывается — они цитируют твой проект."}
+            ? "Anyone with the link can read it: character, mood, attachment and how many memories. The memories themselves are never shown."
+            : "A public page shows character, mood and attachment. Memory contents stay private — they quote your project."}
         </p>
       </div>
 
@@ -127,7 +127,7 @@ export default function PublishToggle({
             disabled={busy}
             className="cursor-pointer rounded-md border border-snow-3 px-3 py-1.5 text-sm text-snow transition-colors hover:border-snow disabled:opacity-50"
           >
-            {joinCode ? "Отозвать приглашение" : "Пригласить команду"}
+            {joinCode ? "Revoke the invitation" : "Invite your team"}
           </button>
 
           {joinUrl && (
@@ -136,15 +136,15 @@ export default function PublishToggle({
               onClick={() => copy(joinUrl, "join")}
               className="cursor-pointer font-mono text-xs text-aurora underline underline-offset-4"
             >
-              {copied === "join" ? "скопировано" : joinUrl}
+              {copied === "join" ? "copied" : joinUrl}
             </button>
           )}
         </div>
 
         <p className="mt-3 text-xs leading-relaxed text-snow-3">
           {joinCode
-            ? "У всех по ссылке появится доступ к ичи из их агентов. Стандарты станут общими для команды, а связь у ичи с каждым останется своя. Отзыв ссылки не выгоняет тех, кто уже вошёл."
-            : "Общий ичи помнит стандарты команды, а не одного человека: правило, записанное однажды, приходит в сессию каждого."}
+            ? "Anyone with the link reaches this ichi from their own agent. Standards become the team's; the bond stays personal to each of you. Revoking the link does not evict whoever already joined."
+            : "A shared ichi remembers the team's standards rather than one person's: a rule recorded once arrives in everyone's session."}
         </p>
       </div>
 
@@ -158,17 +158,17 @@ export default function PublishToggle({
             disabled={busy}
             className="cursor-pointer rounded-md border border-snow-3 px-3 py-1.5 text-sm text-snow transition-colors hover:border-snow disabled:opacity-50"
           >
-            {mortal ? "Сделать бессмертным" : "Сделать смертным"}
+            {mortal ? "Make it immortal" : "Make it mortal"}
           </button>
           {mortal && (
-            <span className="font-mono text-xs text-ember">смертен</span>
+            <span className="font-mono text-xs text-ember">mortal</span>
           )}
         </div>
 
         <p className="mt-3 text-xs leading-relaxed text-snow-3">
           {mortal
-            ? "Через 90 дней полного молчания ичи уйдёт и не вернётся. Страница, память и письма останутся — читать можно, обращаться нельзя."
-            : "Ичи — хозяин места; того, кого перестают кормить, дом теряет. Включи, если хочешь, чтобы привязанность что-то значила: 90 дней тишины — и он уходит навсегда. Данные не удаляются, но вернуть его нельзя."}
+            ? "After 90 days of complete silence it departs and does not come back. The page, the memories and the letters remain readable; it just cannot be spoken to."
+            : "An ichi owns a place, and a place stops keeping the one it stops feeding. Turn this on if you want the attachment to mean something: 90 days of silence and it leaves for good. Nothing is deleted, but it cannot be brought back."}
         </p>
       </div>
 
