@@ -11,36 +11,24 @@
 # Port 3400 rather than mozg's 3300: the two stacks share a host, and a
 # collision here would be discovered as a confusing 502 rather than as an
 # error.
+#
+# Identity is shared with the sibling product. ichi's own Postgres is gone:
+# the app joins mozg's network and keeps its tables in an `ichi` schema of
+# mozg's database, while user/session/account stay in public owned by mozg.
+# One account and one plan across both, without either migration runner ever
+# touching the other's tables — see migration 0011 and lib/env.ts.
 
 services:
-  db:
-    image: pgvector/pgvector:pg17
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ichi
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
-      POSTGRES_DB: ichi
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    # NOT published. Unlike the dev compose, nothing outside this network has
-    # any business reaching Postgres directly.
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ichi -d ichi"]
-      interval: 5s
-      timeout: 3s
-      retries: 20
-
   app:
     build:
       context: .
       args:
         GIT_SHA: ${GIT_SHA:-unknown}
     restart: unless-stopped
-    depends_on:
-      db:
-        condition: service_healthy
+    networks: [mozg]
     environment:
-      DATABASE_URL: postgres://ichi:${POSTGRES_PASSWORD}@db:5432/ichi
+      DATABASE_URL: ${DATABASE_URL:?point this at mozg's Postgres}
+      DB_SCHEMA: ${DB_SCHEMA:-ichi}
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:?set BETTER_AUTH_SECRET in .env}
       BETTER_AUTH_URL: https://ichi.mozg.sh
       NEXT_PUBLIC_APP_URL: https://ichi.mozg.sh
@@ -59,11 +47,10 @@ services:
       args:
         GIT_SHA: ${GIT_SHA:-unknown}
     restart: unless-stopped
-    depends_on:
-      db:
-        condition: service_healthy
+    networks: [mozg]
     environment:
-      DATABASE_URL: postgres://ichi:${POSTGRES_PASSWORD}@db:5432/ichi
+      DATABASE_URL: ${DATABASE_URL:?point this at mozg's Postgres}
+      DB_SCHEMA: ${DB_SCHEMA:-ichi}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL:-}
       MODEL_JUDGE: ${MODEL_JUDGE:-claude-haiku-4-5}
@@ -72,5 +59,10 @@ services:
       NODE_ENV: production
     command: ["node", "dist/worker/index.mjs"]
 
-volumes:
-  pgdata:
+# mozg's compose owns this network; ichi joins it as a guest so the app can
+# reach mozg-db-1 by name. Declared external so `docker compose down` here can
+# never take the sibling's network with it.
+networks:
+  mozg:
+    external: true
+    name: mozg_default
