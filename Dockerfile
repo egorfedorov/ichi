@@ -56,7 +56,9 @@ RUN apt-get update \
 
 COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=build /app/.next ./.next
-COPY --from=build /app/public ./public
+# No `public/` copy: this app ships no static assets, and COPY fails the build
+# outright on a missing source rather than skipping it. Add the line back
+# alongside the directory if one ever appears.
 COPY --from=build /app/dist ./dist
 COPY package.json next.config.ts ./
 # dist/migrate.mjs resolves the migration files relative to itself
