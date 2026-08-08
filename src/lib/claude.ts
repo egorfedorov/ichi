@@ -1,0 +1,156 @@
+import Anthropic from "@anthropic-ai/sdk";
+import { env } from "@/lib/env";
+
+let client: Anthropic | null = null;
+
+export function claude(): Anthropic {
+  if (!env.ANTHROPIC_API_KEY) {
+    throw new Error("ANTHROPIC_API_KEY is not set — reflection jobs need it");
+  }
+  client ??= new Anthropic({
+    apiKey: env.ANTHROPIC_API_KEY,
+    ...(env.ANTHROPIC_BASE_URL ? { baseURL: env.ANTHROPIC_BASE_URL } : {}),
+    // The SDK's defaults are 10 minutes and 2 retries — one request a flaky
+    // reseller leaves hanging can hold a job for half an hour, and pg-boss
+    // works one job at a time, so that one request stalls every ichchi on the
+    // instance.
+    timeout: 240_000,
+    maxRetries: 1,
+  });
+  return client;
+}
+
+/** USD per million tokens. Keep in step with platform.claude.com/docs pricing. */
+const PRICE: Record<string, { in: number; out: number }> = {
+  "claude-opus-5": { in: 5, out: 25 },
+  "claude-opus-4-8": { in: 5, out: 25 },
+  "claude-sonnet-5": { in: 3, out: 15 },
+  "claude-haiku-4-5": { in: 1, out: 5 },
+};
+
+export interface Usage {
+  input_tokens: number;
+  output_tokens: number;
+  cache_read_input_tokens?: number | null;
+  cache_creation_input_tokens?: number | null;
+}
+
+/**
+ * Get a structured object back from the model.
+ *
+ * Uses a forced tool call rather than `output_config.format`. Both work on the
+ * first-party API, but a proxy in front of it (apimart, OpenRouter) accepts
+ * `output_config` and silently ignores it — you get free-form markdown and a
+ * JSON.parse error on every single request. Tool calling is older and passes
+ * through everything, so this path works on both.
+ */
+export async function structured<T>(opts: {
+  model: string;
+  system: string;
+  content: Anthropic.ContentBlockParam[];
+  /** Tool name doubles as an instruction — make it a verb. */
+  toolName: string;
+  toolDescription: string;
+  schema: Record<string, unknown>;
+  maxTokens?: number;
+}): Promise<{ data: T; usage: Usage }> {
+  const response = await claude().messages.create({
+    model: opts.model,
+    max_tokens: opts.maxTokens ?? 4000,
+    system: [
+      // Same prefix for every call, so it caches.
+      { type: "text", text: opts.system, cache_control: { type: "ephemeral" } },
+    ],
+    tools: [
+      {
+        name: opts.toolName,
+        description: opts.toolDescription,
+        input_schema: opts.schema as Anthropic.Tool.InputSchema,
+      },
+    ],
+    tool_choice: { type: "tool", name: opts.toolName },
+    messages: [{ role: "user", content: opts.content }],
+  });
+
+  if (response.stop_reason === "refusal") {
+    throw new Error("request refused by safety classifier");
+  }
+
+  // A tool call cut off mid-JSON gets repaired into an object missing its
+  // fields, and the schema check then reports a mismatch — which sends you
+  // looking at the schema instead of at the output limit. Say what happened.
+  if (response.stop_reason === "max_tokens") {
+    throw new Error(
+      `ran out of output room after ${response.usage.output_tokens} tokens — ` +
+        "the answer was cut off, not malformed. Give it a smaller input or " +
+        "a larger max_tokens.",
+    );
+  }
+
+  const call = response.content.find((b) => b.type === "tool_use");
+  if (!call || call.type !== "tool_use") {
+    // Happens when a proxy drops tool_choice — worth naming precisely, since
+    // the fix is "use a different endpoint", not "retry".
+    const text = response.content.find((b) => b.type === "text");
+    throw new Error(
+      `model did not call ${opts.toolName} (stop_reason=${response.stop_reason})` +
+        (text && text.type === "text" ? `: ${text.text.slice(0, 160)}` : ""),
+    );
+  }
+
+  return { data: unstringify(call.input, opts.schema) as T, usage: response.usage };
+}
+
+/**
+ * Take the JSON out of a field the model quoted.
+ *
+ * Weaker models — and every proxy that re-serialises a tool call on the way
+ * through — hand back an array or object argument as a JSON *string*:
+ * `{"verdicts": "[{...}]"}` instead of `{"verdicts": [{...}]}`. The schema
+ * check then reports a mismatch and the right answer sits inside the quotes.
+ * Only fields the schema itself declares as array or object are touched, so a
+ * string that is genuinely meant to be a string is never parsed.
+ */
+export function unstringify(data: unknown, schema: Record<string, unknown>): unknown {
+  const props = (schema as { properties?: Record<string, { type?: string }> }).properties;
+  if (!props || typeof data !== "object" || data === null) return data;
+
+  const out = data as Record<string, unknown>;
+  for (const [key, spec] of Object.entries(props)) {
+    const value = out[key];
+    if (typeof value !== "string") continue;
+    if (spec?.type !== "array" && spec?.type !== "object") continue;
+    try {
+      const parsed: unknown = JSON.parse(value);
+      // A quoted scalar ("7") parses too — that is not the shape we are
+      // rescuing, and swapping it in would hide the real mismatch.
+      if (typeof parsed === "object" && parsed !== null) out[key] = parsed;
+    } catch {
+      // Leave it: the caller's schema error names the real shape, which is
+      // more useful than "unparseable" from here.
+    }
+  }
+  return out;
+}
+
+/**
+ * Cost in cents. Cache reads bill at ~0.1x input, writes at ~1.25x — ignoring
+ * that would overstate reflection cost once caching kicks in.
+ */
+export function costCents(model: string, usage: Usage): number {
+  // Resellers hand out dated ids (claude-haiku-4-5-20251001) and suffixed
+  // variants (-thinking). Same model, same price — strip to the base id or
+  // every cost lands as zero and the economics look free.
+  const base = model.replace(/-\d{8}$/, "").replace(/-thinking$/, "");
+  const p = PRICE[base];
+  if (!p) {
+    console.warn(`[cost] no price for model "${model}" — reporting 0`);
+    return 0;
+  }
+  const read = usage.cache_read_input_tokens ?? 0;
+  const write = usage.cache_creation_input_tokens ?? 0;
+  const usd =
+    ((usage.input_tokens * p.in + read * p.in * 0.1 + write * p.in * 1.25) / 1e6) +
+    ((usage.output_tokens * p.out) / 1e6);
+  return Math.round(usd * 100 * 1000) / 1000; // keep sub-cent precision
+}

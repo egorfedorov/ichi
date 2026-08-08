@@ -1,0 +1,90 @@
+# Self-hosting ichchi, in one command:
+#
+#   cp .env.example .env && docker compose up
+#
+# Everything comes up together — Postgres, the app and the worker — migrations
+# included. The only thing you must edit is BETTER_AUTH_SECRET (and
+# ANTHROPIC_API_KEY if you want reflection jobs to run).
+#
+# The app is exposed on 3400 directly (no nginx in front, so you can open it),
+# the database password has a working default, and a one-shot `migrate`
+# service runs the schema before the app starts, so nothing is left for you
+# to remember.
+
+services:
+  db:
+    # pgvector image from day one: vector columns are phase 2, and swapping
+    # the image later means a dump/restore nobody wants to do.
+    image: pgvector/pgvector:pg17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ichi
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ichi}
+      POSTGRES_DB: ichi
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    # Published so `npm run db:migrate` and the dev server work from the host
+    # too, not only from inside the compose network.
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ichi -d ichi"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  # One-shot: identity tables and the app schema, then exit. The app waits for
+  # this to complete, so a fresh clone never meets a half-built database.
+  migrate:
+    build:
+      context: .
+      args:
+        GIT_SHA: ${GIT_SHA:-selfhost}
+    command: ["node", "dist/migrate.mjs"]
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://ichi:${POSTGRES_PASSWORD:-ichi}@db:5432/ichi
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  app:
+    build:
+      context: .
+      args:
+        GIT_SHA: ${GIT_SHA:-selfhost}
+    restart: unless-stopped
+    ports:
+      - "${ICHI_PORT:-3400}:3400"
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://ichi:${POSTGRES_PASSWORD:-ichi}@db:5432/ichi
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3400/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+
+  worker:
+    build:
+      context: .
+      args:
+        GIT_SHA: ${GIT_SHA:-selfhost}
+    restart: unless-stopped
+    command: ["node", "dist/worker/index.mjs"]
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://ichi:${POSTGRES_PASSWORD:-ichi}@db:5432/ichi
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  pgdata:

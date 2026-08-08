@@ -1,0 +1,14 @@
+node_modules
+.next
+dist
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+
+# secrets — .env holds the API key and the auth secret
+.env
+.env.local
+.env.*.local
+
+# local plugin cache written by the soul-stop hook
+.ichi

@@ -1,0 +1,11 @@
+{
+  "name": "ichchi",
+  "owner": { "name": "ichchi", "url": "https://ichchi.sh" },
+  "plugins": [
+    {
+      "name": "ichchi",
+      "source": "./plugin",
+      "description": "A living soul for your agent over MCP: it remembers, takes offence, grows attached — and colours how the agent speaks."
+    }
+  ]
+}

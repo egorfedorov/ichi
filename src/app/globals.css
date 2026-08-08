@@ -1,0 +1,761 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ichchi — riso paper outside, polar night inside
+   The public landing prints on paper: warm off-white stock, ink text, riso
+   ink accents (values are real Risograph inks). The internal pages keep the
+   original polar-night palette; both token sets live here, the (app) route
+   group re-wraps itself in .app-dark.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* Paper / ink — the marketing side. */
+  --color-paper: #eceee7;
+  --color-paper-2: #f6f7f3;
+  --color-ink: #14161a;
+  --color-ink-2: #565c66;
+  --color-ink-3: #646b75;
+  --color-rule-paper: #cfd2ca;
+
+  /* Riso inks. */
+  --color-riso-blue: #3d5588;
+  --color-riso-red: #f15060;
+  --color-riso-green: #00a95c;
+  --color-riso-yellow: #ffe800;
+  --color-riso-violet: #765ba7;
+  --color-riso-orange: #ff6c2f;
+
+  /* Polar night — the internal pages. */
+  --color-night: #0b0f16;
+  --color-night-2: #111827;
+  --color-night-3: #1c2635;
+  --color-snow: #e8eef5;
+  --color-snow-2: #9aa8ba;
+  --color-snow-3: #5f6d80;
+  --color-rule: #223047;
+  --color-aurora: #4ade80;
+  --color-ember: #ff6c2f;
+  --color-frost: #7dd3fc;
+  --color-berry: #f15060;
+}
+
+:root {
+  --paper: #eceee7;
+  --paper-2: #f6f7f3;
+  --ink: #14161a;
+  --ink-2: #565c66;
+  --ink-3: #646b75;
+  --rule-paper: #cfd2ca;
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  /* Faint paper tooth — riso stock is never flat. */
+  background-image: radial-gradient(var(--rule-paper) 0.5px, transparent 0.5px);
+  background-size: 22px 22px;
+}
+
+/* The (app) group re-wraps itself: internal pages were designed for night. */
+.app-dark {
+  background: var(--color-night);
+  background-image: none;
+  color: var(--color-snow);
+  color-scheme: dark;
+}
+
+::selection {
+  background: var(--color-riso-yellow);
+  color: var(--ink);
+}
+
+.app-dark ::selection {
+  background: var(--color-aurora);
+  color: var(--color-night);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* ─── type ──────────────────────────────────────────────────────────────── */
+
+.display {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.mono {
+  font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+  font-variant-ligatures: none;
+}
+
+.eyebrow {
+  font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+/* ─── shell ─────────────────────────────────────────────────────────────── */
+
+.shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+.topbar {
+  border-bottom: 1px solid var(--rule-paper);
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(6px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  height: 60px;
+}
+
+.wordmark {
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.04em;
+  margin-right: auto;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.wordmark span {
+  color: var(--color-riso-red);
+}
+
+.navlink {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+  padding: 0.35rem 0;
+  border-bottom: 2px solid transparent;
+  text-decoration: none;
+}
+
+.navlink:hover,
+.navlink[data-active="true"] {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+@media (max-width: 640px) {
+  .topbar-inner {
+    gap: 1rem;
+  }
+  .hide-sm {
+    display: none;
+  }
+}
+
+/* ─── buttons ───────────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.8125rem;
+  padding: 0.6rem 1rem;
+  border: 1.5px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper-2);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.btn:active {
+  transform: translate(0, 0);
+  box-shadow: none;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn-ghost:hover {
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+/* ─── terminal ──────────────────────────────────────────────────────────── */
+
+.term {
+  background: var(--ink);
+  color: #e6e8ea;
+  border: 1.5px solid var(--ink);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  padding: 1.1rem 1.25rem;
+  overflow-x: auto;
+}
+
+.term .t-dim {
+  color: #8d939c;
+}
+
+.term .t-green {
+  color: var(--color-riso-green);
+}
+
+.term .t-red {
+  color: var(--color-riso-red);
+}
+
+/* ─── riso cards ────────────────────────────────────────────────────────── */
+
+.card {
+  --tint: var(--color-riso-blue);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  background: var(--tint);
+  color: var(--paper-2);
+  border: 1.5px solid var(--ink);
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+
+/* Overprint: a second ink pass, multiplied, exactly like riso registration. */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: -40% -30% auto auto;
+  width: 62%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ink);
+  opacity: 0.14;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.card[data-tint="red"] {
+  --tint: var(--color-riso-red);
+}
+.card[data-tint="blue"] {
+  --tint: var(--color-riso-blue);
+}
+.card[data-tint="green"] {
+  --tint: var(--color-riso-green);
+}
+.card[data-tint="violet"] {
+  --tint: var(--color-riso-violet);
+}
+
+/* ─── language picker ───────────────────────────────────────────────────── */
+
+.lang {
+  position: relative;
+  display: inline-flex;
+}
+
+.lang-button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1.5px solid transparent;
+  background: none;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.lang-button:hover,
+.lang-button[aria-expanded="true"] {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.lang-button svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  inset-inline-end: 0;
+  z-index: 70;
+  min-width: 11rem;
+  max-height: min(70vh, 30rem);
+  overflow-y: auto;
+  padding: 0.35rem;
+  border: 1.5px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.lang-menu button {
+  display: block;
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9375rem;
+  text-align: start;
+  cursor: pointer;
+}
+
+.lang-menu button:hover {
+  background: var(--color-riso-yellow);
+}
+
+.lang-menu button[data-on="true"] {
+  font-weight: 700;
+}
+
+/* ─── demo scenes ─────────────────────────────────────────────────────────
+   The dark counterpoint to the paper: ink panels with a restrained
+   riso-green glow and a faint scanline tooth. Restrained — light, not acid.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.scene {
+  background: var(--ink);
+  color: #e6e8ea;
+  border: 1.5px solid #2a2f37;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.022) 0 1px,
+    transparent 1px 3px
+  );
+}
+
+.scene-glow {
+  box-shadow:
+    0 0 0 1.5px var(--ink),
+    0 0 28px rgba(0, 169, 92, 0.14);
+}
+
+/* ichchi_brief payload: riso-ink syntax tokens, no highlighter library. */
+.j-key {
+  color: #b3a1e0; /* riso violet, lifted so it reads on ink */
+}
+.j-str {
+  color: var(--color-riso-green);
+}
+.j-num {
+  color: var(--color-riso-orange);
+}
+.j-punc {
+  color: #646b75;
+}
+
+/* A line of the brief flashes when its value changes. */
+.json-line {
+  transition: background-color 0.6s ease;
+}
+.json-line[data-flash] {
+  background: rgba(0, 169, 92, 0.16);
+  transition: none;
+}
+
+/* The typing caret in the chat and the handshake terminal. */
+.caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-inline-start: 1px;
+  vertical-align: -0.12em;
+  background: var(--color-riso-green);
+  animation: caret-blink 1s steps(1) infinite;
+}
+@keyframes caret-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Scroll-reveal: sections rise as they enter. Where view() timelines are
+   unsupported the @supports block simply never applies — content is fully
+   visible, which is the correct fallback. */
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-rise ease-out both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 45%;
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   console — the landing as one screen
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * The console claims the viewport ONLY when there is room for it. Below
+ * 620px of height — a short laptop window, or anyone zoomed to 200% — it
+ * reverts to an ordinary block that grows and lets the document scroll.
+ * A no-scroll page that traps a zoomed-in reader is not a design decision,
+ * it is a bug with a mood board.
+ */
+.console {
+  display: grid;
+  gap: 1px;
+  background: var(--rule-paper);
+  border-bottom: 1px solid var(--rule-paper);
+  grid-template-columns: 1fr;
+  grid-template-areas: "stage" "term" "brain";
+}
+
+.console > * {
+  background: var(--ink);
+  min-width: 0;
+  min-height: 0;
+}
+
+.console-stage {
+  grid-area: stage;
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 0.5rem;
+  overflow: hidden;
+}
+
+.console-term {
+  grid-area: term;
+}
+.console-brain {
+  grid-area: brain;
+  overflow: hidden;
+}
+
+.console-stage-label {
+  position: absolute;
+  inset-block-end: 0.6rem;
+  inset-inline-start: 0.9rem;
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #646b75;
+}
+
+@media (min-height: 620px) and (min-width: 900px) {
+  .console {
+    /* 60px topbar. svh, not vh: mobile browsers lie about vh. */
+    height: calc(100svh - 60px);
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    /* The brain carries the most content of the three panes, so it gets the
+       taller row; the core reads fine small because it is one shape. */
+    grid-template-rows: minmax(0, 38%) minmax(0, 62%);
+    grid-template-areas:
+      "term stage"
+      "term brain";
+  }
+}
+
+/* The core: the ichchi drawn, breathing. */
+.core-wrap {
+  width: 100%;
+  height: 100%;
+  min-height: 210px;
+  display: grid;
+  place-items: center;
+}
+
+.core-label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  fill: #8d939c;
+}
+
+.core-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * Deliberately NO transform-box/transform-origin on the SVG pieces GSAP
+ * animates. GSAP writes its own transform matrix for SVG and takes the origin
+ * from `svgOrigin` (see useConsoleMotion); adding a CSS transform-box on top
+ * makes the browser reinterpret that matrix, and the core scales about the
+ * canvas corner instead of itself — it visibly flies off to the left.
+ * The origin lives in one place: CORE_ORIGIN in IchchiCore.tsx.
+ */
+
+/*
+ * The body is NOT animated in CSS. GSAP owns its transform for the praise
+ * flare and the scold recoil, and a CSS keyframe on the same property would
+ * fight it every frame — the ring's pulse already carries the breathing.
+ */
+.core-ring {
+  animation: core-ring 3.6s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes core-ring {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.16);
+    opacity: 0.15;
+  }
+}
+
+/* ─── the terminal pane ──────────────────────────────────────────────────── */
+
+.cli-pane {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  color: #e6e8ea;
+  cursor: text;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.022) 0 1px,
+    transparent 1px 3px
+  );
+}
+
+.cli-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.15rem 0.5rem;
+  font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  line-height: 1.75;
+}
+
+/* Pushes a short transcript to the bottom of the pane, like a real shell. */
+.cli-body {
+  margin-block-start: auto;
+}
+
+.cli-line {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 0;
+}
+
+.cli-out {
+  color: #c8cdd4;
+}
+.cli-dim {
+  color: #7c838d;
+}
+.cli-cmd {
+  color: #e6e8ea;
+  font-weight: 600;
+}
+.cli-head {
+  color: var(--color-riso-green);
+  letter-spacing: 0.12em;
+  margin-block-start: 0.35rem;
+}
+.cli-accent {
+  color: #e6e8ea;
+}
+.cli-err {
+  color: var(--color-riso-red);
+}
+.cli-link {
+  display: block;
+  color: var(--color-frost);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cli-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  padding: 0.5rem 1.15rem;
+  border-block-start: 1px solid #2a2f37;
+}
+
+.cli-chip {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.6875rem;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid #3a4048;
+  border-radius: 999px;
+  background: none;
+  color: #c8cdd4;
+  cursor: pointer;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+.cli-chip:hover {
+  border-color: #e6e8ea;
+  color: #e6e8ea;
+}
+.cli-chip-warm:hover {
+  border-color: var(--color-riso-green);
+  color: var(--color-riso-green);
+}
+.cli-chip-cold:hover {
+  border-color: var(--color-riso-red);
+  color: var(--color-riso-red);
+}
+
+.cli-prompt {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0.6rem 1.15rem 0.85rem;
+  border-block-start: 1px solid #2a2f37;
+}
+
+.cli-caret-label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  color: var(--color-riso-green);
+}
+
+.cli-input {
+  flex: 1 1 12rem;
+  min-width: 0;
+  background: none;
+  border: 0;
+  outline: none;
+  color: #e6e8ea;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.82rem;
+}
+.cli-input::placeholder {
+  color: #646b75;
+}
+
+.cli-hint {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.625rem;
+  color: #646b75;
+}
+
+/*
+ * The text twin of the console: read by crawlers and screen readers, never
+ * seen. Not display:none — that would hide it from both, which defeats the
+ * entire point of duplicating the copy.
+ */
+.sr-page {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── landing motion ──────────────────────────────────────────────────────
+   Nearly static, in the mozg spirit: the only things that move are the
+   ichchi's mood dot (it is alive, that is the point) and the chat typing
+   indicator. Both stop under prefers-reduced-motion.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* The mood dot breathes: an ichchi is alive, not a static badge. */
+.mood-dot {
+  animation: mood-pulse 2.4s ease-in-out infinite;
+}
+@keyframes mood-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.72);
+    opacity: 0.55;
+  }
+}
+
+.typing-dot {
+  animation: typing-blink 1.2s ease-in-out infinite;
+}
+@keyframes typing-blink {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Motion is atmosphere, not information: nothing is lost when it stops. */
+@media (prefers-reduced-motion: reduce) {
+  .mood-dot,
+  .typing-dot,
+  .caret,
+  .core-body,
+  .core-ring {
+    animation: none;
+  }
+
+  .btn,
+  .card,
+  .json-line {
+    transition: none;
+  }
+}
