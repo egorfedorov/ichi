@@ -22,7 +22,7 @@ export default async function SiteHeader() {
 
         <nav className="flex items-center gap-5 text-sm text-snow-2">
           <Link href="/ichchi" className="transition-colors hover:text-snow">
-            Души
+            Иччи
           </Link>
           <Link href="/connect" className="transition-colors hover:text-snow">
             Подключение

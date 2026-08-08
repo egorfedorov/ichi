@@ -45,6 +45,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+/** Riso ink for the mood card. Thresholds match moodWords() in lib/voice.ts. */
+function moodTint(valence: number): "green" | "blue" | "orange" | "red" {
+  if (valence >= 0.2) return "green";
+  if (valence >= -0.2) return "blue";
+  if (valence >= -0.5) return "orange";
+  return "red";
+}
+
 const TRAITS = [
   ["openness", "openness"],
   ["conscientiousness", "conscientiousness"],
@@ -75,7 +83,10 @@ export default async function PublicIchchiPage({ params }: Props) {
       </p>
 
       <div className="mt-10 grid gap-5 sm:grid-cols-2">
-        <div className="card" data-tint="green">
+        {/* The tint is the mood, not a brand colour. A card reading "tense and
+            touchy" in cheerful green tells the visitor the numbers here are
+            decoration — which is the one thing this page must not say. */}
+        <div className="card" data-tint={moodTint(ichchi.mood_valence)}>
           <p className="mono text-xs tracking-[0.14em] uppercase opacity-80">right now</p>
           <h2 className="mt-2 text-3xl font-bold tracking-tight">{mood}</h2>
           <p className="mt-2 text-sm opacity-85">
@@ -143,9 +154,9 @@ export default async function PublicIchchiPage({ params }: Props) {
           Take a descendant of {ichchi.name}
         </h2>
         <p className="mt-2 max-w-xl text-base leading-relaxed text-ink-2">
-          A descendant starts from the character {ichchi.name} has actually
-          grown into — these traits, this voice — rather than from an
-          archetype&apos;s factory settings. It arrives knowing nothing about
+          A descendant starts from the character {ichchi.name}{" "}
+          has actually grown into — these traits, this voice — rather than from
+          an archetype&apos;s factory settings. It arrives knowing nothing about
           you and nothing about {ichchi.name}&apos;s keeper: temperament is
           inherited, memory is not.
         </p>

@@ -278,6 +278,9 @@ body {
 .card[data-tint="violet"] {
   --tint: var(--color-riso-violet);
 }
+.card[data-tint="orange"] {
+  --tint: var(--color-riso-orange);
+}
 
 /* ─── language picker ───────────────────────────────────────────────────── */
 
