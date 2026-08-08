@@ -1,7 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import type { Line } from "@/components/landing/commands";
+import type { Line, LineKind } from "@/components/landing/commands";
 
 /**
  * Signing in, minting a token and connecting — inside the terminal.
@@ -262,6 +262,82 @@ export async function revokeToken(
   } catch {
     return { lines: [err("the server did not answer")], session };
   }
+}
+
+const blankLine = (): Line => ({ kind: "out", text: "" });
+
+/**
+ * Onboarding, as a status board rather than a wizard.
+ *
+ * A wizard is the obvious shape and the wrong one: it has to be started,
+ * cannot be resumed, and traps anyone who already did step two last week. So
+ * `:setup` reads the state instead — what is done is ticked, what is next is
+ * pointed at, and every step is a command that already works on its own.
+ * Running it twice is safe, and running it late is useful.
+ *
+ * The last step is the one nobody builds: it waits until an agent has actually
+ * called /mcp with the token, so "did it work" is answered by the server
+ * rather than by hope.
+ */
+export async function setupBoard(
+  session: SessionState,
+  name: string | null,
+): Promise<StepResult> {
+  let tokens: { prefix: string; last_used_at: string | null }[] = [];
+  if (session.email) {
+    try {
+      const res = await fetch("/api/tokens");
+      if (res.ok) tokens = ((await res.json()) as { tokens?: typeof tokens }).tokens ?? [];
+    } catch {
+      // Leave it empty: the board then shows the step as not done, which is
+      // the honest reading of "we could not confirm it".
+    }
+  }
+
+  const used = tokens.find((tk) => tk.last_used_at);
+  const steps = [
+    { done: Boolean(name), label: `name it${name ? ` — ${name}` : ""}`, next: ":name <a name>" },
+    {
+      done: Boolean(session.email),
+      label: `an account${session.email ? ` — ${session.email}` : ""}`,
+      next: ":signin   (or :signup)",
+    },
+    {
+      done: tokens.length > 0,
+      label: `a token${tokens.length ? ` — ${tokens[0].prefix}…` : ""}`,
+      next: ":token",
+    },
+    {
+      done: Boolean(used),
+      label: `your client connected${used ? ` — first call ${used.last_used_at!.slice(0, 10)}` : ""}`,
+      next: ":clients, then run the command it prints",
+    },
+  ];
+
+  const firstOpen = steps.findIndex((s) => !s.done);
+
+  const lines: Line[] = [
+    ok("SETUP"),
+    ...steps.map((s, i) => ({
+      kind: (s.done ? "out" : i === firstOpen ? "accent" : "dim") as LineKind,
+      text: `  ${s.done ? "\u2713" : i === firstOpen ? "\u2192" : "\u00b7"} ${i + 1}. ${s.label}`,
+    })),
+    blankLine(),
+  ];
+
+  if (firstOpen === -1) {
+    lines.push(
+      ok("  All four done — an agent has already spoken to it."),
+      dim("  :mine shows what you carry · :why explains a mood"),
+    );
+  } else {
+    lines.push(
+      dim(`  Next: ${steps[firstOpen].next}`),
+      dim("  Run :setup again whenever — it reads the state, so repeating is safe."),
+    );
+  }
+
+  return { lines, session };
 }
 
 export { out, dim, ok, err };

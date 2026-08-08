@@ -16,6 +16,7 @@ import {
   listTokens,
   mintToken,
   revokeToken,
+  setupBoard,
   whoami,
   type SessionState,
 } from "@/components/landing/session-commands";
@@ -113,7 +114,7 @@ export default function Terminal({
         kind: "dim",
         text: greetingName
           ? "Type :help, or say something to it."
-          : "Type :help — or :name it, and it will answer to that.",
+          : "Type :setup to get connected, :help for everything else.",
       },
     ];
 
@@ -316,6 +317,7 @@ export default function Terminal({
       ":token": () => mintToken(session),
       ":mine": () => listMine(session),
       ":tokens": () => listTokens(session),
+      ":setup": () => setupBoard(session, name),
     };
     if (serverCmd[input]) {
       void serverCmd[input]().then((r) => {
@@ -413,7 +415,7 @@ export default function Terminal({
             {c.name}
           </button>
         ))}
-        {[":name", session.email ? ":mine" : ":signin", ":token", ":lang"].map((n) => (
+        {[":setup", ":name", session.email ? ":mine" : ":signin", ":token", ":lang"].map((n) => (
           <button key={n} type="button" className="cli-chip" onClick={() => submit(n)}>
             {n}
           </button>
