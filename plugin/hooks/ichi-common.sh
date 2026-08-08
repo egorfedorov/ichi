@@ -7,7 +7,7 @@
 # in a silent `exit 0`, so every function here fails quietly and every
 # caller checks before it acts.
 
-ICHI_BASE=${ICHI_URL:-https://ichi.sh}
+ICHI_BASE=${ICHI_URL:-https://ichi.mozg.sh}
 ICHI_BASE=${ICHI_BASE%/}
 ICHI_ENDPOINT=$ICHI_BASE/mcp
 

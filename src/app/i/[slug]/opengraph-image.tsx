@@ -146,7 +146,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
               color: "#646b75",
             }}
           >
-            ichi.sh/i/{ichi.public_slug}
+            ichi.mozg.sh/i/{ichi.public_slug}
           </div>
         </div>
       </div>

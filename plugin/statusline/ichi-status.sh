@@ -19,7 +19,7 @@
 
 set -u
 
-ICHI_BASE=${ICHI_URL:-https://ichi.sh}
+ICHI_BASE=${ICHI_URL:-https://ichi.mozg.sh}
 ICHI_BASE=${ICHI_BASE%/}
 
 hash_of() {

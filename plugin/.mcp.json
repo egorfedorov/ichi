@@ -2,7 +2,7 @@
   "mcpServers": {
     "ichi": {
       "type": "http",
-      "url": "${ICHI_URL:-https://ichi.sh}/mcp",
+      "url": "${ICHI_URL:-https://ichi.mozg.sh}/mcp",
       "headers": {
         "Authorization": "Bearer ${ICHI_TOKEN}"
       }

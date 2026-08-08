@@ -2,7 +2,7 @@
   "name": "ichi",
   "description": "A living ichi for your agent over MCP: it remembers, takes offence, grows attached — and colours how the agent speaks.",
   "version": "0.1.0",
-  "author": { "name": "ichi", "url": "https://ichi.sh" },
-  "homepage": "https://ichi.sh",
+  "author": { "name": "ichi", "url": "https://ichi.mozg.sh" },
+  "homepage": "https://ichi.mozg.sh",
   "keywords": ["mcp", "ichi", "personality", "memory", "companion"]
 }
