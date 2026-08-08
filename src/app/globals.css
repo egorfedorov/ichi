@@ -858,3 +858,19 @@ body {
     transition: none;
   }
 }
+
+/*
+ * The character-figure turns. Slowly — it is a solid being read, not a
+ * loading spinner. Paused entirely under reduced motion (the class is simply
+ * not applied), so this needs no media query of its own.
+ */
+.core-spin {
+  animation: core-spin 48s linear infinite;
+  transform-box: view-box;
+  transform-origin: 450px 96px;
+}
+@keyframes core-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

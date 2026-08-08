@@ -1,7 +1,7 @@
 "use client";
 
 import { useId } from "react";
-import type { MoodKey } from "@/components/landing/useIchchiEngine";
+import { DEMO_TRAITS, type MoodKey } from "@/components/landing/useIchchiEngine";
 import { useReducedMotion } from "@/components/landing/useReducedMotion";
 
 /**
@@ -61,6 +61,36 @@ function pace(valence: number): number {
   return 3.6 - Math.max(-1, Math.min(1, valence)) * 1.1;
 }
 
+/**
+ * Where each trait's vertex sits. Angles start at the top and go clockwise,
+ * radius scales with the trait — a strong trait pushes its corner out.
+ *
+ * Computed at module scope because the demo ichchi's traits never change; a
+ * real one would take them as a prop and the maths would be identical.
+ */
+const TRAIT_ORDER = [
+  "openness",
+  "conscientiousness",
+  "extraversion",
+  "agreeableness",
+  "neuroticism",
+] as const;
+
+const R_MIN = 34;
+const R_SPAN = 58;
+
+const TRAIT_VERTICES = TRAIT_ORDER.map((key, i) => {
+  const angle = -Math.PI / 2 + (i / TRAIT_ORDER.length) * Math.PI * 2;
+  const r = R_MIN + (DEMO_TRAITS[key] / 100) * R_SPAN;
+  return {
+    key,
+    x: CORE.x + Math.cos(angle) * r,
+    y: CORE.y + Math.sin(angle) * r,
+  };
+});
+
+const traitPoints = TRAIT_VERTICES.map((v) => `${v.x.toFixed(1)},${v.y.toFixed(1)}`).join(" ");
+
 export default function IchchiCore({
   mood,
   valence,
@@ -100,10 +130,10 @@ export default function IchchiCore({
         <defs>
           {/* The body reads as a lit sphere rather than a sticker: hot at the
               top-left where the light is, falling to the ink at the rim. */}
-          <radialGradient id={`body${uid}`} cx="38%" cy="32%" r="72%">
+          <radialGradient id={`body${uid}`} cx="42%" cy="34%" r="78%">
             <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
-            <stop offset="42%" stopColor={ink} stopOpacity="1" />
-            <stop offset="100%" stopColor={ink} stopOpacity="0.72" />
+            <stop offset="38%" stopColor={ink} stopOpacity="0.85" />
+            <stop offset="100%" stopColor={ink} stopOpacity="0.32" />
           </radialGradient>
           <radialGradient id={`glow${uid}`}>
             <stop offset="0%" stopColor={ink} stopOpacity="0.6" />
@@ -250,13 +280,52 @@ export default function IchchiCore({
             style={{ transition: "stroke-dasharray 700ms cubic-bezier(.22,1,.36,1)" }}
           />
 
-          <circle
-            className="core-body"
-            cx={CORE.x}
-            cy={CORE.y}
-            r="21"
-            fill={`url(#body${uid})`}
-          />
+          {/*
+            The character, drawn.
+
+            A glowing ball is what every AI product puts on its landing page,
+            and it says nothing: two different ichchi would look identical.
+            This is the Big Five as a five-pointed figure — each vertex pushed
+            out by one trait — so the SHAPE is the personality. A Hunter
+            (extraversion 85, conscientiousness 45) is visibly lopsided next
+            to a Steward (35/95). You can tell them apart across the room.
+
+            It turns slowly, so the figure is read as a solid rather than as a
+            chart, and the whole thing is grouped under .core-body because
+            that is what the praise flare and the scold recoil already scale.
+          */}
+          <g className="core-body">
+            <g className={reduced ? undefined : "core-spin"}>
+              <polygon
+                points={traitPoints}
+                fill={`url(#body${uid})`}
+                stroke={ink}
+                strokeWidth="1.5"
+                strokeLinejoin="round"
+                vectorEffect="non-scaling-stroke"
+                style={{ transition: "all 900ms cubic-bezier(.22,1,.36,1)" }}
+              />
+              {/* Spokes to each vertex: the figure reads as built out of five
+                  measurements rather than as an arbitrary blob. */}
+              {TRAIT_VERTICES.map(({ x, y }, i) => (
+                <g key={i}>
+                  <line
+                    x1={CORE.x}
+                    y1={CORE.y}
+                    x2={x}
+                    y2={y}
+                    stroke={ink}
+                    strokeOpacity="0.28"
+                    strokeWidth="1"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  <circle cx={x} cy={y} r="3.4" fill={ink} />
+                </g>
+              ))}
+            </g>
+            {/* The still centre. Everything else turns around it. */}
+            <circle cx={CORE.x} cy={CORE.y} r="7" fill="#ffffff" fillOpacity="0.9" />
+          </g>
         </g>
       </svg>
     </div>
