@@ -56,9 +56,9 @@ RUN apt-get update \
 
 COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=build /app/.next ./.next
-# No `public/` copy: this app ships no static assets, and COPY fails the build
-# outright on a missing source rather than skipping it. Add the line back
-# alongside the directory if one ever appears.
+# robots.txt lives here. COPY fails the build outright on a missing source, so
+# this line and the directory have to arrive and leave together.
+COPY --from=build /app/public ./public
 COPY --from=build /app/dist ./dist
 COPY package.json next.config.ts ./
 # dist/migrate.mjs resolves the migration files relative to itself

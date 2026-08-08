@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!--
+    The mascot, at favicon size.
+
+    Same silhouette as the console's core (IchiCore.tsx), redrawn rather than
+    scaled: at 16px the wisped hem turns to mud and the eyes are the only
+    thing that survives, so the hem gets two lobes instead of three and the
+    eyes are drawn larger than proportion. A favicon is a different drawing of
+    the same character, not the same drawing made small.
+
+    Green because a fresh ichi sits above its baseline — the state a first-time
+    visitor meets.
+  -->
+  <rect width="64" height="64" rx="14" fill="#14161a"/>
+  <path
+    d="M12 40 C12 8, 52 8, 52 40 L52 47 Q42 60, 32 47 Q22 60, 12 47 Z"
+    fill="#00a95c"
+    fill-opacity="0.92"/>
+  <ellipse cx="24" cy="31" rx="5" ry="6.5" fill="#ffffff"/>
+  <ellipse cx="40" cy="31" rx="5" ry="6.5" fill="#ffffff"/>
+</svg>
