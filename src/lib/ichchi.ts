@@ -195,6 +195,100 @@ export async function getIchchi(ownerId: string, slug: string): Promise<Ichchi |
   );
 }
 
+/**
+ * SQL fragment: the ichchi a user may reach — the ones they own, plus the
+ * ones they have been let into (migration 0006).
+ *
+ * Written once and shared by every read path. A membership check that lives in
+ * three places is a membership check that will disagree with itself the first
+ * time one of them is edited, and the failure mode is somebody reading a team's
+ * ichchi after being removed from it.
+ */
+const ACCESSIBLE = `(
+  i.owner_id = $1
+  or exists (select 1 from ichchi_members m where m.ichchi_id = i.id and m.user_id = $1)
+)`;
+
+/** By slug, for anyone with access — owner or member. */
+export async function getAccessibleIchchi(
+  userId: string,
+  slug: string,
+): Promise<Ichchi | null> {
+  return maybeOne<Ichchi>(
+    `select i.* from ichchi i where ${ACCESSIBLE} and i.slug = $2`,
+    [userId, slug],
+  );
+}
+
+/** By name, case-insensitively, for anyone with access. */
+export async function getAccessibleIchchiByName(
+  userId: string,
+  name: string,
+): Promise<Ichchi | null> {
+  return maybeOne<Ichchi>(
+    `select i.* from ichchi i where ${ACCESSIBLE} and lower(i.name) = lower($2)`,
+    [userId, name],
+  );
+}
+
+/** Everything a user can reach, owned first so their own stay recognisable. */
+export async function listAccessibleIchchi(userId: string): Promise<Ichchi[]> {
+  return query<Ichchi>(
+    `select i.* from ichchi i
+      where ${ACCESSIBLE}
+      order by (i.owner_id = $1) desc, i.created_at asc`,
+    [userId],
+  );
+}
+
+/**
+ * Mint (or clear) the invitation code. Same shape as publishing: re-issuing on
+ * an ichchi that already has one returns the existing code, so a link already
+ * pasted into a team channel keeps working.
+ */
+export async function setJoinCode(
+  ownerId: string,
+  slug: string,
+  open: boolean,
+): Promise<string | null> {
+  const ichchi = await getIchchi(ownerId, slug);
+  if (!ichchi) throw new Error("no such ichchi");
+
+  if (!open) {
+    await query(`update ichchi set join_code = null where id = $1`, [ichchi.id]);
+    return null;
+  }
+  if (ichchi.join_code) return ichchi.join_code;
+
+  const code = randomBytes(9).toString("base64url");
+  await query(`update ichchi set join_code = $2 where id = $1`, [ichchi.id, code]);
+  return code;
+}
+
+/**
+ * Join by code. Returns the ichchi joined, or null when the code is unknown or
+ * has been revoked.
+ *
+ * The owner joining their own ichchi is a no-op rather than an error: they
+ * already have access, and a "you cannot join this" message when they clicked
+ * their own link is confusing for no gain.
+ */
+export async function joinByCode(userId: string, code: string): Promise<Ichchi | null> {
+  const ichchi = await maybeOne<Ichchi>(
+    `select * from ichchi where join_code = $1`,
+    [code],
+  );
+  if (!ichchi) return null;
+  if (ichchi.owner_id === userId) return ichchi;
+
+  await query(
+    `insert into ichchi_members (ichchi_id, user_id) values ($1, $2)
+       on conflict (ichchi_id, user_id) do nothing`,
+    [ichchi.id, userId],
+  );
+  return ichchi;
+}
+
 export async function getIchchiById(id: string): Promise<Ichchi | null> {
   return maybeOne<Ichchi>(`select * from ichchi where id = $1`, [id]);
 }

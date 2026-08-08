@@ -5,8 +5,9 @@ import {
   ARCHETYPES,
   archetypeById,
   bondFor,
-  getIchchi,
-  listIchchi,
+  getAccessibleIchchi,
+  getAccessibleIchchiByName,
+  listAccessibleIchchi,
   traitsOf,
 } from "@/lib/ichchi";
 import {
@@ -74,16 +75,18 @@ export function driftForFeedback(kind: "praise" | "scold"): PendingDrift {
     : { neuroticism: 0.3, agreeableness: -0.2 };
 }
 
-/** Slug first, then a case-insensitive name — agents address ichchi either way. */
+/**
+ * Slug first, then a case-insensitive name — agents address ichchi either way.
+ *
+ * Resolves across everything the caller can reach, not just what they own, so
+ * a teammate's agent can brief on the shared ichchi (migration 0006).
+ */
 async function resolveIchchi(userId: string, ref: string): Promise<Ichchi | null> {
   const trimmed = ref.trim();
   if (!trimmed) return null;
-  const bySlug = await getIchchi(userId, trimmed.toLowerCase());
+  const bySlug = await getAccessibleIchchi(userId, trimmed.toLowerCase());
   if (bySlug) return bySlug;
-  return maybeOne<Ichchi>(
-    `select * from ichchi where owner_id = $1 and lower(name) = lower($2)`,
-    [userId, trimmed],
-  );
+  return getAccessibleIchchiByName(userId, trimmed);
 }
 
 function moodOf(ichchi: Ichchi): Mood {
@@ -190,7 +193,7 @@ async function eventsSinceReflect(ichchi: Ichchi): Promise<{ total: number; feed
 // ─── tools ─────────────────────────────────────────────────────────────────
 
 async function ichchiList(owner: TokenOwner): Promise<ToolOutcome> {
-  const ichchi = await listIchchi(owner.userId);
+  const ichchi = await listAccessibleIchchi(owner.userId);
   const lines: string[] = [];
 
   lines.push("## Your ichchi");
@@ -199,9 +202,13 @@ async function ichchiList(owner: TokenOwner): Promise<ToolOutcome> {
   } else {
     for (const s of ichchi) {
       const bond = await bondFor(s.id, owner.userId);
+      // A shared ichchi is marked: the agent should know it is speaking to a
+      // spirit the whole team feeds, because a standard it records there binds
+      // everyone's sessions, not just this user's.
+      const shared = s.owner_id === owner.userId ? "" : " · shared with your team";
       lines.push(
         `- **${s.name}** (slug \`${s.slug}\`, archetype ${archetypeById(s.archetype)?.name ?? s.archetype}): ` +
-          `feeling ${moodWords(s)} · bond ${bond.bond}/100`,
+          `feeling ${moodWords(s)} · bond ${bond.bond}/100${shared}`,
       );
     }
     lines.push("", "Call ichchi_brief with a slug or name to let one speak through you.");

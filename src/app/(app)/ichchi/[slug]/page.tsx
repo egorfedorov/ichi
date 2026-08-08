@@ -107,6 +107,7 @@ export default async function IchchiPage({ params }: Props) {
         <PublishToggle
           slug={ichchi.slug}
           initialPublicSlug={ichchi.public_slug}
+          initialJoinCode={ichchi.join_code}
           appUrl={env.NEXT_PUBLIC_APP_URL}
         />
       </div>

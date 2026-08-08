@@ -39,6 +39,8 @@ export interface Ichchi {
   reflected_at: Date | null;
   /** Globally unique public address, or null while the ichchi is private. */
   public_slug: string | null;
+  /** Invitation code for teammates, or null while the ichchi is solo. */
+  join_code: string | null;
   created_at: Date;
   updated_at: Date;
 }

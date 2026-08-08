@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/session";
-import { adoptIchchi, archetypeById, setPublic } from "@/lib/ichchi";
+import { adoptIchchi, archetypeById, setJoinCode, setPublic } from "@/lib/ichchi";
 
 /**
  * Session-authenticated adopt endpoint for the web form. The MCP server
@@ -52,14 +52,21 @@ export async function PATCH(req: Request) {
   const body = (await req.json().catch(() => ({}))) as {
     slug?: string;
     public?: boolean;
+    shared?: boolean;
   };
-  if (typeof body.slug !== "string" || typeof body.public !== "boolean") {
-    return NextResponse.json({ error: "slug and public required" }, { status: 400 });
+  if (typeof body.slug !== "string") {
+    return NextResponse.json({ error: "slug required" }, { status: 400 });
   }
 
   try {
-    const publicSlug = await setPublic(user.id, body.slug, body.public);
-    return NextResponse.json({ publicSlug });
+    const out: { publicSlug?: string | null; joinCode?: string | null } = {};
+    if (typeof body.public === "boolean") {
+      out.publicSlug = await setPublic(user.id, body.slug, body.public);
+    }
+    if (typeof body.shared === "boolean") {
+      out.joinCode = await setJoinCode(user.id, body.slug, body.shared);
+    }
+    return NextResponse.json(out);
   } catch {
     return NextResponse.json({ error: "no such ichchi" }, { status: 404 });
   }
