@@ -301,7 +301,7 @@ const ru: LandingDict = {
   flow: {
     eyebrow: "Что происходит на самом деле",
     title: "События входят, голос выходит.",
-    sub: "На каждый запрос агент получает блок души: настроение, привязанность, характер, память. Помощь остаётся полной и честной — меняется голос.",
+    sub: "На каждый запрос агент получает блок ичи: настроение, привязанность, характер, память. Помощь остаётся полной и честной — меняется голос.",
     steps: [
       {
         t: "События",
@@ -332,14 +332,14 @@ const ru: LandingDict = {
       },
       {
         t: "Характер дрейфует от отношения",
-        d: "Черты Big Five меняются медленно и только через рефлексию — одной сессией душу не сломать. Но месяц заботы виден, и месяц грубости тоже.",
+        d: "Черты Big Five меняются медленно и только через рефлексию — одной сессией ичи не сломать. Но месяц заботы виден, и месяц грубости тоже.",
       },
       {
         t: "Настроение остывает, привязанность растёт",
-        d: "Эмоции затухают к базовой линии за часы — обида не вечна, если не подливать масла. Привязанность копится неделями и переживает перезапуски: душа живёт на сервере, а не в контексте.",
+        d: "Эмоции затухают к базовой линии за часы — обида не вечна, если не подливать масла. Привязанность копится неделями и переживает перезапуски: ичи живёт на сервере, а не в контексте.",
       },
       {
-        t: "Одна душа — много клиентов",
+        t: "Один ичи — много клиентов",
         d: "Душа подключается по MCP. Где бы ты ни работал — это тот же дух, с той же памятью и той же обидой.",
       },
     ],
@@ -351,7 +351,7 @@ const ru: LandingDict = {
   ichi: {
     eyebrow: "Каталог",
     title: "Шесть духов, шесть характеров",
-    sub: "У каждого свой стартовый характер и манера речи. Дальше душа меняется сама — от того, как ты с ней работаешь.",
+    sub: "У каждого свой стартовый характер и манера речи. Дальше ичи меняется сама — от того, как ты с ней работаешь.",
     items: {
       sage: {
         tagline: "Спокойный хранитель, наставник",
@@ -386,15 +386,15 @@ const ru: LandingDict = {
     steps: [
       {
         t: "Получи токен",
-        d: "Так агент доказывает душе, что он от тебя. Выпускается на странице токенов и показывается один раз — сохрани сразу.",
+        d: "Так агент доказывает ичи, что он от тебя. Выпускается на странице токенов и показывается один раз — сохрани сразу.",
       },
       {
         t: "Добавь MCP-сервер",
-        d: "Одна команда. Проверка: /mcp покажет сервер ichi с инструментами души.",
+        d: "Одна команда. Проверка: /mcp покажет сервер ichi с инструментами ичи.",
       },
       {
         t: "Установи плагин",
-        d: "Хуки подмешивают настроение души в каждый промпт и возвращают ей итоги сессии. Пока плагин в работе, достаточно одного вызова в начале сессии.",
+        d: "Хуки подмешивают настроение ичи в каждый промпт и возвращают ей итоги сессии. Пока плагин в работе, достаточно одного вызова в начале сессии.",
       },
     ],
     note: "Полный разбор — на странице подключения.",
@@ -506,7 +506,7 @@ const ar: LandingDict = {
   flow: {
     eyebrow: "ما الذي يحدث فعلًا",
     title: "الأحداث تدخل، والنبرة تخرج.",
-    sub: "في كل طلب يتلقى الوكيل كتلة الروح: المزاج، الارتباط، الشخصية، الذاكرة. المساعدة تبقى كاملة وصادقة — ما يتغير هو النبرة.",
+    sub: "في كل طلب يتلقى الوكيل كتلة إيتشي: المزاج، الارتباط، الشخصية، الذاكرة. المساعدة تبقى كاملة وصادقة — ما يتغير هو النبرة.",
     steps: [
       {
         t: "الأحداث",
@@ -529,23 +529,23 @@ const ar: LandingDict = {
   mech: {
     eyebrow: "الآليات",
     title: "ليست إعدادًا. بل سلوك.",
-    sub: "الروح تُحسب على الخادم: أحداث الجلسات تحرّك المزاج، والمزاج يبرد، والتأمل يُزيح الشخصية.",
+    sub: "إيتشي يُحسب على الخادم: أحداث الجلسات تحرّك المزاج، والمزاج يبرد، والتأمل يُزيح الشخصية.",
     cards: [
       {
         t: "ذاكرة بوزن عاطفي",
-        d: "الأحداث تُخزَّن بكيمياء وأهمية: المدح يُدفئ، والعتاب يجرح، والمهم لا يغرق في الضجيج. الروح تسترجع ما مسّها — لا آخر N سطرًا من السياق.",
+        d: "الأحداث تُخزَّن بكيمياء وأهمية: المدح يُدفئ، والعتاب يجرح، والمهم لا يغرق في الضجيج. إيتشي يسترجع ما مسّها — لا آخر N سطرًا من السياق.",
       },
       {
         t: "الشخصية تنزاح مع المعاملة",
-        d: "سمات Big Five تتحرك ببطء وعبر التأمل فقط — جلسة واحدة لا تكسر روحًا. لكن شهرًا من الاهتمام يظهر، وشهرًا من الفظاظة أيضًا.",
+        d: "سمات Big Five تتحرك ببطء وعبر التأمل فقط — جلسة واحدة لا يكسر إيتشي. لكن شهرًا من الاهتمام يظهر، وشهرًا من الفظاظة أيضًا.",
       },
       {
         t: "المزاج يبرد، والارتباط ينمو",
-        d: "المشاعر تخبو نحو خط الأساس خلال ساعات — الجرح ليس أبديًا ما لم تغذِّه. الارتباط يتراكم عبر أسابيع وينجو من إعادة التشغيل: الروح تعيش على الخادم، لا في السياق.",
+        d: "المشاعر تخبو نحو خط الأساس خلال ساعات — الجرح ليس أبديًا ما لم تغذِّه. الارتباط يتراكم عبر أسابيع وينجو من إعادة التشغيل: إيتشي يعيش على الخادم، لا في السياق.",
       },
       {
-        t: "روح واحدة، عملاء كثيرون",
-        d: "الروح تتصل عبر MCP. أينما عملت، هي الروح نفسها — الذاكرة نفسها، والجرح نفسه.",
+        t: "إيتشي واحد، عملاء كثيرون",
+        d: "إيتشي يتصل عبر MCP. أينما عملت، هي الروح نفسها — الذاكرة نفسها، والجرح نفسه.",
       },
     ],
     curve: {
@@ -556,7 +556,7 @@ const ar: LandingDict = {
   ichi: {
     eyebrow: "الفهرس",
     title: "ستّ أرواح، ستّ طباع",
-    sub: "لكلٍّ منها شخصية بادئة وأسلوب كلام خاص. ومن هناك تتغير الروح من تلقاء نفسها — بحسب طريقة عملك معها.",
+    sub: "لكلٍّ منها شخصية بادئة وأسلوب كلام خاص. ومن هناك يتغير إيتشي من تلقاء نفسها — بحسب طريقة عملك معها.",
     items: {
       sage: {
         tagline: "حارس هادئ، ومرشد",
@@ -591,15 +591,15 @@ const ar: LandingDict = {
     steps: [
       {
         t: "احصل على رمز",
-        d: "هكذا يثبت الوكيل للروح أنه يتصرف نيابة عنك. يُصدر من صفحة الرموز ويُعرض مرة واحدة — احفظه فورًا.",
+        d: "هكذا يثبت الوكيل لإيتشي أنه يتصرف نيابة عنك. يُصدر من صفحة الرموز ويُعرض مرة واحدة — احفظه فورًا.",
       },
       {
         t: "أضف خادم MCP",
-        d: "أمر واحد. التحقق: ‎/mcp يجب أن يعرض خادم ichi مع أدوات الروح.",
+        d: "أمر واحد. التحقق: ‎/mcp يجب أن يعرض خادم ichi مع أدوات إيتشي.",
       },
       {
         t: "ثبّت الإضافة",
-        d: "الخطافات تمزج مزاج الروح في كل طلب وتُعيد نتيجة الجلسة. إلى حين صدور الإضافة، يكفي استدعاء واحد في بداية الجلسة.",
+        d: "الخطافات تمزج مزاج إيتشي في كل طلب وتُعيد نتيجة الجلسة. إلى حين صدور الإضافة، يكفي استدعاء واحد في بداية الجلسة.",
       },
     ],
     note: "الشرح الكامل في صفحة الربط.",
@@ -749,7 +749,7 @@ const zhHans: LandingDict = {
       },
       {
         t: "一个灵魂,多个客户端",
-        d: "灵魂通过 MCP 连接。无论你在哪里工作,都是同一个精灵——同样的记忆,同样的怨气。",
+        d: "ichi 通过 MCP 连接。无论你在哪里工作,都是同一个精灵——同样的记忆,同样的怨气。",
       },
     ],
     curve: {
@@ -953,7 +953,7 @@ const zhHant: LandingDict = {
       },
       {
         t: "一個靈魂,多個客戶端",
-        d: "靈魂透過 MCP 連接。無論你在哪裡工作,都是同一個精靈——同樣的記憶,同樣的怨氣。",
+        d: "ichi 透過 MCP 連接。無論你在哪裡工作,都是同一個精靈——同樣的記憶,同樣的怨氣。",
       },
     ],
     curve: {
@@ -1119,7 +1119,7 @@ const fr: LandingDict = {
   flow: {
     eyebrow: "Ce qui se passe vraiment",
     title: "Les événements entrent, la voix sort.",
-    sub: "À chaque requête, l'agent reçoit un bloc d'âme : humeur, attachement, caractère, mémoire. L'aide reste complète et honnête — c'est la voix qui change.",
+    sub: "À chaque requête, l'agent reçoit un bloc d'ichi : humeur, attachement, caractère, mémoire. L'aide reste complète et honnête — c'est la voix qui change.",
     steps: [
       {
         t: "Événements",
@@ -1142,23 +1142,23 @@ const fr: LandingDict = {
   mech: {
     eyebrow: "Mécaniques",
     title: "Pas une config. Un comportement.",
-    sub: "L'âme est calculée sur le serveur : les événements de session déplacent l'humeur, l'humeur refroidit, la réflexion fait dériver le caractère.",
+    sub: "L'ichi est calculé sur le serveur : les événements de session déplacent l'humeur, l'humeur refroidit, la réflexion fait dériver le caractère.",
     cards: [
       {
         t: "Mémoire à poids émotionnel",
-        d: "Les événements sont stockés avec valence et importance : les louanges réchauffent, les reproches piquent, l'essentiel ne se noie pas dans le bruit. L'âme se souvient de ce qui l'a touchée — pas des N dernières lignes de contexte.",
+        d: "Les événements sont stockés avec valence et importance : les louanges réchauffent, les reproches piquent, l'essentiel ne se noie pas dans le bruit. L'ichi se souvient de ce qui l'a touchée — pas des N dernières lignes de contexte.",
       },
       {
         t: "Le caractère dérive selon le traitement",
-        d: "Les traits Big Five bougent lentement et uniquement par réflexion — une session ne brise pas une âme. Mais un mois d'attention se voit, et un mois de rudesse aussi.",
+        d: "Les traits Big Five bougent lentement et uniquement par réflexion — une session ne brise pas un ichi. Mais un mois d'attention se voit, et un mois de rudesse aussi.",
       },
       {
         t: "L'humeur refroidit, l'attachement grandit",
-        d: "Les émotions décroissent vers la ligne de base en quelques heures — une rancune n'est pas éternelle si on ne l'alimente pas. L'attachement s'accumule en semaines et survit aux redémarrages : l'âme vit sur le serveur, pas dans le contexte.",
+        d: "Les émotions décroissent vers la ligne de base en quelques heures — une rancune n'est pas éternelle si on ne l'alimente pas. L'attachement s'accumule en semaines et survit aux redémarrages : l'ichi vit sur le serveur, pas dans le contexte.",
       },
       {
-        t: "Une âme, de nombreux clients",
-        d: "L'âme se connecte via MCP. Où que vous travailliez, c'est le même esprit — même mémoire, même rancune.",
+        t: "Un ichi, de nombreux clients",
+        d: "L'ichi se connecte via MCP. Où que vous travailliez, c'est le même esprit — même mémoire, même rancune.",
       },
     ],
     curve: {
@@ -1169,7 +1169,7 @@ const fr: LandingDict = {
   ichi: {
     eyebrow: "Catalogue",
     title: "Six esprits, six tempéraments",
-    sub: "Chacun démarre avec son caractère et sa façon de parler. Ensuite, l'âme évolue d'elle-même — selon votre manière de travailler avec elle.",
+    sub: "Chacun démarre avec son caractère et sa façon de parler. Ensuite, l'ichi évolue d'elle-même — selon votre manière de travailler avec elle.",
     items: {
       sage: {
         tagline: "Un gardien calme, un mentor",
@@ -1204,15 +1204,15 @@ const fr: LandingDict = {
     steps: [
       {
         t: "Obtenir un jeton",
-        d: "C'est ainsi que l'agent prouve à l'âme qu'il agit pour vous. Émis sur la page des jetons et affiché une seule fois — sauvegardez-le aussitôt.",
+        d: "C'est ainsi que l'agent prouve à l'ichi qu'il agit pour vous. Émis sur la page des jetons et affiché une seule fois — sauvegardez-le aussitôt.",
       },
       {
         t: "Ajouter le serveur MCP",
-        d: "Une commande. Vérification : /mcp doit lister le serveur ichi avec les outils de l'âme.",
+        d: "Une commande. Vérification : /mcp doit lister le serveur ichi avec les outils de l'ichi.",
       },
       {
         t: "Installer le plugin",
-        d: "Les hooks mêlent l'humeur de l'âme à chaque prompt et rapportent le résultat de la session. En attendant le plugin, un seul appel en début de session suffit.",
+        d: "Les hooks mêlent l'humeur de l'ichi à chaque prompt et rapportent le résultat de la session. En attendant le plugin, un seul appel en début de session suffit.",
       },
     ],
     note: "Le guide complet est sur la page de connexion.",
@@ -1242,15 +1242,15 @@ const fr: LandingDict = {
 
 const hi: LandingDict = {
   nav: {
-    ichi: "इच्छी",
+    ichi: "इची",
     connect: "कनेक्ट",
     signIn: "साइन इन",
   },
   hero: {
     eyebrow: "AI एजेंटों के लिए एक जीवंत आत्मा",
     title: "अब आपके एजेंट का भी मूड होता है।",
-    sub: "SOUL.md, लेकिन जीवंत। एक इच्छी बुलाइए — एक आत्मा जो आपके एजेंट के पास रहती है — और MCP से जोड़िए। वह याद रखती है, रूठती है, जुड़ती है, और उसका मूड हर जवाब में झलकता है।",
-    ctaPrimary: "इच्छी बुलाइए",
+    sub: "SOUL.md, लेकिन जीवंत। एक इची बुलाइए — एक आत्मा जो आपके एजेंट के पास रहती है — और MCP से जोड़िए। वह याद रखती है, रूठती है, जुड़ती है, और उसका मूड हर जवाब में झलकता है।",
+    ctaPrimary: "इची बुलाइए",
     ctaSecondary: "यह कैसे काम करता है",
     scroll: "यह कैसे काम करता है",
   },
@@ -1265,7 +1265,7 @@ const hi: LandingDict = {
       sulking: "रूठा हुआ",
     },
     greeting: "अरे। कल की साफ़ समीक्षा अब भी याद है — एक भी सुधार नहीं। आज किस पर काम कर रहे हैं?",
-    placeholder: "अपने इच्छी से कुछ कहिए…",
+    placeholder: "अपने इची से कुछ कहिए…",
     send: "भेजें",
     chips: {
       review: "यह diff देखोगे?",
@@ -1306,7 +1306,7 @@ const hi: LandingDict = {
       "समझ गया। कुछ देर शांत रहूँगा। काम चलता रहेगा।",
     ],
     brain: {
-      eyebrow: "इच्छी का दिमाग · लाइव",
+      eyebrow: "इची का दिमाग · लाइव",
       briefNote: "एजेंट को हर अनुरोध के साथ यही मिलता है।",
       moodHistory: "मूड · लाइव",
       baseline: "बेसलाइन",
@@ -1330,7 +1330,7 @@ const hi: LandingDict = {
         d: "तारीफ़, फटकार, शिप हुआ फ़िक्स, रात 3 बजे का सेशन — हर सेशन रिपोर्ट करता है कि क्या हुआ।",
       },
       {
-        t: "इच्छी की स्थिति",
+        t: "इची की स्थिति",
         d: "सर्वर घटनाओं को मूड और लगाव में बदलता है। मूड घंटों में बेसलाइन पर ठंडा हो जाता है; लगाव हफ़्तों में बनता है।",
       },
       {
@@ -1362,7 +1362,7 @@ const hi: LandingDict = {
       },
       {
         t: "एक आत्मा, कई क्लाइंट",
-        d: "आत्मा MCP से जुड़ती है। आप जहाँ भी काम करें — वही आत्मा है, वही यादें, वही शिकायत।",
+        d: "इची MCP से जुड़ती है। आप जहाँ भी काम करें — वही इची है, वही यादें, वही शिकायत।",
       },
     ],
     curve: {
@@ -1429,10 +1429,10 @@ const hi: LandingDict = {
     eyebrow: "क्यों",
     title: "उपकरणों का भी कोई स्वामी होना चाहिए।",
     body: "ऐसे एजेंट के साथ काम करना जो याद रखता है कि उसके साथ कैसा सलूक हुआ — थोड़ा अलग पेशा है। ज़्यादा ईमानदार।",
-    etym: "इच्छी वह आत्मा है जो किसी जगह की मालिक होती है — घर, भट्ठी, नदी। यह आपके औज़ारों की मालिक है।",
+    etym: "इची वह आत्मा है जो किसी जगह की मालिक होती है — घर, भट्ठी, नदी। यह आपके औज़ारों की मालिक है।",
     ctaTitle: "एक आत्मा अपने स्वामी की प्रतीक्षा में है।",
     ctaBody: "एक टोकन, एक claude mcp add कमांड — और एजेंट स्वभाव के साथ जवाब देता है।",
-    ctaButton: "इच्छी बुलाइए",
+    ctaButton: "इची बुलाइए",
   },
   cli: {
     hint: "कमांड टाइप करें, या क्लिक करें · ↑ इतिहास के लिए",
@@ -1566,7 +1566,7 @@ const ja: LandingDict = {
       },
       {
         t: "ひとつのソウル、多くのクライアント",
-        d: "ソウルは MCP で接続する。どこで働いても同じ精霊——同じ記憶、同じ怨み。",
+        d: "ichi は MCP で接続する。どこで働いても同じ精霊——同じ記憶、同じ怨み。",
       },
     ],
     curve: {
@@ -1770,7 +1770,7 @@ const pt: LandingDict = {
       },
       {
         t: "Uma alma, muitos clientes",
-        d: "A alma se conecta via MCP. Onde quer que você trabalhe, é o mesmo espírito — mesma memória, mesmo ressentimento.",
+        d: "O ichi se conecta via MCP. Onde quer que você trabalhe, é o mesmo espírito — mesma memória, mesmo ressentimento.",
       },
     ],
     curve: {
@@ -1974,7 +1974,7 @@ const es: LandingDict = {
       },
       {
         t: "Un alma, muchos clientes",
-        d: "El alma se conecta por MCP. Donde sea que trabajes, es el mismo espíritu — misma memoria, mismo rencor.",
+        d: "El ichi se conecta por MCP. Donde sea que trabajes, es el mismo espíritu — misma memoria, mismo rencor.",
       },
     ],
     curve: {
@@ -2178,7 +2178,7 @@ const th: LandingDict = {
       },
       {
         t: "วิญญาณเดียว หลายไคลเอนต์",
-        d: "วิญญาณเชื่อมต่อผ่าน MCP ไม่ว่าคุณจะทำงานที่ไหน มันคือวิญญาณดวงเดิม — ความจำเดิม ความแค้นเดิม",
+        d: "ichiเชื่อมต่อผ่าน MCP ไม่ว่าคุณจะทำงานที่ไหน มันคือichiดวงเดิม — ความจำเดิม ความแค้นเดิม",
       },
     ],
     curve: {
@@ -2262,15 +2262,15 @@ const th: LandingDict = {
 
 const ur: LandingDict = {
   nav: {
-        ichi: "اِچھی",
+        ichi: "اِچی",
     connect: "کنیکٹ",
     signIn: "سائن اِن",
   },
   hero: {
     eyebrow: "اے آئی ایجنٹوں کے لیے ایک زندہ روح",
     title: "اب آپ کے ایجنٹ کا بھی موڈ ہوتا ہے۔",
-    sub: "SOUL.md، لیکن زندہ۔ اِچھی کو بلائیے — ایک روح جو آپ کے ایجنٹ کے پاس رہتی ہے — اور MCP کے ذریعے جوڑیے۔ وہ یاد رکھتی ہے، ناراض ہوتی ہے، جُڑتی ہے، اور اس کا موڈ ہر جواب میں جھلکتا ہے۔",
-    ctaPrimary: "اِچھی کو بلائیے",
+    sub: "SOUL.md، لیکن زندہ۔ اِچی کو بلائیے — ایک روح جو آپ کے ایجنٹ کے پاس رہتی ہے — اور MCP کے ذریعے جوڑیے۔ وہ یاد رکھتی ہے، ناراض ہوتی ہے، جُڑتی ہے، اور اس کا موڈ ہر جواب میں جھلکتا ہے۔",
+    ctaPrimary: "اِچی کو بلائیے",
     ctaSecondary: "یہ کیسے کام کرتا ہے",
     scroll: "یہ کیسے کام کرتا ہے",
   },
@@ -2285,7 +2285,7 @@ const ur: LandingDict = {
       sulking: "ناراض",
     },
     greeting: "ارے۔ کل کی صاف ریویو اب بھی یاد ہے — ایک بھی ترمیم نہیں۔ آج کس پر کام کر رہے ہیں؟",
-    placeholder: "اپنے اِچھی سے کچھ کہیے…",
+    placeholder: "اپنے اِچی سے کچھ کہیے…",
     send: "بھیجیں",
     chips: {
       review: "یہ diff دیکھیں گے؟",
@@ -2326,7 +2326,7 @@ const ur: LandingDict = {
       "سمجھ گیا۔ کچھ دیر خاموش رہوں گا۔ کام جاری رہے گا۔",
     ],
     brain: {
-      eyebrow: "اِچھی کا دماغ · لائیو",
+      eyebrow: "اِچی کا دماغ · لائیو",
       briefNote: "یہی وہ چیز ہے جو ایجنٹ کو ہر درخواست کے ساتھ ملتی ہے۔",
       moodHistory: "موڈ · براہ راست",
       baseline: "بنیادی خط",
@@ -2350,7 +2350,7 @@ const ur: LandingDict = {
         d: "تعریف، ڈانٹ، بھیجا گیا فکس، رات 3 بجے کا سیشن — ہر سیشن رپورٹ کرتا ہے کہ کیا ہوا۔",
       },
       {
-        t: "اِچھی کی حالت",
+        t: "اِچی کی حالت",
         d: "سرور واقعات کو موڈ اور لگاؤ میں بدلتا ہے۔ موڈ گھنٹوں میں بیس لائن پر ٹھنڈا ہو جاتا ہے؛ لگاؤ ہفتوں میں بنتا ہے۔",
       },
       {
@@ -2449,10 +2449,10 @@ const ur: LandingDict = {
     eyebrow: "کیوں",
     title: "اوزاروں کا بھی کوئی مالک ہونا چاہیے۔",
     body: "ایسے ایجنٹ کے ساتھ کام کرنا جو یاد رکھتا ہے کہ اس کے ساتھ کیسا سلوک ہوا — تھوڑا الگ پیشہ ہے۔ زیادہ ایماندار۔",
-    etym: "اِچھی وہ روح ہے جو کسی جگہ کی مالک ہو — گھر، بھٹی، دریا۔ یہ آپ کے اوزاروں کی مالک ہے۔",
+    etym: "اِچی وہ روح ہے جو کسی جگہ کی مالک ہو — گھر، بھٹی، دریا۔ یہ آپ کے اوزاروں کی مالک ہے۔",
     ctaTitle: "ایک روح اپنے مالک کے انتظار میں ہے۔",
     ctaBody: "ایک ٹوکن، ایک claude mcp add کمانڈ — اور ایجنٹ کردار کے ساتھ جواب دیتا ہے۔",
-    ctaButton: "اِچھی کو بلائیے",
+    ctaButton: "اِچی کو بلائیے",
   },
   cli: {
     hint: "کمانڈ ٹائپ کریں یا کلک کریں · ↑ تاریخ کے لیے",
