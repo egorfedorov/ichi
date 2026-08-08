@@ -12,8 +12,20 @@ import { bondStage, STAGE_PRIVILEGE } from "@/lib/bond";
  * writing, a sulking ichchi quietly becomes a worse assistant.
  */
 
-/** Mood as two or three words — numbers mean nothing to a reading agent. */
-export function moodWords(ichchi: Ichchi): string {
+/**
+ * Mood as two or three words — numbers mean nothing to a reading agent.
+ *
+ * Takes the four mood fields rather than a whole row: the public page and the
+ * share card hold a deliberately narrowed projection of an ichchi (no id, no
+ * owner), and widening that projection just to satisfy a helper would defeat
+ * the point of narrowing it.
+ */
+export type MoodFields = Pick<
+  Ichchi,
+  "mood_valence" | "mood_arousal" | "stress" | "energy"
+>;
+
+export function moodWords(ichchi: MoodFields): string {
   const { mood_valence: v, mood_arousal: a, stress, energy } = ichchi;
   if (v <= -0.5 && a >= 0.3) return "stung and bristling";
   if (v <= -0.5) return "hurt, withdrawn";

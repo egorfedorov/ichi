@@ -26,7 +26,7 @@ export default function EventLog({ events }: { events: IchchiEvent[] }) {
   if (events.length === 0) {
     return (
       <p className="text-sm text-snow-3">
-        Событий ещё нет — они появляются с первого обращения к душе.
+        Событий ещё нет — они появляются с первого обращения к иччи.
       </p>
     );
   }

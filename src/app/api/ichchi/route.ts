@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/session";
-import { adoptIchchi, archetypeById } from "@/lib/ichchi";
+import { adoptIchchi, archetypeById, setPublic } from "@/lib/ichchi";
 
 /**
  * Session-authenticated adopt endpoint for the web form. The MCP server
@@ -35,4 +35,32 @@ export async function POST(req: Request) {
 
   const ichchi = await adoptIchchi(user.id, archetype, name);
   return NextResponse.json({ slug: ichchi.slug }, { status: 201 });
+}
+
+/**
+ * Publish or unpublish an ichchi. Scoped to the caller's own ichchi by
+ * setPublic(), so one account can never publish another's.
+ */
+export async function PATCH(req: Request) {
+  let user;
+  try {
+    user = await requireUser(req);
+  } catch {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+
+  const body = (await req.json().catch(() => ({}))) as {
+    slug?: string;
+    public?: boolean;
+  };
+  if (typeof body.slug !== "string" || typeof body.public !== "boolean") {
+    return NextResponse.json({ error: "slug and public required" }, { status: 400 });
+  }
+
+  try {
+    const publicSlug = await setPublic(user.id, body.slug, body.public);
+    return NextResponse.json({ publicSlug });
+  } catch {
+    return NextResponse.json({ error: "no such ichchi" }, { status: 404 });
+  }
 }

@@ -10,6 +10,8 @@ import MoodBadge from "@/components/MoodBadge";
 import TraitBars from "@/components/TraitBars";
 import MemoryLog from "@/components/MemoryLog";
 import EventLog from "@/components/EventLog";
+import PublishToggle from "@/components/PublishToggle";
+import { env } from "@/lib/env";
 
 export const dynamic = "force-dynamic";
 
@@ -19,10 +21,10 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const user = await currentUser();
-  if (!user) return { title: "Душа — иччи" };
+  if (!user) return { title: "Иччи" };
   const { slug } = await params;
   const ichchi = await getIchchi(user.id, slug);
-  return { title: ichchi ? `${ichchi.name} — иччи` : "Душа — иччи" };
+  return { title: ichchi ? `${ichchi.name} — иччи` : "Иччи" };
 }
 
 /** A small labelled 0..1 bar for stress and energy — same idiom as TraitBars. */
@@ -88,7 +90,7 @@ export default async function IchchiPage({ params }: Props) {
   return (
     <main className="mx-auto w-full max-w-4xl px-6 py-12">
       <Link href="/ichchi" className="text-xs text-snow-3 hover:text-snow">
-        ← все души
+        ← все иччи
       </Link>
 
       {/* Header */}
@@ -100,6 +102,14 @@ export default async function IchchiPage({ params }: Props) {
         {archetype?.name ?? ichchi.archetype}
         {archetype ? ` — ${archetype.tagline}` : ""}
       </p>
+
+      <div className="mt-6">
+        <PublishToggle
+          slug={ichchi.slug}
+          initialPublicSlug={ichchi.public_slug}
+          appUrl={env.NEXT_PUBLIC_APP_URL}
+        />
+      </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
         {/* Traits */}

@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import { maybeOne, one, query, tx } from "@/db";
 import type { Bond, Ichchi, TraitName } from "@/db/types";
 import { clampTrait, moodBaseline, type Traits } from "@/lib/state";
@@ -227,6 +228,83 @@ export async function bondFor(ichchiId: string, userId: string): Promise<Bond> {
     `select * from bonds where ichchi_id = $1 and user_id = $2`,
     [ichchiId, userId],
   );
+}
+
+/**
+ * What a stranger is allowed to see. Character, mood, attachment and counts —
+ * never a memory body. See migration 0005: publishing a temperament must not
+ * publish the codebase it formed around.
+ */
+export interface PublicIchchi {
+  name: string;
+  archetype: string;
+  slug: string;
+  public_slug: string;
+  openness: number;
+  conscientiousness: number;
+  extraversion: number;
+  agreeableness: number;
+  neuroticism: number;
+  mood_valence: number;
+  mood_arousal: number;
+  stress: number;
+  energy: number;
+  voice_notes: string | null;
+  interactions: number;
+  /** Computed in SQL, not from Date.now(): the render must stay pure. */
+  age_days: number;
+  /** Aggregates, not contents. */
+  memory_count: number;
+  standard_count: number;
+  top_bond: number;
+}
+
+export async function getPublicIchchi(publicSlug: string): Promise<PublicIchchi | null> {
+  // The column list is the privacy boundary, so it is written out rather than
+  // `select *` — a future column should have to be added here deliberately.
+  return maybeOne<PublicIchchi>(
+    `select i.name, i.archetype, i.slug, i.public_slug,
+            i.openness, i.conscientiousness, i.extraversion,
+            i.agreeableness, i.neuroticism,
+            i.mood_valence, i.mood_arousal, i.stress, i.energy,
+            i.voice_notes, i.interactions,
+            greatest(1, extract(day from now() - i.created_at))::int as age_days,
+            (select count(*)::int from memories m where m.ichchi_id = i.id) as memory_count,
+            (select count(*)::int from memories m
+              where m.ichchi_id = i.id and m.kind = 'standard') as standard_count,
+            coalesce((select max(b.bond)::int from bonds b where b.ichchi_id = i.id), 0) as top_bond
+       from ichchi i
+      where i.public_slug = $1`,
+    [publicSlug],
+  );
+}
+
+/**
+ * Give an ichchi a public address, or take it away.
+ *
+ * The suffix is random rather than sequential: a published page should be
+ * shareable by its owner, not enumerable by anyone who can count. Re-publishing
+ * an already-public ichchi keeps the existing address, so a link that has been
+ * shared does not rot the next time the toggle is touched.
+ */
+export async function setPublic(
+  ownerId: string,
+  slug: string,
+  makePublic: boolean,
+): Promise<string | null> {
+  const ichchi = await getIchchi(ownerId, slug);
+  if (!ichchi) throw new Error("no such ichchi");
+
+  if (!makePublic) {
+    await query(`update ichchi set public_slug = null where id = $1`, [ichchi.id]);
+    return null;
+  }
+  if (ichchi.public_slug) return ichchi.public_slug;
+
+  const suffix = randomBytes(3).toString("hex");
+  const publicSlug = `${ichchi.slug.slice(0, 40)}-${suffix}`;
+  await query(`update ichchi set public_slug = $2 where id = $1`, [ichchi.id, publicSlug]);
+  return publicSlug;
 }
 
 /** Trait snapshot of an ichchi row, for the pure mechanics in state.ts. */

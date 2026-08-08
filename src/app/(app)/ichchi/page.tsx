@@ -8,7 +8,7 @@ import AdoptForm from "@/components/AdoptForm";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = { title: "Мои души — иччи" };
+export const metadata = { title: "Мои иччи" };
 
 interface IchchiRow extends Ichchi {
   bond: number | null;
@@ -35,7 +35,7 @@ export default async function IchchiListPage() {
 
   return (
     <main className="mx-auto w-full max-w-4xl px-6 py-12">
-      <h1 className="text-2xl font-semibold">Мои души</h1>
+      <h1 className="text-2xl font-semibold">Мои иччи</h1>
 
       {ichchi.length === 0 ? (
         <p className="mt-4 max-w-md text-sm leading-relaxed text-snow-2">

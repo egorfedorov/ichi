@@ -37,6 +37,8 @@ export interface Ichchi {
   voice_notes: string | null;
   interactions: number;
   reflected_at: Date | null;
+  /** Globally unique public address, or null while the ichchi is private. */
+  public_slug: string | null;
   created_at: Date;
   updated_at: Date;
 }

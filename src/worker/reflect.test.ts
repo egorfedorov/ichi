@@ -48,6 +48,7 @@ function ichchiFixture(overrides: Partial<Ichchi> = {}): Ichchi {
     voice_notes: null,
     interactions: 42,
     reflected_at: null,
+    public_slug: null,
     created_at: new Date("2026-08-01T00:00:00Z"),
     updated_at: new Date("2026-08-06T00:00:00Z"),
     ...overrides,
