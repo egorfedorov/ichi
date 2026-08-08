@@ -561,6 +561,55 @@ body {
   }
 }
 
+/*
+ * The scold glitch. A scolding is the one thing on this page that is supposed
+ * to hurt, so it gets the only violent moment in the design: the whole console
+ * tears for a fifth of a second.
+ *
+ * Chromatic split via two offset drop-shadows rather than duplicated DOM —
+ * one filter on one element, no extra nodes, and it composites on the GPU.
+ * The clip-path keyframes are the scanline tear.
+ */
+.console[data-glitch] {
+  animation: glitch-tear 0.22s steps(2) 2;
+}
+.console[data-glitch] .cli-pane,
+.console[data-glitch] .core-svg {
+  filter: drop-shadow(2px 0 0 rgba(241, 80, 96, 0.9))
+    drop-shadow(-2px 0 0 rgba(125, 211, 252, 0.85));
+}
+@keyframes glitch-tear {
+  0% {
+    transform: translate3d(0, 0, 0);
+    clip-path: inset(0 0 0 0);
+  }
+  20% {
+    transform: translate3d(-6px, 0, 0);
+    clip-path: inset(18% 0 52% 0);
+  }
+  40% {
+    transform: translate3d(5px, 0, 0);
+    clip-path: inset(61% 0 12% 0);
+  }
+  60% {
+    transform: translate3d(-3px, 0, 0);
+    clip-path: inset(35% 0 40% 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .console[data-glitch],
+  .console[data-glitch] .cli-pane,
+  .console[data-glitch] .core-svg {
+    animation: none;
+    filter: none;
+  }
+}
+
 /* ─── the terminal pane ──────────────────────────────────────────────────── */
 
 .cli-pane {

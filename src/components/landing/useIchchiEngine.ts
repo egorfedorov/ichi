@@ -61,7 +61,15 @@ const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 /** Module-level so the render-purity rule doesn't see Math.random in a handler. */
 const replyDelay = () => 650 + Math.random() * 650;
 
-export function useIchchiEngine(t: LandingDict["chat"]) {
+export function useIchchiEngine(
+  t: LandingDict["chat"],
+  /**
+   * Where a returning visitor left it. Applied after mount rather than as an
+   * initial value: localStorage does not exist on the server, and seeding
+   * state from it during render would mismatch hydration.
+   */
+  restore?: { valence: number; bond: number } | null,
+) {
   const [msgs, setMsgs] = useState<IchchiMsg[]>([
     { id: 0, from: "ichchi", text: t.greeting },
   ]);
@@ -69,6 +77,15 @@ export function useIchchiEngine(t: LandingDict["chat"]) {
   // the sparkline and the mood can never disagree.
   const [history, setHistory] = useState<number[]>([0.52]);
   const [bond, setBond] = useState(34);
+
+  // A grudge survives the tab closing. Runs once, when the memory arrives.
+  const restored = useRef(false);
+  useEffect(() => {
+    if (!restore || restored.current) return;
+    restored.current = true;
+    setHistory([restore.valence]);
+    setBond(restore.bond);
+  }, [restore]);
   const [events, setEvents] = useState<IchchiEvent[]>([]);
   const [answering, setAnswering] = useState(false);
   const histRef = useRef(history);

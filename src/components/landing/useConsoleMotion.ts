@@ -33,6 +33,7 @@ export function useConsoleMotion(
 ) {
   const prev = useRef(valence);
   const booted = useRef(false);
+  const glitchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ─── boot ────────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -136,6 +137,16 @@ export function useConsoleMotion(
           .to(".core-body", { scale: 1.5, duration: 0.22, ease: "back.out(3)", svgOrigin: CORE_ORIGIN }, 0)
           .to(".core-body", { scale: 1, duration: 0.7, ease: "elastic.out(1, 0.4)" }, 0.22);
       } else {
+        // The tear. Driven by an attribute rather than a GSAP tween because
+        // clip-path keyframes on steps() are a CSS animation's job.
+        //
+        // Cleared by a plain timer, NOT gsap.delayedCall: the call would live
+        // inside this context, and the context is reverted on the next mood
+        // tick a second later — which killed the cleanup and left the console
+        // permanently torn.
+        el.setAttribute("data-glitch", "");
+        glitchTimer.current = setTimeout(() => el.removeAttribute("data-glitch"), 460);
+
         // A scolding lands on the whole stage, not just the core — the point
         // of the asymmetry in the mechanics, made physical.
         gsap
@@ -159,4 +170,13 @@ export function useConsoleMotion(
 
     return () => ctx.revert();
   }, [valence, root]);
+
+  // The tear must never outlive the component that drew it.
+  useEffect(
+    () => () => {
+      if (glitchTimer.current) clearTimeout(glitchTimer.current);
+      root.current?.removeAttribute("data-glitch");
+    },
+    [root],
+  );
 }

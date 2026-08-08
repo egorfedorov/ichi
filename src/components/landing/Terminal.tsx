@@ -5,6 +5,8 @@ import Link from "next/link";
 import type { LandingDict } from "@/lib/landing-i18n";
 import type { IchchiEngine } from "@/components/landing/useIchchiEngine";
 import { COMMANDS, complete, findCommand, type Line } from "@/components/landing/commands";
+import { TOOLS } from "@/lib/mcp-tools";
+import { useReducedMotion } from "@/components/landing/useReducedMotion";
 import {
   advance,
   beginSignIn,
@@ -28,6 +30,7 @@ import {
  */
 
 const PROMPT = "ichchi";
+const TOOL_COUNT = TOOLS.length;
 
 /** Words that read as praise or a scolding without a chip being clicked. */
 const PRAISE = /\b(thanks|thank you|nice|great|perfect|good job|well done|love it|спасибо|отлично|супер)\b/i;
@@ -36,21 +39,21 @@ const SCOLD = /\b(sloppy|garbage|broken|awful|terrible|useless|wrong again|уж�
 export default function Terminal({
   engine,
   t,
+  greeting,
 }: {
   engine: IchchiEngine;
   t: LandingDict;
+  /** null until the visitor memory has been read; the boot waits for it. */
+  greeting: string | null;
 }) {
-  const [lines, setLines] = useState<Line[]>(() => [
-    { kind: "dim", text: `ichchi 0.1.0 · connected over MCP · ${COMMANDS.length} commands` },
-    { kind: "out", text: "" },
-    { kind: "accent", text: engine.msgs[0]?.text ?? "" },
-    { kind: "out", text: "" },
-    { kind: "dim", text: "Type :help for what this can do." },
-  ]);
+  const [lines, setLines] = useState<Line[]>([]);
+  const [typing, setTyping] = useState<Line | null>(null);
   const [draft, setDraft] = useState("");
   const [history, setHistory] = useState<string[]>([]);
   const [histAt, setHistAt] = useState(-1);
   const [session, setSession] = useState<SessionState>(EMPTY_SESSION);
+  const reduced = useReducedMotion();
+  const booted = useRef(false);
 
   // Ask the server once who this is, so a returning visitor with a live
   // cookie sees "signed in as …" instead of being asked to sign in again.
@@ -63,6 +66,81 @@ export default function Terminal({
       alive = false;
     };
   }, []);
+
+  /**
+   * The boot. Types itself out, because a console that is simply *there* on
+   * arrival is a screenshot, and one that starts up is a machine. Waits for
+   * the visitor memory so a returning reader is greeted by name-of-absence
+   * rather than by the stock line.
+   *
+   * Reduced-motion readers get the finished transcript instantly — the
+   * information is identical, only the theatre is skipped.
+   */
+  useEffect(() => {
+    if (!greeting || booted.current) return;
+    booted.current = true;
+
+    const script: Line[] = [
+      { kind: "dim", text: `ichchi 0.1.0 · ${COMMANDS.length} commands` },
+      { kind: "dim", text: "connecting over MCP …" },
+      { kind: "head", text: `handshake ok · ${TOOL_COUNT} tools · session live` },
+      { kind: "out", text: "" },
+      { kind: "accent", text: greeting },
+      { kind: "out", text: "" },
+      { kind: "dim", text: "Type :help, or say something to it." },
+    ];
+
+    let cancelled = false;
+    const timers: ReturnType<typeof setTimeout>[] = [];
+
+    if (reduced) {
+      // Still scheduled rather than set inline: a synchronous setState in an
+      // effect body cascades a second render before paint, and the reduced
+      // path should be cheaper than the animated one, not more expensive.
+      timers.push(setTimeout(() => !cancelled && setLines(script), 0));
+      return () => {
+        cancelled = true;
+        timers.forEach(clearTimeout);
+      };
+    }
+
+    const typeLine = (index: number) => {
+      if (cancelled || index >= script.length) {
+        setTyping(null);
+        return;
+      }
+      const line = script[index];
+      // Blank lines and the two status lines land whole; only the sentences
+      // are worth watching appear.
+      const instant = line.text.length === 0 || line.kind === "dim";
+      if (instant) {
+        setLines((prev) => [...prev, line]);
+        timers.push(setTimeout(() => typeLine(index + 1), line.text ? 220 : 60));
+        return;
+      }
+
+      let n = 0;
+      const step = () => {
+        if (cancelled) return;
+        n += 2;
+        setTyping({ ...line, text: line.text.slice(0, n) });
+        if (n < line.text.length) {
+          timers.push(setTimeout(step, 16));
+        } else {
+          setTyping(null);
+          setLines((prev) => [...prev, line]);
+          timers.push(setTimeout(() => typeLine(index + 1), 260));
+        }
+      };
+      step();
+    };
+
+    timers.push(setTimeout(() => typeLine(0), 260));
+    return () => {
+      cancelled = true;
+      timers.forEach(clearTimeout);
+    };
+  }, [greeting, reduced]);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -88,7 +166,7 @@ export default function Terminal({
   useEffect(() => {
     const el = scrollRef.current;
     if (el) el.scrollTop = el.scrollHeight;
-  }, [lines, engine.answering]);
+  }, [lines, typing, engine.answering]);
 
   function submit(raw: string) {
     const input = raw.trim();
@@ -226,6 +304,12 @@ export default function Terminal({
               {l.kind === "cmd" ? `${PROMPT}> ${l.text}` : l.text}
             </p>
           ),
+        )}
+        {typing && (
+          <p className={`cli-line cli-${typing.kind}`}>
+            {typing.text}
+            <span className="caret" aria-hidden />
+          </p>
         )}
         {engine.answering && <p className="cli-line cli-dim">…</p>}
         </div>
