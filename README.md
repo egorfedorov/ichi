@@ -17,9 +17,12 @@ your own.
   token.
 - **Postgres + pgvector** — ichchi, bonds, memories, and the ordered event
   log everything rides on. Vector columns are reserved for phase-2 recall.
-- **Worker** (`src/worker`, pg-boss) — two jobs: `reflect` (a cheap model
-  re-reads what the ichchi lived through and commits personality drift) and
-  `decay` (a cron that fades moods, bonds and memories with time).
+- **Worker** (`src/worker`, pg-boss) — `reflect` (a cheap model re-reads what
+  the ichchi lived through and commits personality drift), `decay` (a cron
+  that fades moods, bonds and memories with time, and prunes the event log),
+  and `letters` (Monday mornings: every ichchi that had a week worth writing
+  about puts it into its own words, one job per ichchi so a single failed
+  model call retries alone).
 - **Claude Code plugin** (`plugin/`) — hooks that mix the ichchi's mood into
   every prompt, plus slash commands for praise, scolding and recall.
 
@@ -58,6 +61,26 @@ against a running instance.
    claude mcp add --transport http ichchi https://ichchi.sh/mcp \
      --header "Authorization: Bearer ichi_…"
    ```
+
+   Any other MCP client reaches the same server — it is plain JSON-RPC over
+   HTTP, with no Claude-specific pieces. Cursor, Windsurf, VS Code and Claude
+   Desktop all take the same shape in their MCP config file (the shape is
+   standard; where the file lives is not, so check your client's docs):
+
+   ```json
+   {
+     "mcpServers": {
+       "ichchi": {
+         "url": "https://ichchi.sh/mcp",
+         "headers": { "Authorization": "Bearer ichi_…" }
+       }
+     }
+   }
+   ```
+
+   One ichchi, every client: the state lives on the server, so the spirit you
+   scolded in Cursor this morning is still cool with you in Claude Code after
+   lunch.
 
 3. **Install the plugin** (hooks + commands). The repo root is a plugin
    marketplace:

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { query } from "@/db";
-import type { Memory, IchchiEvent } from "@/db/types";
+import type { Letter, Memory, IchchiEvent } from "@/db/types";
 import { currentUser } from "@/lib/session";
 import { archetypeById, bondFor, getIchchi } from "@/lib/ichchi";
 import { bondWordsRu } from "@/components/words";
@@ -10,6 +10,7 @@ import MoodBadge from "@/components/MoodBadge";
 import TraitBars from "@/components/TraitBars";
 import MemoryLog from "@/components/MemoryLog";
 import EventLog from "@/components/EventLog";
+import Letters from "@/components/Letters";
 import PublishToggle from "@/components/PublishToggle";
 import { env } from "@/lib/env";
 
@@ -66,7 +67,7 @@ export default async function IchchiPage({ params }: Props) {
   const ichchi = await getIchchi(user.id, slug);
   if (!ichchi) notFound();
 
-  const [bond, memories, events] = await Promise.all([
+  const [bond, memories, events, letters] = await Promise.all([
     bondFor(ichchi.id, user.id),
     query<Memory>(
       `select * from memories
@@ -80,6 +81,13 @@ export default async function IchchiPage({ params }: Props) {
         where ichchi_id = $1
         order by created_at desc
         limit 30`,
+      [ichchi.id],
+    ),
+    query<Letter>(
+      `select * from letters
+        where ichchi_id = $1
+        order by period_start desc
+        limit 8`,
       [ichchi.id],
     ),
   ]);
@@ -163,6 +171,15 @@ export default async function IchchiPage({ params }: Props) {
             изначально: {archetype.voice}
           </p>
         )}
+      </section>
+
+      {/* The one thing on this page written TO the reader. */}
+      <section className="mt-10">
+        <h2 className="text-lg font-semibold text-snow">Письма</h2>
+        <p className="mt-1 mb-4 text-sm text-snow-3">
+          Раз в неделю иччи рассказывает своими словами, как прошла неделя.
+        </p>
+        <Letters letters={letters} />
       </section>
 
       {/* What the ichchi learned */}

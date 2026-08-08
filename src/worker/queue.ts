@@ -10,7 +10,17 @@ import { env } from "@/lib/env";
 export const QUEUES = {
   reflect: "reflect",
   decay: "decay",
+  letters: "letters",
+  letter: "letter",
 } as const;
+
+/**
+ * Monday morning, after the weekend has landed in the log. Two queues, not
+ * one: `letters` is the fan-out that decides who has something to say, and
+ * `letter` writes a single ichchi's — so one model call failing retries alone
+ * instead of taking every other ichchi's letter down with it.
+ */
+export const LETTER_CRON = "17 9 * * 1";
 
 /**
  * How often ichchi cool down. Every six hours rather than nightly: the pass is
@@ -67,4 +77,24 @@ export async function enqueueReflect(ichchiId: string): Promise<void> {
 export async function scheduleDecay(): Promise<void> {
   const b = await getBoss();
   await b.schedule(QUEUES.decay, DECAY_CRON, {}, { tz: "UTC" });
+}
+
+export async function scheduleLetters(): Promise<void> {
+  const b = await getBoss();
+  await b.schedule(QUEUES.letters, LETTER_CRON, {}, { tz: "UTC" });
+}
+
+/**
+ * One letter job per ichchi. Keyed by ichchi and week so a re-run of the
+ * fan-out cannot queue a second letter for the same Monday — the unique index
+ * would catch it anyway, but paying for the model call twice to then discard
+ * one is the kind of waste that only shows up on the bill.
+ */
+export async function enqueueLetter(ichchiId: string, periodStart: string): Promise<void> {
+  const b = await getBoss();
+  await b.send(
+    QUEUES.letter,
+    { ichchiId },
+    { singletonKey: `${ichchiId}:${periodStart}`, singletonSeconds: 86_400 },
+  );
 }

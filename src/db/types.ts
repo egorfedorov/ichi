@@ -78,6 +78,17 @@ export interface Memory {
   last_recalled_at: Date | null;
 }
 
+/** A week the ichchi put into its own words. See migration 0007. */
+export interface Letter {
+  id: string;
+  ichchi_id: string;
+  /** The Monday (UTC) the week started, as a date string. */
+  period_start: string;
+  body: string;
+  stats: Record<string, unknown>;
+  created_at: Date;
+}
+
 export type IchchiEventKind = "call" | "feedback" | "reflect" | "decay";
 
 export interface IchchiEvent {
