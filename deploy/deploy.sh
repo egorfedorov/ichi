@@ -59,6 +59,11 @@ if [ "$code" != "200" ]; then
   ssh "$HOST" "cd $DIR && docker compose -f docker-compose.prod.yml logs --tail=40 app"
   exit 1
 fi
-mcp=$(curl -s -o /dev/null -w '%{http_code}' "$URL/mcp" || true)
-echo "  health 200 · /mcp $mcp · $URL"
-echo "✓ deployed $(git rev-parse --short HEAD)"
+# Health only proves a page answers. Run the real check on the server, where
+# the probe token lives, so a deploy that broke a tool fails here rather than
+# in somebody's agent an hour later.
+if ! ssh "$HOST" "cd $DIR && ./scripts/check-prod.sh" 2>&1 | tail -25; then
+  echo "✗ the deployed build failed its own end-to-end check"
+  exit 1
+fi
+echo "✓ deployed $(git rev-parse --short HEAD) to $URL"

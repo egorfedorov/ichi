@@ -52,9 +52,15 @@ mint=$(curl -s -b "$JAR" -o /dev/null -w '%{http_code}' --max-time 25 -X POST "$
   -H 'Content-Type: application/json' -d '{"name":"prod-check"}')
 check "ichi refuses to issue tokens itself" "$([ "$mint" = "410" ] && echo 1 || echo 0)" "got $mint"
 
+# The probe's token. Passed in, or read from the deployed env file when this
+# runs on the server — that is what lets a deploy verify itself without a
+# human pasting a credential into CI.
 TOKEN="${ICHI_PROBE_TOKEN:-}"
+if [ -z "$TOKEN" ] && [ -r "${ICHI_ENV:-/opt/ichi/.env}" ]; then
+  TOKEN=$(sed -n 's/^ICHI_PROBE_TOKEN=//p' "${ICHI_ENV:-/opt/ichi/.env}" | tr -d '"')
+fi
 if [ -z "$TOKEN" ]; then
-  echo "  · set ICHI_PROBE_TOKEN (mint one at ${SIBLING:-https://mozg.sh}/settings/tokens?t=ichi)"
+  bad "have a token to test with" "set ICHI_PROBE_TOKEN — mint one at https://mozg.sh/settings/tokens?t=ichi"
   printf '\n%d passed, %d failed\n' "$pass" "$fail"
   exit 1
 fi
