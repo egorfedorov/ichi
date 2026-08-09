@@ -62,6 +62,10 @@ fi
 # Health only proves a page answers. Run the real check on the server, where
 # the probe token lives, so a deploy that broke a tool fails here rather than
 # in somebody's agent an hour later.
+#
+# The failure genuinely propagates through the pipe only because of `pipefail`
+# at the top of this file — without it the status would be tail's, which always
+# succeeds, and this whole gate would be decoration.
 if ! ssh "$HOST" "cd $DIR && ./scripts/check-prod.sh" 2>&1 | tail -25; then
   echo "✗ the deployed build failed its own end-to-end check"
   exit 1
